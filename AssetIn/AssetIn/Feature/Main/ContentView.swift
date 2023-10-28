@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var navigator: AppNavigator = .init()
+    
     var body: some View {
-        OnboardingView()
+        NavigationStack(path: $navigator.routes) {
+            OnboardingView(navigator: navigator)
+                .navigationDestination(for: Route.self, destination: { $0 })
+        }
     }
 }
 

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    
+    @ObservedObject var navigator: AppNavigator
+    
     var body: some View {
         VStack(spacing: 40) {
             Image.logoWithText
@@ -26,7 +29,7 @@ struct OnboardingView: View {
                     .foregroundColor(.black)
                 
                 Button {
-                    
+                    navigator.navigate(to: .login(.init(), navigator))
                 } label: {
                     Text("Sign in as student")
                         .foregroundColor(.white)
@@ -39,7 +42,7 @@ struct OnboardingView: View {
                 }
                 
                 Button {
-                    
+                    navigator.navigate(to: .login(.init(), navigator))
                 } label: {
                     Text("Sign in as admin")
                         .foregroundColor(.white)
@@ -98,9 +101,10 @@ struct OnboardingView: View {
             }
                 .ignoresSafeArea()
         )
+        .navigationTitle("")
     }
 }
 
 #Preview {
-    OnboardingView()
+    OnboardingView(navigator: .init())
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     
     @ObservedObject var viewModel: LoginViewModel
+    @ObservedObject var navigator: AppNavigator
     
     @FocusState var focused: Int?
     
@@ -85,7 +86,7 @@ struct LoginView: View {
             
             VStack(spacing: 8) {
                 Button {
-                    
+                    navigator.navigate(to: .sample(.init(), navigator))
                 } label: {
                     Text("Login")
                         .foregroundColor(.white)
@@ -158,9 +159,22 @@ struct LoginView: View {
             }
                 .ignoresSafeArea()
         )
+        .navigationTitle("")
+        .navigationBarBackButtonHidden(true)
+        .overlay(alignment: .topLeading) {
+            Button {
+                navigator.back()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .font(.headline)
+                    .foregroundColor(.AssetIn.orange)
+                    .padding()
+            }
+
+        }
     }
 }
 
 #Preview {
-    LoginView(viewModel: .init())
+    LoginView(viewModel: .init(), navigator: .init())
 }

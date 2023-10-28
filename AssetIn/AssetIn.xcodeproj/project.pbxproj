@@ -12,6 +12,9 @@
 		483817912AED555800A1EADB /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483817902AED555800A1EADB /* OnboardingView.swift */; };
 		483817952AED580B00A1EADB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483817942AED580B00A1EADB /* LoginView.swift */; };
 		483817982AED5D2E00A1EADB /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483817972AED5D2E00A1EADB /* LoginViewModel.swift */; };
+		4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4838179A2AED690C00A1EADB /* AppNavigator.swift */; };
+		4838179D2AED6E6400A1EADB /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4838179C2AED6E6400A1EADB /* SampleView.swift */; };
+		483817A02AED6FA900A1EADB /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4838179F2AED6FA900A1EADB /* DummyView.swift */; };
 		48BAE2CD2AED390400AB3D8F /* AssetInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE2CC2AED390400AB3D8F /* AssetInApp.swift */; };
 		48BAE2CF2AED390400AB3D8F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE2CE2AED390400AB3D8F /* ContentView.swift */; };
 		48BAE2D12AED390500AB3D8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48BAE2D02AED390500AB3D8F /* Assets.xcassets */; };
@@ -45,6 +48,9 @@
 		483817902AED555800A1EADB /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		483817942AED580B00A1EADB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		483817972AED5D2E00A1EADB /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		4838179A2AED690C00A1EADB /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
+		4838179C2AED6E6400A1EADB /* SampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleView.swift; sourceTree = "<group>"; };
+		4838179F2AED6FA900A1EADB /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
 		48BAE2C92AED390400AB3D8F /* AssetIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssetIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48BAE2CC2AED390400AB3D8F /* AssetInApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetInApp.swift; sourceTree = "<group>"; };
 		48BAE2CE2AED390400AB3D8F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -121,6 +127,14 @@
 				483817972AED5D2E00A1EADB /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		483817992AED690100A1EADB /* Navigator */ = {
+			isa = PBXGroup;
+			children = (
+				4838179A2AED690C00A1EADB /* AppNavigator.swift */,
+			);
+			path = Navigator;
 			sourceTree = "<group>";
 		};
 		48BAE2C02AED390400AB3D8F = {
@@ -201,6 +215,7 @@
 		48BAE2F82AED398700AB3D8F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				483817992AED690100A1EADB /* Navigator */,
 				48BAE2F72AED397200AB3D8F /* Resource */,
 			);
 			path = Common;
@@ -212,6 +227,8 @@
 				483817922AED57C400A1EADB /* Login */,
 				4838178E2AED554100A1EADB /* Onboarding */,
 				48BAE2F62AED396000AB3D8F /* Main */,
+				4838179C2AED6E6400A1EADB /* SampleView.swift */,
+				4838179F2AED6FA900A1EADB /* DummyView.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -347,8 +364,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				483817952AED580B00A1EADB /* LoginView.swift in Sources */,
+				4838179D2AED6E6400A1EADB /* SampleView.swift in Sources */,
+				4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */,
 				48BAE2CF2AED390400AB3D8F /* ContentView.swift in Sources */,
 				483817872AED41F100A1EADB /* Image+Default.swift in Sources */,
+				483817A02AED6FA900A1EADB /* DummyView.swift in Sources */,
 				483817852AED3F6500A1EADB /* Color+Default.swift in Sources */,
 				483817912AED555800A1EADB /* OnboardingView.swift in Sources */,
 				48BAE2CD2AED390400AB3D8F /* AssetInApp.swift in Sources */,
