@@ -9,5 +9,8 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
     @Published var emailText: String = ""
+    @Published var usernameText: String = ""
+    @Published var NISText: String = ""
     @Published var passwordText: String = ""
+    @Published var isRegister: Bool = false
 }
