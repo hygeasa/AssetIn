@@ -26,6 +26,8 @@ final class AppNavigator: ObservableObject {
 
 enum Route {
     case login(LoginViewModel, AppNavigator)
+    case home(HomeViewModel, AppNavigator)
+    case main(AppNavigator)
 }
 
 extension Route: View {
@@ -33,6 +35,10 @@ extension Route: View {
         switch self {
         case .login(let viewModel, let navigator):
             LoginView(viewModel: viewModel, navigator: navigator)
+        case.home(let viewModel, let navigator):
+            HomeView(viewModel: viewModel, navigator: navigator)
+        case.main(let navigator):
+            MainView(navigator: navigator)
       
         }
     }

@@ -129,6 +129,7 @@ struct LoginView: View {
                 
                 VStack(spacing: 8) {
                     Button {
+                        navigator.navigate(to: .main( navigator))
                     } label: {
                         Text(viewModel.isRegister ? "Register" : "Login")
                             .foregroundColor(.white)
