@@ -32,8 +32,9 @@ struct MainView: View {
         .tint(.AssetIn.orange)
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        }
     }
-}
+
 
 #Preview {
     ContentView()

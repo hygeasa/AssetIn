@@ -28,6 +28,8 @@ enum Route {
     case login(LoginViewModel, AppNavigator)
     case home(HomeViewModel, AppNavigator)
     case main(AppNavigator)
+    case search(SearchViewModel, AppNavigator)
+    case history(HistoryViewModel, AppNavigator)
 }
 
 extension Route: View {
@@ -39,6 +41,10 @@ extension Route: View {
             HomeView(viewModel: viewModel, navigator: navigator)
         case.main(let navigator):
             MainView(navigator: navigator)
+        case.search(let viewModel, let navigator):
+            SearchView(viewModel: viewModel, navigator: navigator)
+        case.history(let viewModel, let navigator):
+            HistoryView(viewModel: viewModel, navigator: navigator)
       
         }
     }

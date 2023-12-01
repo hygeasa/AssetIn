@@ -44,7 +44,6 @@ struct HomeView: View {
                         .frame(width: 50, height: 50)
                         .offset(x: -25, y: -25)
                 }
-                .padding()
                 
                 TabView{
                     AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
@@ -66,6 +65,7 @@ struct HomeView: View {
                 
                 HStack{
                     Button {
+                        navigator.navigate(to: .search(.init(), navigator))
                     } label: {
                         VStack {
                             
@@ -75,13 +75,14 @@ struct HomeView: View {
                                 .frame(width : 65, height : 65)
                                 .offset()
                             Text("Search")
-                                .font(.system(size: 15, weight: .regular))
+                                .font(.system(size: 13, weight: .regular))
                                 .foregroundColor(.black)
                         }
                         .padding(15)
                     }
                     
                     Button {
+                        navigator.navigate(to: .history(.init(),navigator))
                     } label: {
                         VStack {
                             Image.historyIcon
@@ -90,7 +91,7 @@ struct HomeView: View {
                                 .frame(width : 60, height : 60)
                                 .offset()
                             Text("History")
-                                .font(.system(size: 15, weight: .regular))
+                                .font(.system(size: 13, weight: .regular))
                                 .foregroundColor(.black)
                         }
                         .padding(15)
@@ -105,7 +106,7 @@ struct HomeView: View {
                                 .frame(width : 60, height : 60)
                                 .offset()
                             Text("On Going")
-                                .font(.system(size: 15, weight: .regular))
+                                .font(.system(size: 13, weight: .regular))
                                 .foregroundColor(.black)
                         }
                         .padding(15)
@@ -154,8 +155,25 @@ struct HomeView: View {
                         .cornerRadius(15)
             )
         }
-        .background(Color.AssetIn.grey)
+        .background(
+            VStack {
+                RadialGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 200
+                        )
+                        .frame(height: 112)
+                        .edgesIgnoringSafeArea(.all)
+                        .cornerRadius(15)
+                        Spacer()
+            }
+                .ignoresSafeArea()
+        )
+        .background(Color.AssetIn.grey.ignoresSafeArea())
+        
     }
+        
 }
 
 #Preview {
