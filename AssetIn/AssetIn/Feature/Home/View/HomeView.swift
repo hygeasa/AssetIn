@@ -98,6 +98,7 @@ struct HomeView: View {
                     }
                     
                     Button {
+                        navigator.navigate(to: .ongoing(.init(), navigator))
                     } label: {
                         VStack {
                             Image.ongoingIcon

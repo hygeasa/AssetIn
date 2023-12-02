@@ -30,6 +30,7 @@ enum Route {
     case main(AppNavigator)
     case search(SearchViewModel, AppNavigator)
     case history(HistoryViewModel, AppNavigator)
+    case ongoing(OnGoingViewModel, AppNavigator)
 }
 
 extension Route: View {
@@ -45,6 +46,8 @@ extension Route: View {
             SearchView(viewModel: viewModel, navigator: navigator)
         case.history(let viewModel, let navigator):
             HistoryView(viewModel: viewModel, navigator: navigator)
+        case.ongoing(let viewModel, let navigator):
+            OnGoingView(viewModel: viewModel, navigator: navigator)
       
         }
     }
