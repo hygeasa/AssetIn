@@ -16,7 +16,7 @@ struct MainView: View {
                     Image(systemName: "house")
                     Text("home")
                 }
-            Text("notification")
+            NotificationView(viewModel: .init(), navigator: .init())
                 .tabItem {
                     Image(systemName: "bell")
                     Text("notification")

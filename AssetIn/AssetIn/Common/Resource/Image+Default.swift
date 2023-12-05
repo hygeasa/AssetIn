@@ -14,4 +14,5 @@ extension Image {
     static let ongoingIcon = Image("ongoingIcon")
     static let historyIcon = Image("historyIcon")
     static let searchIcon = Image("searchIcon")
+    static let logoWink = Image("logo-wink")
 }
