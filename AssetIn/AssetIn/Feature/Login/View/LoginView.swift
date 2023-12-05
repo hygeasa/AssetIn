@@ -53,7 +53,7 @@ struct LoginView: View {
                                 .background(focused == 3 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.AssetIn.orange, lineWidth: focused == 1 ? 1 : 0)
+                                        .stroke(Color.AssetIn.orange, lineWidth: focused == 3 ? 1 : 0)
                                         .foregroundColor(.AssetIn.orange)
                                 }
                                 .cornerRadius(10)
@@ -73,7 +73,7 @@ struct LoginView: View {
                                 .background(focused == 4 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.AssetIn.orange, lineWidth: focused == 1 ? 1 : 0)
+                                        .stroke(Color.AssetIn.orange, lineWidth: focused == 4 ? 1 : 0)
                                         .foregroundColor(.AssetIn.orange)
                                 }
                                 .cornerRadius(10)
