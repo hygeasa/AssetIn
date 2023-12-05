@@ -32,6 +32,7 @@ enum Route {
     case history(HistoryViewModel, AppNavigator)
     case ongoing(OnGoingViewModel, AppNavigator)
     case notification(NotificationViewModel, AppNavigator)
+    case profile(ProfileViewModel, AppNavigator)
 }
 
 extension Route: View {
@@ -51,6 +52,9 @@ extension Route: View {
             OnGoingView(viewModel: viewModel, navigator: navigator)
         case.notification(let viewModel, let navigator):
             NotificationView(viewModel: viewModel, navigator: navigator)
+        case.profile(let viewModel, let navigator):
+            ProfileView(viewModel: viewModel, navigator: navigator)
+            
         }
     }
 }

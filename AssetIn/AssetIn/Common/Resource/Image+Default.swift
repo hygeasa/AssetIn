@@ -15,4 +15,7 @@ extension Image {
     static let historyIcon = Image("historyIcon")
     static let searchIcon = Image("searchIcon")
     static let logoWink = Image("logo-wink")
+    static let photoprofile = Image("photo-profile")
+    static let changepassword = Image("change-password")
+    static let role = Image("role")
 }

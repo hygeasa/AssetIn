@@ -12,15 +12,8 @@ struct NotificationView: View {
     @ObservedObject var navigator: AppNavigator
     
     var body: some View {
-        VStack(spacing: 15){
+        VStack(spacing: 20){
             HStack {
-                Button {
-                    navigator.back()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                }
                 Text("What are you looking for?")
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
