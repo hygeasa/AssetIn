@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct AssetInApp: App {
+    
+    init() {
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(Color.AssetIn.orange)
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

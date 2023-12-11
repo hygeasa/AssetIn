@@ -8,4 +8,5 @@
 import SwiftUI
 
 class ChangeProfileViewModel : ObservableObject {
+    @Published var isChangeSuccess: Bool = false
 }

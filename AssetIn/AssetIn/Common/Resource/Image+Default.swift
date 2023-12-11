@@ -19,5 +19,6 @@ extension Image {
     static let changepassword = Image("change-password")
     static let role = Image("role")
     static let resetpassword = Image("password")
-    static let elipse = Image("elipse-pp")
+    static let changephoto = Image("change-photo")
+    static let elipseprofile = Image("elipse-profile") 
 }

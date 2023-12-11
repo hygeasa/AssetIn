@@ -87,7 +87,7 @@ struct ChangePasswordView: View {
                         })
 
                         Button {
-                            navigator.navigate(to: .profile(.init(), navigator))
+                            viewModel.isChangeSuccess = true
                         }label: {
                             Text("Save")
                                 .foregroundColor(.white)
@@ -114,6 +114,13 @@ struct ChangePasswordView: View {
 
         }
         .background(Color.AssetIn.grey.ignoresSafeArea())
+        .navigationTitle("")
+        .navigationBarBackButtonHidden(true)
+        .alert(isPresented: $viewModel.isChangeSuccess, content: {
+            Alert(title: Text("Yeay!"), message: Text("Password Update Complete!"), dismissButton: .default(Text("Okay"), action: {
+                navigator.back()
+            }))
+        })
     }
 }
 

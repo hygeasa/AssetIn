@@ -40,24 +40,33 @@ struct ProfileView: View {
                         .opacity(0.6)
                 }
                 VStack (alignment : .leading, spacing: 20) {
-                    HStack {
-                        Image.photoprofile
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30)
-                        
-                        Text("Change photo profile")
-                            .font(.system(size: 15, weight: .regular))
+                    Button {
+                        navigator.navigate(to: .changeprofile(.init(), navigator))
+                    }label: {
+                        HStack {
+                            Image.photoprofile
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30)
+                            
+                            Text("Change photo profile")
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundColor(.black)
+                        }
                     }
-                    
-                    HStack {
-                        Image.changepassword
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30)
-                        
-                        Text("Change password")
-                            .font(.system(size: 15, weight: .regular))
+                    Button {
+                        navigator.navigate(to: .changepassword(.init(), navigator))
+                    }label: {
+                        HStack {
+                            Image.changepassword
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30)
+                            
+                            Text("Change password")
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundColor(.black)
+                        }
                     }
                     
                     HStack {

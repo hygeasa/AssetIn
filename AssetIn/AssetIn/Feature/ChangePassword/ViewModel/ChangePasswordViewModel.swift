@@ -13,4 +13,5 @@ class ChangePasswordViewModel: ObservableObject {
     @Published var NISText: String = ""
     @Published var passwordText: String = ""
     @Published var isRegister: Bool = false
+    @Published var isChangeSuccess: Bool = false
 }

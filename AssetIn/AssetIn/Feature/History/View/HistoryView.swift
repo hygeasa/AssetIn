@@ -34,7 +34,9 @@ struct HistoryView: View {
                 
             }
             .padding(.horizontal)
-            
+//            if viewModel.data.isEmpty {
+//                HistoryEmptyView()
+//            } else {
             ScrollView {
                 VStack {
                     ForEach(0...10, id:\.self) { index in
