@@ -33,6 +33,8 @@ enum Route {
     case ongoing(OnGoingViewModel, AppNavigator)
     case notification(NotificationViewModel, AppNavigator)
     case profile(ProfileViewModel, AppNavigator)
+    case changepassword(ChangePasswordViewModel, AppNavigator)
+    case changeprofile(ChangeProfileViewModel, AppNavigator)
 }
 
 extension Route: View {
@@ -54,7 +56,11 @@ extension Route: View {
             NotificationView(viewModel: viewModel, navigator: navigator)
         case.profile(let viewModel, let navigator):
             ProfileView(viewModel: viewModel, navigator: navigator)
-            
+        case.changepassword(let viewModel, let navigator):
+            ChangePasswordView(viewModel: viewModel, navigator: navigator)
+        case.changeprofile(let viewModel, let navigator):
+            ChangeProfileView(viewModel: viewModel, navigator: navigator)
+                    
         }
     }
 }

@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
-
 struct ChangeProfileView: View {
+    @ObservedObject var viewModel : ChangeProfileViewModel
+    @ObservedObject var navigator : AppNavigator
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            
+        }
     }
 }
 
 #Preview {
-    ChangeProfileView()
+    ChangeProfileView(viewModel: .init(), navigator: .init())
 }

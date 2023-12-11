@@ -12,11 +12,12 @@ struct ProfileView: View {
     @ObservedObject var navigator: AppNavigator
     
     var body: some View {
-        VStack {
+        VStack (spacing: 30){
             HStack {
                 Text("Profile")
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
+                    .padding(.horizontal)
                 
                 Spacer()
                 
@@ -24,6 +25,7 @@ struct ProfileView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
+                    .padding(.horizontal)
                 
             }
             .padding(.horizontal)

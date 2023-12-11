@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-struct ChangePasswordViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-#Preview {
-    ChangePasswordViewModel()
+class ChangePasswordViewModel: ObservableObject {
+    @Published var emailText: String = ""
+    @Published var usernameText: String = ""
+    @Published var NISText: String = ""
+    @Published var passwordText: String = ""
+    @Published var isRegister: Bool = false
 }
