@@ -1,14 +1,14 @@
 //
-//  HistoryEmptyView.swift
+//  TakeEmptyView.swift
 //  AssetIn
 //
-//  Created by Hygea Saveria on 11/12/23.
+//  Created by Hygea Saveria on 12/12/23.
 //
 
 import SwiftUI
 
-struct HistoryEmptyView: View {
-    @ObservedObject var navigator : AppNavigator
+struct TakeEmptyView: View {
+    @ObservedObject  var navigator : AppNavigator
     
     var body: some View {
         VStack(spacing:3) {
@@ -17,7 +17,7 @@ struct HistoryEmptyView: View {
                 .scaledToFit()
                 .frame(width: 150)
             
-            Text("You don't have any history yet.")
+            Text("You don't have any stuff yet.")
                 .font(.system(size: 20, weight: .medium))
                 .shadow(color: .black.opacity(0.1), radius: 5)
                 .multilineTextAlignment(.center)
@@ -34,12 +34,14 @@ struct HistoryEmptyView: View {
                         .font(.system(size: 12, weight: .regular))
                         .underline()
                         .foregroundColor(.AssetIn.orange)
+                    
                 }
             }
+            
         }
     }
 }
 
 #Preview {
-    HistoryEmptyView(navigator: .init())
+    TakeEmptyView(navigator: .init())
 }

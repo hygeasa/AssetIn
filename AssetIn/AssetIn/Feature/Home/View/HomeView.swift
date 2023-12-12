@@ -128,6 +128,7 @@ struct HomeView: View {
                     .foregroundColor(.white)
                     .padding()
                 Button {
+                    navigator.navigate(to: .take(.init(), navigator))
                 } label: {
                     Text("Take")
                         .font(.system(size: 13, weight: .bold))

@@ -1,15 +1,15 @@
 //
-//  HistoryView.swift
+//  TakeView.swift
 //  AssetIn
 //
-//  Created by Hygea Saveria on 30/11/23.
+//  Created by Hygea Saveria on 12/12/23.
 //
 
 import SwiftUI
-
-struct HistoryView: View {
-    @ObservedObject var viewModel : HistoryViewModel
-    @ObservedObject var navigator : AppNavigator
+struct TakeView: View {
+    
+    @ObservedObject var viewModel: TakeViewModel
+    @ObservedObject var navigator: AppNavigator
     
     var body: some View {
         VStack {
@@ -21,7 +21,7 @@ struct HistoryView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                 }
-                Text("History")
+                Text("Take")
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
                 
@@ -37,19 +37,12 @@ struct HistoryView: View {
             
             Group {
                 if viewModel.data.isEmpty {
-                    HistoryEmptyView(navigator: navigator)
+                    TakeEmptyView(navigator: navigator)
                 } else {
                     ScrollView {
-                        VStack {
-                            ForEach(0...10, id:\.self) { index in
+                        VStack(spacing: 10) {
+                            ForEach(0...2, id:\.self) { index in
                                 VStack(alignment: .leading, spacing: 5){
-                                    Text("Done")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 12, weight: .medium))
-                                        .padding(6)
-                                        .padding(.horizontal)
-                                        .background(Color.AssetIn.green)
-                                        .cornerRadius(15)
                                     
                                     Text(viewModel.inventory)
                                         .font(.system(size: 15, weight: .regular))
@@ -57,16 +50,22 @@ struct HistoryView: View {
                                     Text("Category: \(viewModel.category)")
                                         .font(.system(size: 12, weight: .semibold))
                                     
-                                    Text(viewModel.lending)
-                                        .font(.system(size: 10, weight: .medium))
-                                        .foregroundColor(.AssetIn.greyText)
+                                    HStack(spacing: 1){
+                                        Text("You can take your stuff here : ")
+                                            .font(.system(size: 10, weight: .medium))
+                                            .foregroundColor(.AssetIn.greyText)
+                                        Text(viewModel.place)
+                                            .font(.system(size: 10, weight: .medium))
+                                            .foregroundColor(.AssetIn.greyText)
+                                    }
+                                    
                                     
                                     Text("Deadline: \(viewModel.deadline)")
                                         .font(.system(size: 10,weight: .bold))
                                         .foregroundColor(.AssetIn.orange)
-                                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding()
                                 .background(Color.white)
                                 .cornerRadius(15)
@@ -100,5 +99,5 @@ struct HistoryView: View {
 }
 
 #Preview {
-    HistoryView(viewModel: .init(), navigator: .init())
+    TakeView(viewModel: .init(), navigator: .init())
 }
