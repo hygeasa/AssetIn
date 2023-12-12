@@ -34,45 +34,49 @@ struct HistoryView: View {
                 
             }
             .padding(.horizontal)
-//            if viewModel.data.isEmpty {
-//                HistoryEmptyView()
-//            } else {
-            ScrollView {
-                VStack {
-                    ForEach(0...10, id:\.self) { index in
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("Done")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(6)
-                                .padding(.horizontal)
-                                .background(Color.AssetIn.green)
+            
+            Group {
+                if viewModel.data.isEmpty {
+                    HistoryEmptyView()
+                } else {
+                    ScrollView {
+                        VStack {
+                            ForEach(0...10, id:\.self) { index in
+                                VStack(alignment: .leading, spacing: 5){
+                                    Text("Done")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 12, weight: .medium))
+                                        .padding(6)
+                                        .padding(.horizontal)
+                                        .background(Color.AssetIn.green)
+                                        .cornerRadius(15)
+                                    
+                                    Text(viewModel.inventory)
+                                        .font(.system(size: 15, weight: .regular))
+                                    
+                                    Text("Category: \(viewModel.category)")
+                                        .font(.system(size: 12, weight: .semibold))
+                                    
+                                    Text(viewModel.lending)
+                                        .font(.system(size: 10, weight: .medium))
+                                        .foregroundColor(.AssetIn.greyText)
+                                    
+                                    Text("Deadline: \(viewModel.deadline)")
+                                        .font(.system(size: 10,weight: .bold))
+                                        .foregroundColor(.AssetIn.orange)
+                                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                                }
+                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                                .padding()
+                                .background(Color.white)
                                 .cornerRadius(15)
-                            
-                            Text(viewModel.inventory)
-                                .font(.system(size: 15, weight: .regular))
-                            
-                            Text("Category: \(viewModel.category)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                            
-                            Text("Deadline: \(viewModel.deadline)")
-                                .font(.system(size: 10,weight: .bold))
-                                .foregroundColor(.AssetIn.orange)
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                                .padding(.horizontal)
+                            }
                         }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
                     }
                 }
             }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(
             VStack {

@@ -77,6 +77,7 @@ struct LoginView: View {
                                         .foregroundColor(.AssetIn.orange)
                                 }
                                 .cornerRadius(10)
+                                .keyboardType(.numberPad)
                                 .tag(4)
                                 .focused($focused, equals: 4)
                             
