@@ -33,6 +33,7 @@ struct SearchView: View {
                 .padding(.horizontal)
                 
                 Button {
+                    navigator .navigate(to: .searchdetail(.init(), navigator))
                 }label: {
                     HStack{
                         Image(systemName: "magnifyingglass")

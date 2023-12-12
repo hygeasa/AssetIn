@@ -36,6 +36,8 @@ enum Route {
     case changepassword(ChangePasswordViewModel, AppNavigator)
     case changeprofile(ChangeProfileViewModel, AppNavigator)
     case take(TakeViewModel, AppNavigator)
+    case searchdetail(SearchDetailViewModel, AppNavigator)
+    
 }
 
 extension Route: View {
@@ -63,6 +65,8 @@ extension Route: View {
             ChangeProfileView(viewModel: viewModel, navigator: navigator)
         case.take(let viewModel, let navigator):
             TakeView(viewModel: viewModel, navigator: navigator)
+        case.searchdetail(let viewModel, let navigator):
+            SearchDetailView(viewModel: viewModel, navigator: navigator)
             
                     
         }
