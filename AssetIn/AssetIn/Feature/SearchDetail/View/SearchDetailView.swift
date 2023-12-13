@@ -94,14 +94,25 @@ struct SearchDetailView: View {
                             }
                             .cornerRadius(20)
                             .overlay(alignment: .bottomTrailing ) {
-                                Image(systemName: "plus.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(.AssetIn.orange)
-                                    .background(Color.white.clipShape(Circle()))
-                                    .frame(width: 40, height: 40)
-                                    .offset(x: -20, y: -54)
-                                    .shadow(color: .black.opacity(0.1), radius: 5)
+                                if !viewModel.isAdmin {
+                                    Image(systemName: "plus.circle.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundColor(.AssetIn.orange)
+                                        .background(Color.white.clipShape(Circle()))
+                                        .frame(width: 40, height: 40)
+                                        .offset(x: -20, y: -54)
+                                        .shadow(color: .black.opacity(0.1), radius: 5)
+                                } else {
+                                    Text("Edit Stock")
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.AssetIn.orange)
+                                        .cornerRadius(20)
+                                        .offset(x: -20, y: -54)
+                                        .shadow(color: .black.opacity(0.1), radius: 5)
+                                }
                             }
                         }
                     }
@@ -128,7 +139,7 @@ struct SearchDetailView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
-        .alert("Add this item to ongoing?", isPresented: $viewModel.isShowAlert) {
+        .alert(viewModel.isAdmin ? "Add item" : "Add this item to on going", isPresented: $viewModel.isShowAlert) {
             TextField("0", text: $viewModel.quantity)
                 .keyboardType(.numberPad)
             
@@ -147,7 +158,7 @@ struct SearchDetailView: View {
             Text("")
         }
         .alert(isPresented: $viewModel.isRequest, content: {
-            Alert(title: Text("Thank you"), message: Text("Your request will be process soon!"), dismissButton: .default(Text("Okay"), action: {
+            Alert(title: Text("Thank you"), message: Text( viewModel.isAdmin ? "The item has been successfully added." : "Your request will be process soon!"), dismissButton: .default(Text("Okay"), action: {
                 navigator.back()
             }))
         })

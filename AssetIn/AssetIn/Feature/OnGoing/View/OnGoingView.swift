@@ -123,6 +123,7 @@ struct OnGoingView: View {
                                 .foregroundColor(.AssetIn.greyText)
                             
                             Button {
+                                navigator .navigate(to: .search(.init(), navigator))
                             }label: {
                                 Text("Lend again")
                                     .font(.system(size: 10, weight: .bold))

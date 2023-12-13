@@ -16,4 +16,6 @@ class SearchDetailViewModel : ObservableObject {
     @Published var isShowAlert = false
     @Published var quantity = "1"
     @Published var isRequest = false
+    
+    @Published var isAdmin : Bool = true
 }

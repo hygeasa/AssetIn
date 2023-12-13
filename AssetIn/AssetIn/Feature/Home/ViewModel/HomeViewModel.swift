@@ -14,4 +14,7 @@ class HomeViewModel : ObservableObject {
     @Published var inventory : String = "Proyektor"
     @Published var category : String = "School suplies"
     @Published var lending : String = "05/06/2023"
+    
+    
+    @Published var isAdmin: Bool = true
 }

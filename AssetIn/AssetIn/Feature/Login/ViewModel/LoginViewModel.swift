@@ -13,4 +13,6 @@ class LoginViewModel: ObservableObject {
     @Published var NISText: String = ""
     @Published var passwordText: String = ""
     @Published var isRegister: Bool = false
+    
+    @Published var isAdmin: Bool = false
 }
