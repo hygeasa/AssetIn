@@ -18,3 +18,16 @@ struct InventoryType: Identifiable {
     var title: String
     var items: [Inventory]
 }
+
+struct Inventaris: Codable, Identifiable {
+    var id: String? = UUID().uuidString
+    var category: String
+    var namaInventaris: String
+    var stock: Int
+    var gambar: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, category, stock, gambar
+        case namaInventaris = "nama_inventaris"
+    }
+}

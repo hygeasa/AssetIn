@@ -66,16 +66,17 @@ struct SearchDetailView: View {
             
             ScrollView {
                 VStack(spacing: 12) {
-                    ForEach(1...8, id: \.self) { index in
+                    ForEach(viewModel.inventarisList, id: \.id) { item in
                         Button {
                             viewModel.isShowAlert = true
+                            viewModel.quantity = "\(item.stock)"
                         } label: {
                             VStack(spacing:0) {
-                                AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
+                                AsyncImage(url: URL(string: item.gambar))
                                     .frame(maxWidth: 360, maxHeight: 220)
                                 
                                 VStack(alignment: .leading,spacing:3) {
-                                    Text(viewModel.inventaris)
+                                    Text(item.namaInventaris)
                                         .font(.system(size: 20, weight: .semibold))
                                         .foregroundColor(.black)
                                     
@@ -83,7 +84,7 @@ struct SearchDetailView: View {
                                         Text("Stock : ")
                                             .font(.system(size: 15, weight: .semibold))
                                             .foregroundColor(.AssetIn.orange)
-                                        Text("\(viewModel.stock)")
+                                        Text("\(item.stock)")
                                             .font(.system(size: 15, weight: .semibold))
                                             .foregroundColor(.AssetIn.orange)
                                     }
@@ -139,6 +140,9 @@ struct SearchDetailView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.getInventories()
+        }
         .alert(viewModel.isAdmin ? "Add item" : "Add this item to on going", isPresented: $viewModel.isShowAlert) {
             TextField("0", text: $viewModel.quantity)
                 .keyboardType(.numberPad)

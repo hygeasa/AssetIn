@@ -14,20 +14,57 @@ struct EditDataView: View {
     
     var body: some View {
         VStack {
-            Rectangle()
-                .frame(height: 0.5)
-                .foregroundColor(.AssetIn.greyText)
-                .padding(.horizontal)
-            
-            ScrollView {
-                VStack {
-                    ForEach(viewModel.data, id: \.id) { item in
-                        ExpandedSessionView(inventory: item)
-                    }
+            HStack {
+                Button {
+                    navigator.back()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .foregroundColor(.white)
                 }
-                .padding()
+                Text("What are you looking for?")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(.white)
+                Spacer()
+                Image.imageProfile
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+            }
+            .padding(.horizontal)
+            
+            VStack(spacing: 2){
+                Rectangle()
+                    .frame(height: 0.5)
+                    .foregroundColor(.AssetIn.greyText)
+                    .padding(.horizontal)
+                    .padding(.vertical, 20)
+                
+                ScrollView {
+                    VStack(spacing: 5) {
+                        ForEach(viewModel.data, id: \.id) { item in
+                            ExpandedSessionView(inventory: item)
+                        }
+                    }
+                    .padding()
+                }
             }
         }
+        .background(
+            VStack {
+                RadialGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                    center: .center,
+                    startRadius: 0,
+                    endRadius: 200
+                )
+                .frame(height: 130)
+                .edgesIgnoringSafeArea(.all)
+                .cornerRadius(15)
+                Spacer()
+            }
+                .ignoresSafeArea()
+        )
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
