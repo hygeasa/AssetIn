@@ -38,6 +38,7 @@ enum Route {
     case take(TakeViewModel, AppNavigator)
     case searchdetail(SearchDetailViewModel, AppNavigator)
     case editdata(EditDataViewModel, AppNavigator)
+    case editItem(EditItemViewModel, AppNavigator)
     
 }
 
@@ -70,6 +71,8 @@ extension Route: View {
             SearchDetailView(viewModel: viewModel, navigator: navigator)
         case.editdata(let viewModel, let navigator):
             EditDataView(viewModel: viewModel, navigator: navigator)
+        case.editItem(let viewModel, let navigator):
+            EditItemView(viewModel: viewModel, navigator: navigator)
                     
         }
     }

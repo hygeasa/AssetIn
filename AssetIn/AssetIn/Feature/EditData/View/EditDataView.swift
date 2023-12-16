@@ -26,7 +26,7 @@ struct EditDataView: View {
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
                 Spacer()
-                Image.imageProfile
+                Image.logoAssetin
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
