@@ -22,7 +22,7 @@ struct EditItemView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                 }
-                Text("What are you looking for?")
+                Text("Edit item")
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
                 Spacer()
