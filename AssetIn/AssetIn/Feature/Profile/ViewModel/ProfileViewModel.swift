@@ -10,5 +10,8 @@ import SwiftUI
 class ProfileViewModel: ObservableObject {
     @Published var name : String = "Iam jelek"
     @Published var email : String = "jooniesmaitimu@gmail.com"
-    @Published var role : String = "student"
+    @Published var studentRole : String = "student"
+    @Published var adminRole : String = "admin"
+    
+    @Published var isAdmin: Bool = true
 }

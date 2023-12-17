@@ -21,19 +21,33 @@ struct ProfileView: View {
                 
                 Spacer()
                 
-                Image.imageProfile
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .padding(.horizontal)
+                if !viewModel.isAdmin {
+                    Image.imageProfile
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .padding(.horizontal)
+                }else {
+                    Image.logoAssetin
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .padding(.horizontal)
+                }
                 
             }
             .padding(.horizontal)
             
             VStack(spacing: 30){
                 VStack (alignment : .center) {
-                    Text(viewModel.name)
-                        .font(.system(size: 17, weight:  .semibold))
+                    
+                    if !viewModel.isAdmin {
+                        Text(viewModel.name)
+                            .font(.system(size: 17, weight:  .semibold))
+                    }else {
+                        Text("Admin")
+                            .font(.system(size: 17, weight:  .semibold))
+                    }
                     
                     Text(viewModel.email)
                         .font(.system(size: 15, weight: .regular))
@@ -78,9 +92,15 @@ struct ProfileView: View {
                         VStack (alignment : .leading) {
                             Text("Role user")
                                 .font(.system(size: 15, weight: .regular))
-                            Text(viewModel.role)
-                                .font(.system(size: 12, weight: .regular))
-                                .foregroundColor(.AssetIn.orange)
+                            if !viewModel.isAdmin {
+                                Text(viewModel.studentRole)
+                                    .font(.system(size: 12, weight: .regular))
+                                    .foregroundColor(.AssetIn.orange)
+                            }else {
+                                Text(viewModel.adminRole)
+                                    .font(.system(size: 12, weight: .regular))
+                                    .foregroundColor(.AssetIn.orange)
+                            }
                         }
                     }
                 }
