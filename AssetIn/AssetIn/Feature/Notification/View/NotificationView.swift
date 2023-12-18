@@ -22,37 +22,48 @@ struct NotificationView: View {
             .padding(.horizontal)
             
             VStack(spacing: 0) {
-                HStack{
-                    VStack(alignment : .leading, spacing : 2){
-                        Text("Hi, \(viewModel.name)")
-                            .font(.system(size: 17, weight: .semibold))
-                        Text("NIS : \(viewModel.NIS)")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.AssetIn.orange)
+                if !viewModel.isAdmin {
+                    HStack{
+                        VStack(alignment : .leading, spacing : 2){
+                            Text("Hi, \(viewModel.name)")
+                                .font(.system(size: 17, weight: .semibold))
+                            Text("NIS : \(viewModel.NIS)")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(.AssetIn.orange)
+                        }
+                        Spacer()
+                        VStack(spacing : 2) {
+                            Text("Siswa")
+                            Text(viewModel.userclass)
+                        }
+                        .font(.system(size: 12, weight: .medium))
+                        .padding(.horizontal, 15)
                     }
-                    Spacer()
-                    VStack(spacing : 2) {
-                        Text("Siswa")
-                        Text(viewModel.userclass)
-                    }
-                    .font(.system(size: 12, weight: .medium))
-                    .padding(.horizontal, 15)
                     
-                }
-                .padding()
-                .padding(.vertical, 10)
-                .background(
-                    Color.white
+                    .padding()
+                    .padding(.vertical, 10)
+                    .background(
+                        Color.white
+                            .cornerRadius(15)
+                    )
+                    .overlay(alignment: .topTrailing) {
+                        Image.imageProfile
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .offset(x: -25, y: -25)
+                    }
+                    .padding(.horizontal)
+                }else {
+                    Text("Hi, Admin!")
+                        .font(.system(size : 17, weight : .semibold))
+                        .padding()
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                        .background(Color.white)
                         .cornerRadius(15)
-                )
-                .overlay(alignment: .topTrailing) {
-                    Image.imageProfile
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .offset(x: -25, y: -25)
+                        .padding(.horizontal)
                 }
-                .padding(.horizontal)
                 
                 ScrollView {
                     VStack(spacing : -20){

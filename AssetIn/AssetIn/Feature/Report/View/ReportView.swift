@@ -34,41 +34,118 @@ struct ReportView: View {
             .padding(.horizontal)
             .padding(.vertical)
             
-            VStack {
-                HStack(spacing:10) {
-                    Text("Categories : ")
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Categories: ")
                         .font(.system(size: 17, weight: .medium))
                         .foregroundColor(.black)
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                         .padding(.horizontal, 30)
-                    Text("(\(viewModel.category))")
-                        .font(.system(size: 17, weight: .medium))
-                        .foregroundColor(.AssetIn.orange)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
-                        .padding(.horizontal, 30)
-                }
                     
-                HStack {
-                       //pilihan category
-                }
-                .padding(.vertical, 10)
-                
-                Rectangle()
-                    .frame(height: 0.5)
-                    .foregroundColor(.AssetIn.greyText)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(viewModel.categories.indices, id:\.self) { index in
+                                let item = viewModel.categories[index]
+                                
+                                Button {
+                                    withAnimation {
+                                        viewModel.categories[index].isSelected.toggle()
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(item.name)
+                                            .font(.system(size: 12, weight: .semibold))
+                                            .foregroundColor(item.isSelected ? .white : .AssetIn.orange)
+                                        
+                                        if item.isSelected {
+                                            Image(systemName: "checkmark")
+                                                .font(.system(size: 12, weight: .semibold))
+                                                .foregroundColor(.white)
+                                        }
+                                    }
+                                    .padding(6)
+                                    .padding(.horizontal, 8)
+                                    .background(item.isSelected ? Color.AssetIn.orange : Color.AssetIn.greyChecklist.opacity(0.5))
+                                    .clipShape(Capsule())
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                Text("Jenis Barang")
-                    .font(.system(size: 17, weight: .semibold))
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                    .padding(.horizontal, 30)
-                
                     
-                
-                                 
-                                 
-                
+                    Rectangle()
+                        .frame(height: 0.5)
+                        .foregroundColor(.AssetIn.greyText)
+                        .padding(.horizontal)
+                    
+                    Text("Jenis Barang :")
+                        .font(.system(size: 17, weight: .semibold))
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                        .padding(.horizontal, 30)
+                        .padding(.vertical, 10)
+                    
+                    ForEach(viewModel.checkList.indices, id:\.self)  { index in
+                        let item = viewModel.checkList[index]
+                        HStack(spacing : 5) {
+                            Button {
+                                withAnimation {
+                                    viewModel.checkList[index].isSelected.toggle()
+                                }
+                            }label: {
+                                Image(systemName: item.isSelected ? "checkmark.square.fill" : "square.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor( item.isSelected ?  .AssetIn.orange : .AssetIn.greyChecklist)
+                                    .frame(width: 20, height: 20)
+                            }
+                            
+                            Text(item.name)
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundColor(item.isSelected ? .AssetIn.orange : .black)
+                                .padding(.horizontal)
+                        }
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                        .padding(.horizontal, 30)
+                    }
+            
+                    Rectangle()
+                        .frame(height: 0.5)
+                        .foregroundColor(.AssetIn.greyText)
+                        .padding(.horizontal)
+                        .padding(.vertical)
+                    
+                    DatePicker(
+                        "Ni apasi",
+                        selection: $viewModel.date,
+                        in: ...Date(),
+                        displayedComponents: [.date]
+                    )
+                    .datePickerStyle(.graphical)
+                    .tint(Color.AssetIn.orange)
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .shadow(color: .black.opacity(0.08), radius: 8)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 30)
+                    
+                }
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            Button {
+                navigator.navigate(to: .findReport(.init(), navigator))
+            }label: {
+                Text("Find Report")
+                    .foregroundColor(.white)
+                    .font(.system(size: 13, weight: .semibold))
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.AssetIn.yellow)
+                    .cornerRadius(10)
+                    .shadow(color: .black.opacity(0.1), radius: 5)
+            }
+            .padding()
         }
         .background(
             VStack {

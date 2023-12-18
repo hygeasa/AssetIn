@@ -21,4 +21,6 @@ class NotificationViewModel: ObservableObject {
     @Published var waitNotification : String = "Wait for your basketball request."
     @Published var takeplaceNotification : String = "You can take it at koperasi before "
     @Published var oldtimeNotification : String = "2 days ago"
+    
+    @Published var isAdmin: Bool = true
 }
