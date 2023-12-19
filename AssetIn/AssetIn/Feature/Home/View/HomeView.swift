@@ -66,25 +66,33 @@ struct HomeView: View {
                 }
                 
                 TabView{
-                    ForEach(0...5, id: \.self) { index in
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 320, height: 202)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .overlay(alignment : .bottomTrailing) {
-                                if viewModel.isAdmin {
-                                    Button {
-                                        
-                                    } label: {
-                                        Text("Edit news")
-                                            .font(.system(size: 13, weight: .regular))
-                                            .foregroundColor(.black)
-                                            .padding()
-                                            .background(Color.white)
-                                            .cornerRadius(20)
+                    ForEach(viewModel.news, id: \.id) { news in
+                        Button {
+                            viewModel.isShowSafari = true
+                        } label: {
+                            AsyncImage(url: URL(string: news.thumbnail ?? ""))
+                                .frame(width: 320, height: 202)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                .overlay(alignment : .bottomTrailing) {
+                                    if viewModel.isAdmin {
+                                        Button {
+                                            
+                                        } label: {
+                                            Text("Edit news")
+                                                .font(.system(size: 13, weight: .regular))
+                                                .foregroundColor(.black)
+                                                .padding()
+                                                .background(Color.white)
+                                                .cornerRadius(20)
+                                        }
+                                        .padding()
                                     }
-                                    .padding()
                                 }
-                            }
+                        }
+                        .fullScreenCover(isPresented: $viewModel.isShowSafari) {
+                            SafariWebView(url: URL(string: news.url ?? "")!)
+                                .ignoresSafeArea()
+                        }
                     }
                 }
                 .tint(.AssetIn.orange)
@@ -291,6 +299,7 @@ struct HomeView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .onAppear {
             viewModel.getUserData()
+            viewModel.getNewsData()
         }
     }
     

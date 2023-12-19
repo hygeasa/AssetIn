@@ -21,6 +21,11 @@ class HomeViewModel : ObservableObject {
     @Published var category : String = "School suplies"
     @Published var lending : String = "05/06/2023"
     
+    @Published var borrowedItem: [History] = []
+    
+    @Published var news: [News] = []
+    @Published var isShowSafari = false
+    
     var isAdmin: Bool {
         loginStatus == 2
     }
@@ -41,6 +46,22 @@ class HomeViewModel : ObservableObject {
                           let data = try? snapshot.data(as: User.self)
                 {
                     self.userData = data
+                }
+            }
+    }
+    
+    @MainActor
+    func getNewsData() {
+        database.collection("Berita")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print(error)
+                } else if let snapshot {
+                    withAnimation {
+                        self.news = snapshot.documents.compactMap({ data in
+                            try? data.data(as: News.self)
+                        })
+                    }
                 }
             }
     }
