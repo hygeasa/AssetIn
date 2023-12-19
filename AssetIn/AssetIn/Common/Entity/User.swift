@@ -13,4 +13,5 @@ struct User: Codable {
     var nis: String
     var isAdmin: Bool
     var email: String
+    var imageURL: String? = nil
 }

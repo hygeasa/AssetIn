@@ -18,9 +18,9 @@ struct HomeView: View {
                 if !viewModel.isAdmin {
                     HStack{
                         VStack(alignment : .leading, spacing : 2){
-                            Text("Hi, \(viewModel.name)")
+                            Text("Hi, \(viewModel.userData?.nama ?? "–")")
                                 .font(.system(size: 17, weight: .semibold))
-                            Text("NIS : \(viewModel.NIS)")
+                            Text("NIS : \(viewModel.userData?.nis ?? "–")")
                                 .font(.system(size: 12, weight: .semibold))
                                 .foregroundColor(.AssetIn.orange)
                         }
@@ -41,11 +41,19 @@ struct HomeView: View {
                             .cornerRadius(15)
                     )
                     .overlay(alignment: .topTrailing) {
-                        Image.imageProfile
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .offset(x: -25, y: -25)
+                        Group {
+                            if let imageURL = viewModel.userData?.imageURL {
+                                AsyncImage(url: URL(string: imageURL))
+                                    .scaledToFill()
+                            } else {
+                                Image.imageProfile
+                                    .resizable()
+                                    .scaledToFit()
+                            }
+                        }
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .offset(x: -25, y: -25)
                     }
                 }else {
                     Text("Hi, Admin!")
@@ -281,7 +289,9 @@ struct HomeView: View {
                 .ignoresSafeArea()
         )
         .background(Color.AssetIn.grey.ignoresSafeArea())
-        
+        .onAppear {
+            viewModel.getUserData()
+        }
     }
     
 }

@@ -8,6 +8,9 @@
 import SwiftUI
 
 class NotificationViewModel: ObservableObject {
+    
+    @AppStorage("LOGIN_STATUS") var loginStatus: Int = 0
+    
     @Published var name : String = "Iam jelek"
     @Published var NIS : String = "1234"
     @Published var userclass : String = "2A"
@@ -22,5 +25,7 @@ class NotificationViewModel: ObservableObject {
     @Published var takeplaceNotification : String = "You can take it at koperasi before "
     @Published var oldtimeNotification : String = "2 days ago"
     
-    @Published var isAdmin: Bool = true
+    var isAdmin: Bool {
+        loginStatus == 2
+    }
 }

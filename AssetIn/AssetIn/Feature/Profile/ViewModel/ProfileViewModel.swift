@@ -16,5 +16,7 @@ class ProfileViewModel: ObservableObject {
     @Published var studentRole : String = "student"
     @Published var adminRole : String = "admin"
     
-    @Published var isAdmin: Bool = true
+    var isAdmin: Bool {
+        loginStatus == 2
+    }
 }
