@@ -21,4 +21,11 @@ extension Image {
     static let resetpassword = Image("password")
     static let changephoto = Image("change-photo")
     static let elipseprofile = Image("elipse-profile") 
+    
+    static let classroom = Image("classroom")
+    static let furniture = Image("furniture")
+    static let lab = Image("lab")
+    static let library = Image("library")
+    static let music = Image("music")
+    static let sports = Image("sports")
 }

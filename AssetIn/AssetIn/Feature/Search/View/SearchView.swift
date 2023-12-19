@@ -12,154 +12,91 @@ struct SearchView: View {
     @ObservedObject var navigator : AppNavigator
     
     var body: some View {
-            VStack(spacing: 20) {
-                HStack {
-                    Button {
-                        navigator.back()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                    }
-                    Text("What are you looking for?")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.white)
-                        Spacer()
-                    if !viewModel.isAdmin {
-                        Image.imageProfile
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                    }else {
-                        Image.logoAssetin
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                    }
-                }
-                .padding(.horizontal)
-                
+        VStack(spacing: 20) {
+            HStack {
                 Button {
-                    navigator .navigate(to: .searchdetail(.init(), navigator))
-                }label: {
-                    HStack{
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.AssetIn.greyText)
-                        Text("Search")
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundColor(.AssetIn.greyText)
-                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(15)
+                    navigator.back()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .foregroundColor(.white)
                 }
-                .padding(.horizontal)
+                Text("What are you looking for?")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(.white)
+                Spacer()
+                if !viewModel.isAdmin {
+                    Image.imageProfile
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                }else {
+                    Image.logoAssetin
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                }
+            }
+            .padding(.horizontal)
+            
+            HStack{
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.AssetIn.greyText)
                 
-                ScrollView {
-                VStack {
-                    HStack {
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            //Text("School suplies")
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))/*(cornerRadius: [0,20,20,0]))*/
-                            .overlay(alignment: .bottomLeading) {
-                                Text("School Suplies")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                        
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))
-                            .overlay(alignment: .bottomLeading) {
-                                Text("Music Equipment")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
+                TextField("Search...", text: $viewModel.searchText)
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundColor(.AssetIn.greyText)
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+            }
+            .padding()
+            .background(Color.white)
+            .cornerRadius(15)
+            .padding(.horizontal)
+            
+            ScrollView {
+                LazyVGrid(columns: [.init(.flexible(), spacing: 12), .init(.flexible())], spacing: 12, content: {
+                    ForEach(viewModel.searchedCategories, id:\.id) { item in
+                        Button {
+                            navigator.navigate(to: .searchdetail(.init(category: item), navigator))
+                        } label: {
+                            item.image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 170)
+                                .overlay {
+                                    ZStack(alignment: .bottomLeading) {
+                                        LinearGradient(
+                                            colors: [.black.opacity(0.6), .clear],
+                                            startPoint: .bottom,
+                                            endPoint: .top
+                                        )
+                                        
+                                        Text(item.name)
+                                            .font(.system(size: 17, weight: .bold))
+                                            .foregroundColor(.white)
+                                            .padding()
+                                    }
+                                }
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
                     }
-
-                    HStack {
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))/*(cornerRadius: [0,20,20,0]))*/
-                            .overlay(alignment: .bottomLeading) {
-                                Text("Classroom Suplies")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))
-                            .overlay(alignment: .bottomLeading) {
-                                Text("Laboratory Stuff")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                        
-
-                    }
-                    HStack {
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))/*(cornerRadius: [0,20,20,0]))*/
-                            .overlay(alignment: .bottomLeading) {
-                                Text("Sports Equipment")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))
-                            .overlay(alignment: .bottomLeading) {
-                                Text("Laboratory Equipment")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                    }
-                    
-                    HStack {
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))/*(cornerRadius: [0,20,20,0]))*/
-                            .overlay(alignment: .bottomLeading) {
-                                Text("School Suplies")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 160, height: 178)
-                            .clipShape(RoundedRectangle (cornerRadius:15))
-                            .overlay(alignment: .bottomLeading) {
-                                Text("School Suplies")
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-
-                    }
-                }
+                    .animation(.spring(), value: viewModel.searchText)
+                })
+                .padding([.horizontal, .bottom])
             }
         }
         .background(
             VStack {
                 RadialGradient(
                     gradient: Gradient(colors: [Color.orange, Color.yellow]),
-                            center: .center,
-                            startRadius: 0,
-                            endRadius: 200
-                        )
-                        .frame(height: 130)
-                        .edgesIgnoringSafeArea(.all)
-                        .cornerRadius(15)
-                        Spacer()
+                    center: .center,
+                    startRadius: 0,
+                    endRadius: 200
+                )
+                .frame(height: 130)
+                .edgesIgnoringSafeArea(.all)
+                .cornerRadius(15)
+                Spacer()
             }
                 .ignoresSafeArea()
         )

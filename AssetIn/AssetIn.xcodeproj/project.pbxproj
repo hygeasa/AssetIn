@@ -21,6 +21,7 @@
 		4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4838179A2AED690C00A1EADB /* AppNavigator.swift */; };
 		484A09472B31E274006E1D66 /* Encodable+toJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A09462B31E274006E1D66 /* Encodable+toJSON.swift */; };
 		484A09492B31E29F006E1D66 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A09482B31E29F006E1D66 /* User.swift */; };
+		484A094B2B31EFF8006E1D66 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A094A2B31EFF8006E1D66 /* Category.swift */; };
 		484D302D2B2A07D2002B3880 /* EditDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D302C2B2A07D2002B3880 /* EditDataView.swift */; };
 		484D302F2B2A07E2002B3880 /* EditDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D302E2B2A07E2002B3880 /* EditDataViewModel.swift */; };
 		484D30312B2A1533002B3880 /* ExpandedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D30302B2A1533002B3880 /* ExpandedSessionView.swift */; };
@@ -101,6 +102,7 @@
 		4838179A2AED690C00A1EADB /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		484A09462B31E274006E1D66 /* Encodable+toJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+toJSON.swift"; sourceTree = "<group>"; };
 		484A09482B31E29F006E1D66 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		484A094A2B31EFF8006E1D66 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		484D302C2B2A07D2002B3880 /* EditDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDataView.swift; sourceTree = "<group>"; };
 		484D302E2B2A07E2002B3880 /* EditDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDataViewModel.swift; sourceTree = "<group>"; };
 		484D30302B2A1533002B3880 /* ExpandedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedSessionView.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			children = (
 				484D30332B2A1B5C002B3880 /* Inventory.swift */,
 				484A09482B31E29F006E1D66 /* User.swift */,
+				484A094A2B31EFF8006E1D66 /* Category.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 				483817912AED555800A1EADB /* OnboardingView.swift in Sources */,
 				48BAE2CD2AED390400AB3D8F /* AssetInApp.swift in Sources */,
 				483817982AED5D2E00A1EADB /* LoginViewModel.swift in Sources */,
+				484A094B2B31EFF8006E1D66 /* Category.swift in Sources */,
 				484D30312B2A1533002B3880 /* ExpandedSessionView.swift in Sources */,
 				489C02622B2EB33B002D4DFB /* FindReportView.swift in Sources */,
 				4852FAA22B18EE4D00FAAD3B /* HistoryViewModel.swift in Sources */,

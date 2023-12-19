@@ -36,7 +36,7 @@ struct SearchDetailView: View {
             HStack{
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.AssetIn.greyText)
-                TextField("Search", text: $viewModel.search)
+                TextField("Search", text: $viewModel.searchText)
                     .font(.system(size: 15, weight: .regular))
                     .foregroundColor(.AssetIn.greyText)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
@@ -55,7 +55,7 @@ struct SearchDetailView: View {
                         .foregroundColor(.AssetIn.orange)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         
-                    Text(viewModel.category)
+                    Text(viewModel.categoryText)
                         .font(.system(size: 12, weight: .medium))
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
                 }
@@ -170,5 +170,5 @@ struct SearchDetailView: View {
 }
 
 #Preview {
-    SearchDetailView(viewModel: .init(), navigator: .init())
+    SearchDetailView(viewModel: .init(category: .init(name: "", image: .furniture)), navigator: .init())
 }

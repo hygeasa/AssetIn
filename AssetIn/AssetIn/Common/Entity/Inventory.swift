@@ -22,6 +22,7 @@ struct InventoryType: Identifiable {
 struct Inventaris: Codable, Identifiable {
     var id: String? = UUID().uuidString
     var category: String
+    var categoryId: String
     var namaInventaris: String
     var stock: Int
     var gambar: String
@@ -29,5 +30,15 @@ struct Inventaris: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id, category, stock, gambar
         case namaInventaris = "nama_inventaris"
+        case categoryId = "category_id"
     }
+}
+
+enum CategoryType: String {
+    case furniture = "FURNITURE"
+    case music = "MUSIC"
+    case classroom = "CLASSROOM"
+    case laboratory = "LABORATORY"
+    case sports = "SPORTS"
+    case library = "LIBRARY"
 }
