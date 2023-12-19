@@ -120,7 +120,9 @@ struct ProfileView: View {
             Spacer()
             
             Button {
-                navigator.backHome()
+                withAnimation {
+                    viewModel.loginStatus = 0
+                }
             } label: {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")

@@ -17,4 +17,8 @@ class HomeViewModel : ObservableObject {
     
     
     @Published var isAdmin: Bool = true
+    @Published var isAccept : Bool = true
+    
+    @Published var place : String = ""
+    @Published var deadlineAlert : String = ""
 }

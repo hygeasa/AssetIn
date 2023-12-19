@@ -118,7 +118,7 @@ struct HomeView: View {
                         }
                     } else {
                         Button {
-                            navigator.navigate(to: .history(.init(),navigator))
+                            navigator.navigate(to: .report(.init(),navigator))
                         } label: {
                             VStack {
                                 Image.historyIcon
@@ -152,7 +152,7 @@ struct HomeView: View {
                         }
                     } else {
                         Button {
-                            navigator.navigate(to: .ongoing(.init(), navigator))
+                            navigator.navigate(to: .editdata(.init(), navigator))
                         } label: {
                             VStack {
                                 Image.ongoingIcon
@@ -238,7 +238,7 @@ struct HomeView: View {
                             
                             HStack {
                                 Button {
-                                    
+                                    viewModel.isAccept = true
                                 }label : {
                                     Text("Accept")
                                         .foregroundColor(.white)
@@ -281,6 +281,7 @@ struct HomeView: View {
                 .ignoresSafeArea()
         )
         .background(Color.AssetIn.grey.ignoresSafeArea())
+        
     }
     
 }

@@ -19,6 +19,8 @@
 		483817952AED580B00A1EADB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483817942AED580B00A1EADB /* LoginView.swift */; };
 		483817982AED5D2E00A1EADB /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483817972AED5D2E00A1EADB /* LoginViewModel.swift */; };
 		4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4838179A2AED690C00A1EADB /* AppNavigator.swift */; };
+		484A09472B31E274006E1D66 /* Encodable+toJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A09462B31E274006E1D66 /* Encodable+toJSON.swift */; };
+		484A09492B31E29F006E1D66 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A09482B31E29F006E1D66 /* User.swift */; };
 		484D302D2B2A07D2002B3880 /* EditDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D302C2B2A07D2002B3880 /* EditDataView.swift */; };
 		484D302F2B2A07E2002B3880 /* EditDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D302E2B2A07E2002B3880 /* EditDataViewModel.swift */; };
 		484D30312B2A1533002B3880 /* ExpandedSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D30302B2A1533002B3880 /* ExpandedSessionView.swift */; };
@@ -97,6 +99,8 @@
 		483817942AED580B00A1EADB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		483817972AED5D2E00A1EADB /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		4838179A2AED690C00A1EADB /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
+		484A09462B31E274006E1D66 /* Encodable+toJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+toJSON.swift"; sourceTree = "<group>"; };
+		484A09482B31E29F006E1D66 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		484D302C2B2A07D2002B3880 /* EditDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDataView.swift; sourceTree = "<group>"; };
 		484D302E2B2A07E2002B3880 /* EditDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDataViewModel.swift; sourceTree = "<group>"; };
 		484D30302B2A1533002B3880 /* ExpandedSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedSessionView.swift; sourceTree = "<group>"; };
@@ -296,6 +300,14 @@
 			path = Navigator;
 			sourceTree = "<group>";
 		};
+		484A09452B31E266006E1D66 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				484A09462B31E274006E1D66 /* Encodable+toJSON.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		484D30252B2A076D002B3880 /* EditData */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				484D30332B2A1B5C002B3880 /* Inventory.swift */,
+				484A09482B31E29F006E1D66 /* User.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -586,6 +599,7 @@
 		48BAE2F82AED398700AB3D8F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				484A09452B31E266006E1D66 /* Extension */,
 				484D30322B2A1B48002B3880 /* Entity */,
 				48E752B22B2852100099F0DF /* Component */,
 				483817992AED690100A1EADB /* Navigator */,
@@ -895,9 +909,11 @@
 				489C025B2B2E3B1C002D4DFB /* ReportView.swift in Sources */,
 				489C024D2B2E1282002D4DFB /* EditItemView.swift in Sources */,
 				489D95942B274D2E00CF7ABD /* ChangeProfileViewModel.swift in Sources */,
+				484A09492B31E29F006E1D66 /* User.swift in Sources */,
 				482962A42B1A3B990000C5C3 /* OnGoingView.swift in Sources */,
 				483817852AED3F6500A1EADB /* Color+Default.swift in Sources */,
 				484D302F2B2A07E2002B3880 /* EditDataViewModel.swift in Sources */,
+				484A09472B31E274006E1D66 /* Encodable+toJSON.swift in Sources */,
 				4852FA9D2B18AC1900FAAD3B /* SearchView.swift in Sources */,
 				482809AD2B1F45350099F75B /* ProfileView.swift in Sources */,
 				48E752AA2B282FCA0099F0DF /* TakeEmptyView.swift in Sources */,

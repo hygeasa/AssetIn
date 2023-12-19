@@ -8,6 +8,9 @@
 import SwiftUI
 
 class ProfileViewModel: ObservableObject {
+    
+    @AppStorage("LOGIN_STATUS") var loginStatus: Int = 0
+    
     @Published var name : String = "Iam jelek"
     @Published var email : String = "jooniesmaitimu@gmail.com"
     @Published var studentRole : String = "student"

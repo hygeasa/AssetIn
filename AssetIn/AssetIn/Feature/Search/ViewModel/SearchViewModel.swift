@@ -8,4 +8,5 @@
 import SwiftUI
 
 class SearchViewModel : ObservableObject {
+    @Published var isAdmin: Bool = true
 }

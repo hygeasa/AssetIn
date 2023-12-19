@@ -10,6 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     
     @ObservedObject var navigator: AppNavigator
+    @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
     
     var body: some View {
         VStack(spacing: 40) {
@@ -29,7 +30,7 @@ struct OnboardingView: View {
                     .foregroundColor(.black)
                 
                 Button {
-                    navigator.navigate(to: .login(.init(), navigator))
+                    navigator.navigate(to: .login(.init(isAdmin: false), navigator))
                 } label: {
                     Text("Sign in as student")
                         .foregroundColor(.white)
@@ -42,7 +43,7 @@ struct OnboardingView: View {
                 }
                 
                 Button {
-                    navigator.navigate(to: .login(.init(), navigator))
+                    navigator.navigate(to: .login(.init(isAdmin: true), navigator))
                 } label: {
                     Text("Sign in as admin")
                         .foregroundColor(.white)

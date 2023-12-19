@@ -116,11 +116,11 @@ struct ChangePasswordView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
-        .alert(isPresented: $viewModel.isChangeSuccess, content: {
-            Alert(title: Text("Yeay!"), message: Text("Password Update Complete!"), dismissButton: .default(Text("Okay"), action: {
-                navigator.back()
-            }))
-        })
+//        .alert(isPresented: $viewModel.isAccept, content: {
+//            Alert(title: Text("Yeay!"), message: Text("Password Update Complete!"), dismissButton: .default(Text("Okay"), action: {
+//                navigator.back()
+//            }))
+//        })
     }
 }
 
