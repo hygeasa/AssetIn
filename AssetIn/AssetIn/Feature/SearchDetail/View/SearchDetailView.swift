@@ -68,8 +68,11 @@ struct SearchDetailView: View {
                 VStack(spacing: 12) {
                     ForEach(viewModel.inventarisList, id: \.id) { item in
                         Button {
+                            viewModel.inventoryId = item.id
                             viewModel.isShowAlert = true
-                            viewModel.quantity = "\(item.stock)"
+                            if viewModel.isAdmin {
+                                viewModel.quantity = "\(item.stock)"
+                            }
                         } label: {
                             VStack(spacing:0) {
                                 AsyncImage(url: URL(string: item.gambar))
@@ -143,7 +146,7 @@ struct SearchDetailView: View {
         .onAppear {
             viewModel.getInventories()
         }
-        .alert(viewModel.isAdmin ? "Add item" : "Add this item to on going", isPresented: $viewModel.isShowAlert) {
+        .alert(viewModel.isAdmin ? "Add item" : "Borrow this item?", isPresented: $viewModel.isShowAlert) {
             TextField("0", text: $viewModel.quantity)
                 .keyboardType(.numberPad)
             
@@ -154,7 +157,7 @@ struct SearchDetailView: View {
             }
             
             Button() {
-                viewModel.isRequest = true
+                viewModel.updateOrRequestInventory()
             } label: {
                 Text("Add")
             }
@@ -162,9 +165,7 @@ struct SearchDetailView: View {
             Text("")
         }
         .alert(isPresented: $viewModel.isRequest, content: {
-            Alert(title: Text("Thank you"), message: Text( viewModel.isAdmin ? "The item has been successfully added." : "Your request will be process soon!"), dismissButton: .default(Text("Okay"), action: {
-                navigator.back()
-            }))
+            Alert(title: Text("Thank you"), message: Text( viewModel.isAdmin ? "The item has been successfully added." : "Your request will be process soon!"), dismissButton: .default(Text("Okay")))
         })
     }
 }
