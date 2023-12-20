@@ -16,9 +16,13 @@ class SearchDetailViewModel : ObservableObject {
     
     @Published var inventarisList: [Inventaris] = []
     var searchedInventory: [Inventaris] {
-        inventarisList.filter({
-            $0.namaInventaris.lowercased().contains(searchText.lowercased())
-        })
+        if searchText.isEmpty {
+            inventarisList
+        } else {
+            inventarisList.filter({
+                $0.namaInventaris.lowercased().contains(searchText.lowercased())
+            })
+        }
     }
     
     @Published var searchText: String = ""

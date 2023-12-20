@@ -16,11 +16,11 @@ struct MainView: View {
                     Image(systemName: "house")
                     Text("home")
                 }
-            NotificationView(viewModel: .init(), navigator: navigator)
-                .tabItem {
-                    Image(systemName: "bell")
-                    Text("notification")
-                }
+//            NotificationView(viewModel: .init(), navigator: navigator)
+//                .tabItem {
+//                    Image(systemName: "bell")
+//                    Text("notification")
+//                }
             ProfileView(viewModel: .init(), navigator: navigator)
                 .tabItem {
                     Image(systemName: "person.crop.circle")

@@ -36,14 +36,14 @@ struct HistoryView: View {
             .padding(.horizontal)
             
             Group {
-                if viewModel.data.isEmpty {
+                if viewModel.historyData.isEmpty {
                     HistoryEmptyView(navigator: navigator)
                 } else {
                     ScrollView {
                         VStack {
-                            ForEach(0...10, id:\.self) { index in
+                            ForEach(viewModel.historyData, id:\.id) { item in
                                 VStack(alignment: .leading, spacing: 5){
-                                    Text("Done")
+                                    Text(item.status ?? "–")
                                         .foregroundColor(.white)
                                         .font(.system(size: 12, weight: .medium))
                                         .padding(6)
@@ -51,26 +51,60 @@ struct HistoryView: View {
                                         .background(Color.AssetIn.green)
                                         .cornerRadius(15)
                                     
-                                    Text(viewModel.inventory)
+                                    Text(item.inventoryName ?? "–")
                                         .font(.system(size: 15, weight: .regular))
                                     
-                                    Text("Category: \(viewModel.category)")
+                                    Text("Category: \((item.categoryId ?? "–").capitalized)")
                                         .font(.system(size: 12, weight: .semibold))
                                     
-                                    Text(viewModel.lending)
-                                        .font(.system(size: 10, weight: .medium))
-                                        .foregroundColor(.AssetIn.greyText)
+                                    Group {
+                                        if let returnedAt = item.returnedAt {
+                                            Text("Returned: \(returnedAt.toString(format: .withSlash))")
+                                        } else {
+                                            Text("Returned: –")
+                                        }
+                                    }
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundColor(.AssetIn.greyText)
                                     
-                                    Text("Deadline: \(viewModel.deadline)")
-                                        .font(.system(size: 10,weight: .bold))
-                                        .foregroundColor(.AssetIn.orange)
-                                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                                    Button {
+                                        viewModel.isShowAlert = true
+                                    } label: {
+                                        Text("Borrow Again")
+                                            .font(.system(size: 10, weight: .medium))
+                                            .foregroundColor(.black)
+                                            .padding(8)
+                                            .padding(.horizontal, 5)
+                                            .background(
+                                                Capsule()
+                                                    .foregroundColor(.AssetIn.yellow)
+                                            )
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding()
                                 .background(Color.white)
                                 .cornerRadius(15)
                                 .padding(.horizontal)
+                                .alert("Borrow this item again?", isPresented: $viewModel.isShowAlert) {
+                                    TextField("0", text: $viewModel.quantity)
+                                        .keyboardType(.numberPad)
+                                    
+                                    Button(role: .cancel) {
+                                        
+                                    } label: {
+                                        Text("Back")
+                                    }
+                                    
+                                    Button() {
+                                        viewModel.requestBorrow(item)
+                                    } label: {
+                                        Text("Add")
+                                    }
+                                } message: {
+                                    Text("")
+                                }
                             }
                         }
                     }
@@ -96,6 +130,12 @@ struct HistoryView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.getHistoryData()
+        }
+        .alert(isPresented: $viewModel.isRequest, content: {
+            Alert(title: Text("Thank you"), message: Text("Your request will be process soon!"), dismissButton: .default(Text("Okay")))
+        })
     }
 }
 

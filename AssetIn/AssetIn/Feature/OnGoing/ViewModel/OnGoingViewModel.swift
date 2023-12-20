@@ -25,6 +25,7 @@ class OnGoingViewModel: ObservableObject {
     @MainActor
     func getHistoryData() {
         database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
+            .whereField("status", isNotEqualTo: "Done")
             .getDocuments { snapshot, error in
                 if let error {
                     print(error)
