@@ -21,28 +21,30 @@ struct ProfileView: View {
                 
                 Spacer()
                 
-                if !viewModel.isAdmin {
-                    Image.imageProfile
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .padding(.horizontal)
-                }else {
-                    Group {
-                        if let imageURL = viewModel.userData?.imageURL {
-                            AsyncImage(url: URL(string: imageURL))
-                                .scaledToFill()
+                Group {
+                    if let imageURL = viewModel.userData?.imageURL {
+                        AsyncImage(url: URL(string: imageURL)) { phase in
+                            if let image = phase.image {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            }
+                        }
+                    } else {
+                        if viewModel.isAdmin {
+                            Image.logoAssetin
+                                .resizable()
+                                .scaledToFit()
                         } else {
                             Image.imageProfile
                                 .resizable()
                                 .scaledToFit()
                         }
                     }
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .padding(.horizontal)
                 }
-                
+                .frame(width: 50, height: 50)
+                .clipShape(Circle())
+                .padding(.horizontal)
             }
             .padding(.horizontal)
             

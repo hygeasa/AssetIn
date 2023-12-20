@@ -15,55 +15,49 @@ struct HomeView: View {
         ScrollView {
             VStack(spacing : 32) {
                 
-                if !viewModel.isAdmin {
-                    HStack{
-                        VStack(alignment : .leading, spacing : 2){
-                            Text("Hi, \(viewModel.userData?.nama ?? "–")")
-                                .font(.system(size: 17, weight: .semibold))
-                            Text("NIS : \(viewModel.userData?.nis ?? "–")")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(.AssetIn.orange)
-                        }
-                        Spacer()
-                        VStack(spacing : 2) {
-                            Text("Siswa")
-                            Text(viewModel.userclass)
-                        }
-                        .font(.system(size: 12, weight: .medium))
-                        .offset(x: -15, y: 8)
-                        
+                HStack{
+                    VStack(alignment : .leading, spacing : 2){
+                        Text("Hi, \(viewModel.userData?.nama ?? "–")")
+                            .font(.system(size: 17, weight: .semibold))
+                        Text("\(viewModel.isAdmin ? "NIP" : "NIS") : \(viewModel.userData?.nis ?? "–")")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.AssetIn.orange)
                     }
-                    
-                    .padding()
-                    .padding(.vertical, 10)
-                    .background(
-                        Color.white
-                            .cornerRadius(15)
-                    )
-                    .overlay(alignment: .topTrailing) {
+                    Spacer()
+                    VStack {
                         Group {
                             if let imageURL = viewModel.userData?.imageURL {
-                                AsyncImage(url: URL(string: imageURL))
-                                    .scaledToFill()
+                                AsyncImage(url: URL(string: imageURL)) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    }
+                                }
                             } else {
-                                Image.imageProfile
-                                    .resizable()
-                                    .scaledToFit()
+                                if viewModel.isAdmin {
+                                    Image.logoAssetin
+                                        .resizable()
+                                        .scaledToFit()
+                                } else {
+                                    Image.imageProfile
+                                        .resizable()
+                                        .scaledToFit()
+                                }
                             }
                         }
                         .frame(width: 50, height: 50)
                         .clipShape(Circle())
-                        .offset(x: -25, y: -25)
+                        
+                        Text(viewModel.isAdmin ? "Admin" : "Student")
                     }
-                }else {
-                    Text("Hi, Admin!")
-                        .font(.system(size : 17, weight : .semibold))
-                        .padding()
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                        .background(Color.white)
-                        .cornerRadius(15)
+                    .font(.system(size: 12, weight: .medium))
                 }
+                .padding()
+                .background(
+                    Color.white
+                        .cornerRadius(15)
+                )
                 
                 TabView{
                     ForEach(viewModel.news, id: \.id) { news in
