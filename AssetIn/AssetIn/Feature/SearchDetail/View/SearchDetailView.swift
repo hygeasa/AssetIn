@@ -66,9 +66,8 @@ struct SearchDetailView: View {
             
             ScrollView {
                 VStack(spacing: 12) {
-                    ForEach(viewModel.inventarisList, id: \.id) { item in
+                    ForEach(viewModel.searchedInventory, id: \.id) { item in
                         Button {
-                            viewModel.inventoryId = item.id
                             viewModel.isShowAlert = true
                             if viewModel.isAdmin {
                                 viewModel.quantity = "\(item.stock)"
@@ -119,7 +118,26 @@ struct SearchDetailView: View {
                                 }
                             }
                         }
+                        .alert(viewModel.isAdmin ? "Add item" : "Borrow this item?", isPresented: $viewModel.isShowAlert) {
+                            TextField("0", text: $viewModel.quantity)
+                                .keyboardType(.numberPad)
+                            
+                            Button(role: .cancel) {
+                                
+                            } label: {
+                                Text("Back")
+                            }
+                            
+                            Button() {
+                                viewModel.updateOrRequestInventory(item)
+                            } label: {
+                                Text("Add")
+                            }
+                        } message: {
+                            Text("")
+                        }
                     }
+                    .animation(.spring(), value: viewModel.searchText)
                 }
                 .padding()
             }
@@ -145,24 +163,6 @@ struct SearchDetailView: View {
         .navigationBarBackButtonHidden(true)
         .onAppear {
             viewModel.getInventories()
-        }
-        .alert(viewModel.isAdmin ? "Add item" : "Borrow this item?", isPresented: $viewModel.isShowAlert) {
-            TextField("0", text: $viewModel.quantity)
-                .keyboardType(.numberPad)
-            
-            Button(role: .cancel) {
-                
-            } label: {
-                Text("Back")
-            }
-            
-            Button() {
-                viewModel.updateOrRequestInventory()
-            } label: {
-                Text("Add")
-            }
-        } message: {
-            Text("")
         }
         .alert(isPresented: $viewModel.isRequest, content: {
             Alert(title: Text("Thank you"), message: Text( viewModel.isAdmin ? "The item has been successfully added." : "Your request will be process soon!"), dismissButton: .default(Text("Okay")))

@@ -15,7 +15,11 @@ class SearchDetailViewModel : ObservableObject {
     @AppStorage("USER_ID") private var userId: String = ""
     
     @Published var inventarisList: [Inventaris] = []
-    @Published var inventoryId: String?
+    var searchedInventory: [Inventaris] {
+        inventarisList.filter({
+            $0.namaInventaris.lowercased().contains(searchText.lowercased())
+        })
+    }
     
     @Published var searchText: String = ""
     
@@ -52,8 +56,8 @@ class SearchDetailViewModel : ObservableObject {
     }
     
     @MainActor
-    func updateOrRequestInventory() {
-        isAdmin ? updateInventory() : requestBorrow()
+    func updateOrRequestInventory(_ data: Inventaris) {
+        isAdmin ? updateInventory() : requestBorrow(data)
     }
     
     @MainActor
@@ -62,27 +66,30 @@ class SearchDetailViewModel : ObservableObject {
     }
     
     @MainActor
-    func requestBorrow() {
-        if let inventoryId {
+    func requestBorrow(_ data: Inventaris) {
+        if let id = data.id {
             let request: History = .init(
-                inventoryId: inventoryId,
+                inventoryId: id,
                 studentId: userId,
+                categoryId: data.categoryId,
+                inventoryName: data.namaInventaris,
                 status: HistoryStatus.onProcess.rawValue,
                 stock: Int(quantity),
-                borrowedAt: nil,
-                expiredAt: nil,
-                returnedAt: nil
+                requestedAt: .now
             )
             
-            database.collection("Peminjaman")
-                .addDocument(data: request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.isRequest = true
-                        self.inventoryId = nil
+            do {
+                try database.collection("Peminjaman")
+                    .addDocument(from: request) { error in
+                        if let error {
+                            print(error)
+                        } else {
+                            self.isRequest = true
+                        }
                     }
-                }
+            } catch(let error) {
+                print(error)
+            }
         }
     }
 }

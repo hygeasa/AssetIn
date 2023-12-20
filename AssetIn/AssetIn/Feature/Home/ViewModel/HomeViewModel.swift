@@ -38,6 +38,7 @@ class HomeViewModel : ObservableObject {
     
     @MainActor
     func getUserData() {
+        guard userData == nil else { return }
         database.collection("Pengguna").document(userId)
             .getDocument { snapshot, error in
                 if let error {
@@ -52,6 +53,7 @@ class HomeViewModel : ObservableObject {
     
     @MainActor
     func getNewsData() {
+        guard news.isEmpty else { return }
         database.collection("Berita")
             .getDocuments { snapshot, error in
                 if let error {

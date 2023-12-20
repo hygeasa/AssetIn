@@ -34,11 +34,12 @@ struct OnGoingView: View {
                 
             }
             .padding(.horizontal)
+            
             ScrollView {
-                VStack {
-                    ForEach(0...1, id:\.self) { index in
+                LazyVStack {
+                    ForEach(viewModel.historyData, id:\.id) { item in
                         VStack(alignment: .leading, spacing: 5){
-                            Text("On process")
+                            Text(item.status ?? "–")
                                 .foregroundColor(.white)
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(6)
@@ -46,98 +47,26 @@ struct OnGoingView: View {
                                 .background(Color.AssetIn.orange)
                                 .cornerRadius(15)
                             
-                            Text(viewModel.inventory)
+                            Text(item.inventoryName ?? "–")
                                 .font(.system(size: 15, weight: .regular))
                             
-                            Text("Category: \(viewModel.category)")
+                            Text("Category: \((item.categoryId ?? "–").capitalized)")
                                 .font(.system(size: 12, weight: .semibold))
                             
-                            Text(viewModel.lending)
+                            Text("Requested: \((item.requestedAt ?? .now).toString(format: .withSlash))")
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundColor(.AssetIn.greyText)
                             
-                            Text("Deadline: \(viewModel.deadline)")
-                                .font(.system(size: 10,weight: .bold))
-                                .foregroundColor(.AssetIn.orange)
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
-                        }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                    }
-                }
-                VStack {
-                    ForEach(0...1, id:\.self) { index in
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("On going")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(6)
-                                .padding(.horizontal)
-                                .background(Color.AssetIn.purple)
-                                .cornerRadius(15)
-                            
-                            Text(viewModel.inventory)
-                                .font(.system(size: 15, weight: .regular))
-                            
-                            Text("Category: \(viewModel.category)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                            
-                            Text("Deadline: \(viewModel.deadline)")
-                                .font(.system(size: 10,weight: .bold))
-                                .foregroundColor(.AssetIn.orange)
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
-                        }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                    }
-                }
-                VStack {
-                    ForEach(0...1, id:\.self) { index in
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("Done")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(6)
-                                .padding(.horizontal)
-                                .background(Color.AssetIn.green)
-                                .cornerRadius(15)
-                            
-                            Text(viewModel.inventory)
-                                .font(.system(size: 15, weight: .regular))
-                            
-                            Text("Category: \(viewModel.category)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                            
-                            Button {
-                                navigator .navigate(to: .search(.init(), navigator))
-                            }label: {
-                                Text("Lend again")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding(6)
-                                    .background(Color.AssetIn.orange)
-                                    .cornerRadius(15)
-                                    .shadow(color: .black.opacity(0.1), radius: 5)
-                                    
+                            Group {
+                                if let expiredAt = item.expiredAt {
+                                    Text("Deadline: \((expiredAt).toString(format: .withSlash))")
+                                } else {
+                                    Text("–")
+                                }
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.horizontal)
-                            
-                            
+                            .font(.system(size: 10,weight: .bold))
+                            .foregroundColor(.AssetIn.orange)
+                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
                         }
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                         .padding()
@@ -148,8 +77,6 @@ struct OnGoingView: View {
                 }
             }
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            
-            
         }
         .background(
             VStack {
@@ -169,6 +96,9 @@ struct OnGoingView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.getHistoryData()
+        }
     }
 }
 
