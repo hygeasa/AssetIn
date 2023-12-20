@@ -70,7 +70,7 @@ struct HomeView: View {
                                 .overlay(alignment : .bottomTrailing) {
                                     if viewModel.isAdmin {
                                         Button {
-                                            
+                                            viewModel.showEditNews(news)
                                         } label: {
                                             Text("Edit news")
                                                 .font(.system(size: 13, weight: .regular))
@@ -86,6 +86,9 @@ struct HomeView: View {
                         .fullScreenCover(isPresented: $viewModel.isShowSafari) {
                             SafariWebView(url: URL(string: news.url ?? "")!)
                                 .ignoresSafeArea()
+                        }
+                        .fullScreenCover(isPresented: $viewModel.isShowEditNews) {
+                            EditNewsView(viewModel: viewModel)
                         }
                     }
                 }

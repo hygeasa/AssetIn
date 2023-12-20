@@ -71,6 +71,7 @@
 		48E752BE2B28553D0099F0DF /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 48E752BD2B28553D0099F0DF /* SDWebImageSwiftUI */; };
 		48FC24D52B1DA9E3006CA1F3 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FC24D42B1DA9E3006CA1F3 /* NotificationView.swift */; };
 		48FC24D72B1DA9F1006CA1F3 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FC24D62B1DA9F1006CA1F3 /* NotificationViewModel.swift */; };
+		4B7C65A12B3361BE002F144A /* EditNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7C65A02B3361BE002F144A /* EditNewsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,7 @@
 		48E752B02B2837BF0099F0DF /* SearchDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewModel.swift; sourceTree = "<group>"; };
 		48FC24D42B1DA9E3006CA1F3 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		48FC24D62B1DA9F1006CA1F3 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		4B7C65A02B3361BE002F144A /* EditNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNewsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -668,6 +670,7 @@
 			isa = PBXGroup;
 			children = (
 				48CAEC212B0CBAC100D9169F /* HomeView.swift */,
+				4B7C65A02B3361BE002F144A /* EditNewsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -903,6 +906,7 @@
 			files = (
 				483817952AED580B00A1EADB /* LoginView.swift in Sources */,
 				48084EFC2B21563E00DD5575 /* ChangePasswordView.swift in Sources */,
+				4B7C65A12B3361BE002F144A /* EditNewsView.swift in Sources */,
 				484D30342B2A1B5C002B3880 /* Inventory.swift in Sources */,
 				48CAEC1F2B0CBA8E00D9169F /* HomeViewModel.swift in Sources */,
 				4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */,
@@ -1114,7 +1118,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AssetIn/Preview Content\"";
-				DEVELOPMENT_TEAM = CYNQH7WY8M;
+				DEVELOPMENT_TEAM = 39B633LG23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AssetIn/Info.plist;
@@ -1146,7 +1150,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AssetIn/Preview Content\"";
-				DEVELOPMENT_TEAM = CYNQH7WY8M;
+				DEVELOPMENT_TEAM = 39B633LG23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AssetIn/Info.plist;

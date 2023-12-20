@@ -26,9 +26,19 @@ class HomeViewModel : ObservableObject {
     @Published var news: [News] = []
     @Published var isShowSafari = false
     
+    @Published var currentNews: News?
+    @Published var isShowEditNews = false
+    @Published var newsTitle = ""
+    @Published var newsURL = ""
+    
     var isAdmin: Bool {
         loginStatus == 2
     }
+    
+    var updateNewsDisabled: Bool {
+        newsTitle.isEmpty || newsURL.isEmpty || currentNews == nil
+    }
+    
     @Published var isAccept : Bool = true
     
     @Published var place : String = ""
@@ -66,5 +76,45 @@ class HomeViewModel : ObservableObject {
                     }
                 }
             }
+    }
+    
+    @MainActor
+    func showEditNews(_ data: News) {
+        currentNews = data
+        newsTitle = data.title ?? ""
+        newsURL = data.url ?? ""
+        isShowEditNews = true
+    }
+    
+    @MainActor
+    func updateNews() {
+        if let currentNews,
+           let id = currentNews.id,
+           let thumbnail = currentNews.thumbnail
+        {
+            let newData = News(
+                id: id,
+                thumbnail: thumbnail,
+                title: self.newsTitle,
+                url: self.newsURL
+            )
+            
+            database.collection("Berita").document(id)
+                .updateData(newData.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.resetNewsData()
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    func resetNewsData() {
+        currentNews = nil
+        newsTitle = ""
+        newsURL = ""
+        isShowEditNews = false
     }
 }
