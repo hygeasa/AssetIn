@@ -6,12 +6,34 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class TakeViewModel : ObservableObject {
-    @Published var deadline : String = "10/06/2023"
-    @Published var inventory : String = "Proyektor"
-    @Published var place : String = "Koperasi"
-    @Published var category: String = "School Supplies"
+    @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
+    @AppStorage("USER_ID") private var userId: String = ""
     
-    @Published var data = []
+    @Published var historyData: [History] = []
+    @Published var quantity = "1"
+    
+    @Published var isShowAlert = false
+    @Published var isRequest = false
+    
+    private var database = Firestore.firestore()
+    
+    @MainActor
+    func getHistoryData() {
+        database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
+            .whereField("status", isEqualTo: "On Process")
+            .whereField("place", isNotEqualTo: "")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print(error)
+                } else {
+                    self.historyData = snapshot?.documents.compactMap{
+                        try? $0.data(as: History.self)
+                    } ?? []
+                }
+            }
+    }
 }

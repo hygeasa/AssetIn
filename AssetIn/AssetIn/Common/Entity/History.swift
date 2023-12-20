@@ -15,6 +15,7 @@ struct History: Codable, Identifiable {
     var categoryId: String?
     var inventoryName: String?
     var status: String?
+    var place: String?
     var stock: Int?
     var requestedAt: Date?
     var borrowedAt: Date?
@@ -46,6 +47,10 @@ struct History: Codable, Identifiable {
         
         if let status {
             try container.encode(status, forKey: .status)
+        }
+        
+        if let place {
+            try container.encode(place, forKey: .place)
         }
         
         if let stock {

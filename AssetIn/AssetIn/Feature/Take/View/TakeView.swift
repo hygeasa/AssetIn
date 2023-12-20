@@ -36,34 +36,39 @@ struct TakeView: View {
             .padding(.horizontal)
             
             Group {
-                if viewModel.data.isEmpty {
+                if viewModel.historyData.isEmpty {
                     TakeEmptyView(navigator: navigator)
                 } else {
                     ScrollView {
                         VStack(spacing: 10) {
-                            ForEach(0...2, id:\.self) { index in
+                            ForEach(viewModel.historyData, id:\.id) { item in
                                 VStack(alignment: .leading, spacing: 5){
                                     
-                                    Text(viewModel.inventory)
+                                    Text(item.inventoryName ?? "–")
                                         .font(.system(size: 15, weight: .regular))
                                     
-                                    Text("Category: \(viewModel.category)")
+                                    Text("Category: \((item.categoryId ?? "–").capitalized)")
                                         .font(.system(size: 12, weight: .semibold))
                                     
                                     HStack(spacing: 1){
-                                        Text("You can take your stuff here : ")
+                                        Text("Take your stuff at ")
                                             .font(.system(size: 10, weight: .medium))
                                             .foregroundColor(.AssetIn.greyText)
-                                        Text(viewModel.place)
-                                            .font(.system(size: 10, weight: .medium))
-                                            .foregroundColor(.AssetIn.greyText)
+                                        Text(item.place ?? "–")
+                                            .font(.system(size: 10, weight: .bold))
+                                            .foregroundColor(.AssetIn.orange)
                                     }
                                     
-                                    
-                                    Text("Deadline: \(viewModel.deadline)")
-                                        .font(.system(size: 10,weight: .bold))
-                                        .foregroundColor(.AssetIn.orange)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                    Group {
+                                        if let deadline = item.expiredAt {
+                                            Text("Deadline: \(deadline.toString(format: .withSlash))")
+                                        } else {
+                                            Text("Deadline: –")
+                                        }
+                                    }
+                                    .font(.system(size: 10,weight: .bold))
+                                    .foregroundColor(.AssetIn.orange)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding()
@@ -95,6 +100,9 @@ struct TakeView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.getHistoryData()
+        }
     }
 }
 

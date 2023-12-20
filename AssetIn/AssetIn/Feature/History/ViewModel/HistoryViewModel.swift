@@ -20,8 +20,6 @@ class HistoryViewModel: ObservableObject {
     @Published var isShowAlert = false
     @Published var isRequest = false
     
-    @Published var data = []
-    
     private var database = Firestore.firestore()
     
     @MainActor
