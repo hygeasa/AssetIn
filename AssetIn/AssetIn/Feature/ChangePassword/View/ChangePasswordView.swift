@@ -51,7 +51,7 @@ struct ChangePasswordView: View {
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundColor(.black)
                         
-                        TextField("Your new password", text: $viewModel.passwordText)
+                        SecureField("Your new password", text: $viewModel.passwordText)
                             .font(.system(size: 11,  weight: .regular ))
                             .padding()
                             .background(focused == 3 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
@@ -70,7 +70,7 @@ struct ChangePasswordView: View {
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundColor(.black)
                             
-                            SecureField("Confirm your new password..", text: $viewModel.passwordText)
+                            SecureField("Confirm your new password..", text: $viewModel.confirmPasswordText)
                                 .font(.system(size: 11,  weight: .regular ))
                                 .padding()
                                 .background(focused == 2 ? Color .AssetIn.yellow.opacity(0.08) :
@@ -83,23 +83,32 @@ struct ChangePasswordView: View {
                                 .cornerRadius(10)
                                 .tag(2)
                                 .focused($focused, equals: 2)
-                                .padding(.vertical, 10)
+                                .padding(.top, 10)
+                                .padding(.bottom, viewModel.passwordNotMatch ? 0 : 10)
+                            
+                            if viewModel.passwordNotMatch {
+                                Text("*your password doesn't match")
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundColor(.red)
+                                    .padding(.bottom, 10)
+                            }
                         })
 
                         Button {
-                            viewModel.isChangeSuccess = true
+                            viewModel.changePassword()
                         }label: {
                             Text("Save")
                                 .foregroundColor(.white)
                                 .font(.system(size: 13, weight: .semibold))
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.AssetIn.yellow)
+                                .background(viewModel.buttonDisabled ? Color.AssetIn.greyChecklist : Color.AssetIn.yellow)
                                 .cornerRadius(10)
                                 .shadow(color: .black.opacity(0.1), radius: 5)
                                 .padding(.vertical)
                         }
                         .padding(.vertical, 10)
+                        .disabled(viewModel.buttonDisabled)
                     })
                     
                 }
@@ -111,16 +120,18 @@ struct ChangePasswordView: View {
             .cornerRadius(20)
             .shadow(color: .black.opacity(0.1), radius: 5)
             .padding()
-
         }
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
-//        .alert(isPresented: $viewModel.isAccept, content: {
-//            Alert(title: Text("Yeay!"), message: Text("Password Update Complete!"), dismissButton: .default(Text("Okay"), action: {
-//                navigator.back()
-//            }))
-//        })
+        .alert(isPresented: $viewModel.isShowAlert, content: {
+            Alert(
+                title: Text(viewModel.isError ? "Oopss.." : "Yeay!"),
+                message: Text(viewModel.isError ? viewModel.errorText : "Password Update Complete!"),
+                dismissButton: .default(Text("Okay"), action: {
+                navigator.back()
+            }))
+        })
     }
 }
 

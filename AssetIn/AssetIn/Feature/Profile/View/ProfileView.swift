@@ -28,11 +28,19 @@ struct ProfileView: View {
                         .frame(width: 50, height: 50)
                         .padding(.horizontal)
                 }else {
-                    Image.logoAssetin
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .padding(.horizontal)
+                    Group {
+                        if let imageURL = viewModel.userData?.imageURL {
+                            AsyncImage(url: URL(string: imageURL))
+                                .scaledToFill()
+                        } else {
+                            Image.imageProfile
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    }
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .padding(.horizontal)
                 }
                 
             }
@@ -42,14 +50,14 @@ struct ProfileView: View {
                 VStack (alignment : .center) {
                     
                     if !viewModel.isAdmin {
-                        Text(viewModel.name)
+                        Text(viewModel.userData?.nama ?? "")
                             .font(.system(size: 17, weight:  .semibold))
                     }else {
                         Text("Admin")
                             .font(.system(size: 17, weight:  .semibold))
                     }
                     
-                    Text(viewModel.email)
+                    Text(viewModel.userData?.email ?? "")
                         .font(.system(size: 15, weight: .regular))
                         .opacity(0.6)
                 }
@@ -92,15 +100,10 @@ struct ProfileView: View {
                         VStack (alignment : .leading) {
                             Text("Role user")
                                 .font(.system(size: 15, weight: .regular))
-                            if !viewModel.isAdmin {
-                                Text(viewModel.studentRole)
-                                    .font(.system(size: 12, weight: .regular))
-                                    .foregroundColor(.AssetIn.orange)
-                            }else {
-                                Text(viewModel.adminRole)
-                                    .font(.system(size: 12, weight: .regular))
-                                    .foregroundColor(.AssetIn.orange)
-                            }
+                            
+                            Text(viewModel.isAdmin ? "Admin" : "Student")
+                                .font(.system(size: 12, weight: .regular))
+                                .foregroundColor(.AssetIn.orange)
                         }
                     }
                 }
@@ -120,9 +123,7 @@ struct ProfileView: View {
             Spacer()
             
             Button {
-                withAnimation {
-                    viewModel.loginStatus = 0
-                }
+                viewModel.logout()
             } label: {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -159,6 +160,9 @@ struct ProfileView: View {
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.getUserData()
+        }
         
     }
 }
