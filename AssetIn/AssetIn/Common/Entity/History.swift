@@ -12,6 +12,8 @@ struct History: Codable, Identifiable {
     var id: String? = UUID().uuidString
     var inventoryId: String?
     var studentId: String?
+    var studentName: String?
+    var studentNIS: String?
     var categoryId: String?
     var inventoryName: String?
     var status: String?
@@ -36,6 +38,15 @@ struct History: Codable, Identifiable {
         if let studentId {
             try container.encode(studentId, forKey: .studentId)
         }
+        
+        if let studentName {
+            try container.encode(studentName, forKey: .studentName)
+        }
+        
+        if let studentNIS {
+            try container.encode(studentNIS, forKey: .studentNIS)
+        }
+        
         
         if let categoryId {
             try container.encode(categoryId, forKey: .categoryId)
@@ -79,4 +90,5 @@ enum HistoryStatus: String {
     case done = "Done"
     case onGoing = "On Going"
     case onProcess = "On Process"
+    case ready = "Ready"
 }

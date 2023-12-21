@@ -132,6 +132,7 @@ struct HistoryView: View {
         .navigationBarBackButtonHidden(true)
         .onAppear {
             viewModel.getHistoryData()
+            viewModel.getUserData()
         }
         .alert(isPresented: $viewModel.isRequest, content: {
             Alert(title: Text("Thank you"), message: Text("Your request will be process soon!"), dismissButton: .default(Text("Okay")))

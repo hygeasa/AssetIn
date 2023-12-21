@@ -14,6 +14,8 @@ class SearchDetailViewModel : ObservableObject {
     @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
     @AppStorage("USER_ID") private var userId: String = ""
     
+    @Published var userData: User?
+    
     @Published var inventarisList: [Inventaris] = []
     var searchedInventory: [Inventaris] {
         if searchText.isEmpty {
@@ -75,6 +77,8 @@ class SearchDetailViewModel : ObservableObject {
             let request: History = .init(
                 inventoryId: id,
                 studentId: userId,
+                studentName: userData?.nama,
+                studentNIS: userData?.nis,
                 categoryId: data.categoryId,
                 inventoryName: data.namaInventaris,
                 status: HistoryStatus.onProcess.rawValue,
@@ -82,18 +86,29 @@ class SearchDetailViewModel : ObservableObject {
                 requestedAt: .now
             )
             
-            do {
-                try database.collection("Peminjaman")
-                    .addDocument(from: request) { error in
-                        if let error {
-                            print(error)
-                        } else {
-                            self.isRequest = true
-                        }
+            database.collection("Peminjaman").document(request.id ?? "")
+                .setData(request.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.isRequest = true
                     }
-            } catch(let error) {
-                print(error)
-            }
+                }
         }
+    }
+    
+    @MainActor
+    func getUserData() {
+        guard userData == nil else { return }
+        database.collection("Pengguna").document(userId)
+            .getDocument { snapshot, error in
+                if let error {
+                    print(error)
+                } else if let snapshot,
+                          let data = try? snapshot.data(as: User.self)
+                {
+                    self.userData = data
+                }
+            }
     }
 }

@@ -87,9 +87,6 @@ struct HomeView: View {
                             SafariWebView(url: URL(string: news.url ?? "")!)
                                 .ignoresSafeArea()
                         }
-                        .fullScreenCover(isPresented: $viewModel.isShowEditNews) {
-                            EditNewsView(viewModel: viewModel)
-                        }
                     }
                 }
                 .tint(.AssetIn.orange)
@@ -227,10 +224,14 @@ struct HomeView: View {
                     .cornerRadius(15)
                 )
             } else {
-                VStack {
-                    ForEach(0...6, id:\.self) { index in
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("On process")
+                VStack(alignment: .leading) {
+                    Text("Requested")
+                        .font(.headline)
+                        .padding(.horizontal)
+                    
+                    ForEach(viewModel.historyData, id:\.id) { item in
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("On Process")
                                 .foregroundColor(.white)
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(6)
@@ -238,45 +239,54 @@ struct HomeView: View {
                                 .background(Color.AssetIn.orange)
                                 .cornerRadius(15)
                             
-                            Text(viewModel.inventory)
+                            Text(item.inventoryName ?? "–")
                                 .font(.system(size: 15, weight: .regular))
                             
-                            Text("Category: \(viewModel.category)")
+                            Text("Category: \((item.categoryId ?? "").capitalized)")
                                 .font(.system(size: 12, weight: .semibold))
                             
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                                .padding(.vertical, 5)
+                            if let expiredAt = item.expiredAt {
+                                Text(expiredAt.toString(format: .withSlash))
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundColor(.AssetIn.greyText)
+                                    .padding(.vertical, 5)
+                            }
                             
                             HStack {
+                                HStack(spacing: 0) {
+                                    Text("by ")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 12, weight: .semibold))
+                                    
+                                    Text("\(item.studentName ?? "–") (\(item.studentNIS ?? "–"))")
+                                        .foregroundColor(.AssetIn.purple)
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .lineLimit(1)
+                                }
+                                
                                 Button {
-                                    viewModel.isAccept = true
-                                }label : {
+                                    viewModel.showRequestBottomSheet(item)
+                                } label : {
                                     Text("Accept")
                                         .foregroundColor(.white)
-                                        .font(.system(size :10, weight: .bold))
-                                        .padding(.vertical, 5)
-                                        .padding(.horizontal, 50)
+                                        .font(.system(size: 10, weight: .bold))
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal, 30)
                                         .background(Color.AssetIn.green)
                                         .cornerRadius(10)
                                 }
-                                
-                                Text("Deadline: \(viewModel.deadline)")
-                                    .font(.system(size: 10,weight: .bold))
-                                    .foregroundColor(.AssetIn.orange)
-                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
                             }
                         }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(15)
                         .padding(.horizontal)
                     }
                 }
+                .padding(.horizontal)
             }
-            
         }
         .background(
             VStack {
@@ -297,6 +307,13 @@ struct HomeView: View {
         .onAppear {
             viewModel.getUserData()
             viewModel.getNewsData()
+            viewModel.getHistoryData()
+        }
+        .fullScreenCover(isPresented: $viewModel.isShowEditNews) {
+            EditNewsView(viewModel: viewModel)
+        }
+        .fullScreenCover(isPresented: $viewModel.isShowAcceptBottomSheet) {
+            AcceptRequestBottomSheet(viewModel: viewModel)
         }
     }
     

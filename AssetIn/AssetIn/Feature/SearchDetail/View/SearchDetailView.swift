@@ -163,6 +163,7 @@ struct SearchDetailView: View {
         .navigationBarBackButtonHidden(true)
         .onAppear {
             viewModel.getInventories()
+            viewModel.getUserData()
         }
         .alert(isPresented: $viewModel.isRequest, content: {
             Alert(title: Text("Thank you"), message: Text( viewModel.isAdmin ? "The item has been successfully added." : "Your request will be process soon!"), dismissButton: .default(Text("Okay")))

@@ -15,16 +15,11 @@ class HomeViewModel : ObservableObject {
     @AppStorage("USER_ID") private var userId: String = ""
     
     @Published var userData: User?
-    @Published var userclass : String = "2A"
-    @Published var deadline : String = "10/06/2023"
-    @Published var inventory : String = "Proyektor"
-    @Published var category : String = "School suplies"
-    @Published var lending : String = "05/06/2023"
-    
-    @Published var borrowedItem: [History] = []
     
     @Published var news: [News] = []
     @Published var isShowSafari = false
+    
+    @Published var historyData: [History] = []
     
     @Published var currentNews: News?
     @Published var isShowEditNews = false
@@ -39,12 +34,40 @@ class HomeViewModel : ObservableObject {
         newsTitle.isEmpty || newsURL.isEmpty || currentNews == nil
     }
     
-    @Published var isAccept : Bool = true
+    @Published var isShowAcceptBottomSheet = false
+    @Published var isAccepted = false
+    @Published var currentRequest: History?
+    @Published var currentInventory: Inventaris?
+    @Published var takePlace = ""
+    @Published var currentQuantity = ""
+    var currentStock: Int {
+        currentInventory?.stock ?? 0
+    }
     
-    @Published var place : String = ""
-    @Published var deadlineAlert : String = ""
+    var isOutOfStock: Bool {
+        currentStock < Int(currentQuantity) ?? 0
+    }
+    
+    var isQuantityZero: Bool {
+        currentQuantity.isEmpty || (Int(currentQuantity) ?? 0) < 1
+    }
+    
+    var acceptButtonDisabled: Bool {
+        isOutOfStock || takePlace.isEmpty || isQuantityZero
+    }
     
     private var database = Firestore.firestore()
+    
+    func statusColor(_ status: String) -> Color {
+        switch status {
+        case HistoryStatus.done.rawValue:
+            return .AssetIn.green
+        case HistoryStatus.onGoing.rawValue:
+            return .AssetIn.purple
+        default:
+            return .AssetIn.orange
+        }
+    }
     
     @MainActor
     func getUserData() {
@@ -116,5 +139,96 @@ class HomeViewModel : ObservableObject {
         newsTitle = ""
         newsURL = ""
         isShowEditNews = false
+    }
+    
+    @MainActor
+    func getHistoryData() {
+        if isAdmin {
+            database.collection("Peminjaman").whereField("status", isEqualTo: "On Process")
+                .getDocuments { snapshot, error in
+                    if let error {
+                        print(error)
+                    } else if let snapshot {
+                        withAnimation {
+                            self.historyData = snapshot.documents.compactMap({
+                                try? $0.data(as: History.self)
+                            })
+                            self.historyData = self.historyData.filter({
+                                $0.place == nil
+                            })
+                        }
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    func showRequestBottomSheet(_ data: History) {
+        currentRequest = data
+        takePlace = ""
+        currentQuantity = "\(data.stock ?? 0)"
+        checkCurrentStock()
+        isShowAcceptBottomSheet = true
+    }
+    
+    @MainActor
+    func checkCurrentStock() {
+        if let currentRequest, let id = currentRequest.inventoryId {
+            database.collection("Inventaris").document(id)
+                .getDocument { snapshot, error in
+                    if let error {
+                        print(error)
+                    } else if let snapshot {
+                        self.currentInventory = try? snapshot.data(as: Inventaris.self)
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    func acceptRequest() {
+        if let currentRequest, let id = currentRequest.id {
+            var request = currentRequest
+            request.expiredAt = Calendar.current.date(byAdding: .day, value: 1, to: .now)
+            request.stock = Int(currentQuantity)
+            request.status = "Ready"
+            request.place = takePlace
+            
+            database.collection("Peminjaman").document(id)
+                .updateData(request.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.updateInventory()
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    func resetCurrentRequestData() {
+        getHistoryData()
+        currentRequest = nil
+        currentInventory = nil
+        takePlace = ""
+        currentQuantity = ""
+        isShowAcceptBottomSheet = false
+    }
+    
+    @MainActor
+    private func updateInventory() {
+        if let currentInventory, let id = currentInventory.id {
+            var request = currentInventory
+            request.stock -= (Int(currentQuantity) ?? 0)
+            
+            database.collection("Inventaris").document(id)
+                .updateData(request.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.isAccepted = true
+                    }
+                }
+        }
     }
 }

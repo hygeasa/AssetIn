@@ -24,8 +24,7 @@ class TakeViewModel : ObservableObject {
     @MainActor
     func getHistoryData() {
         database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
-            .whereField("status", isEqualTo: "On Process")
-            .whereField("place", isNotEqualTo: "")
+            .whereField("status", isEqualTo: "Ready")
             .getDocuments { snapshot, error in
                 if let error {
                     print(error)

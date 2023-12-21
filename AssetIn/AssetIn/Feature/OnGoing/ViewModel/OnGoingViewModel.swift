@@ -25,7 +25,7 @@ class OnGoingViewModel: ObservableObject {
     @MainActor
     func getHistoryData() {
         database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
-            .whereField("status", isNotEqualTo: "Done")
+            .whereField("status", notIn: ["Done", "Ready"])
             .getDocuments { snapshot, error in
                 if let error {
                     print(error)
@@ -39,8 +39,6 @@ class OnGoingViewModel: ObservableObject {
     
     func statusColor(_ status: String) -> Color {
         switch status {
-        case HistoryStatus.done.rawValue:
-            return .AssetIn.green
         case HistoryStatus.onGoing.rawValue:
             return .AssetIn.purple
         default:

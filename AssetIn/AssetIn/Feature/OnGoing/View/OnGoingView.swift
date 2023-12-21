@@ -44,7 +44,7 @@ struct OnGoingView: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(6)
                                 .padding(.horizontal)
-                                .background(Color.AssetIn.orange)
+                                .background(viewModel.statusColor(item.status ?? ""))
                                 .cornerRadius(15)
                             
                             Text(item.inventoryName ?? "–")
