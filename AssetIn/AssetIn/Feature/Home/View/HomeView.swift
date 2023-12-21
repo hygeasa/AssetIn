@@ -13,7 +13,7 @@ struct HomeView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing : 32) {
+            VStack(spacing: 18) {
                 
                 HStack{
                     VStack(alignment : .leading, spacing : 2){
@@ -184,110 +184,55 @@ struct HomeView: View {
                     Color.white
                         .cornerRadius(15)
                 )
-            }
-            .padding(30)
-            
-            if !viewModel.isAdmin {
-                HStack(content: {
-                    Text("My Stuff")
-                        .font(.system(size: 23, weight: .bold))
-                        .foregroundColor(.white)
-                        .padding()
-                    Button {
-                        navigator.navigate(to: .take(.init(), navigator))
-                    } label: {
-                        Text("Take")
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundColor(.AssetIn.orange)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 30)
-                            .background(
-                                Color.white
-                                    .cornerRadius(10)
-                                    .shadow(color: .black.opacity(0.1), radius: 5)
-                            )
-                        
-                    }
-                    .padding()
-                })
                 
-                .padding(5)
-                .padding(.horizontal,40)
-                .background(
-                    RadialGradient(
-                        gradient: Gradient(colors: [Color.orange, Color.yellow]),
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: 200
-                    )
-                    .edgesIgnoringSafeArea(.all)
-                    .cornerRadius(15)
-                )
-            } else {
-                VStack(alignment: .leading) {
-                    Text("Requested")
-                        .font(.headline)
-                        .padding(.horizontal)
-                    
-                    ForEach(viewModel.historyData, id:\.id) { item in
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("On Process")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(6)
-                                .padding(.horizontal)
-                                .background(Color.AssetIn.orange)
-                                .cornerRadius(15)
-                            
-                            Text(item.inventoryName ?? "–")
-                                .font(.system(size: 15, weight: .regular))
-                            
-                            Text("Category: \((item.categoryId ?? "").capitalized)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            if let expiredAt = item.expiredAt {
-                                Text(expiredAt.toString(format: .withSlash))
-                                    .font(.system(size: 10, weight: .medium))
-                                    .foregroundColor(.AssetIn.greyText)
-                                    .padding(.vertical, 5)
-                            }
-                            
-                            HStack {
-                                HStack(spacing: 0) {
-                                    Text("by ")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: 12, weight: .semibold))
-                                    
-                                    Text("\(item.studentName ?? "–") (\(item.studentNIS ?? "–"))")
-                                        .foregroundColor(.AssetIn.purple)
-                                        .font(.system(size: 12, weight: .semibold))
-                                        .lineLimit(1)
-                                }
-                                
-                                Button {
-                                    viewModel.showRequestBottomSheet(item)
-                                } label : {
-                                    Text("Accept")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 10, weight: .bold))
-                                        .padding(.vertical, 10)
-                                        .padding(.horizontal, 30)
-                                        .background(Color.AssetIn.green)
+                if !viewModel.isAdmin {
+                    HStack(content: {
+                        Text("My Stuff")
+                            .font(.system(size: 23, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding()
+                        Button {
+                            navigator.navigate(to: .take(.init(), navigator))
+                        } label: {
+                            Text("Take")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundColor(.AssetIn.orange)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 30)
+                                .background(
+                                    Color.white
                                         .cornerRadius(10)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                            }
+                                        .shadow(color: .black.opacity(0.1), radius: 5)
+                                )
+                            
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .background(Color.white)
+                    })
+                    
+                    .padding(5)
+                    .padding(.horizontal,40)
+                    .background(
+                        RadialGradient(
+                            gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 200
+                        )
+                        .edgesIgnoringSafeArea(.all)
                         .cornerRadius(15)
-                        .padding(.horizontal)
+                    )
+                } else {
+                    Section {
+                        AdminList()
+                    } header: {
+                        AdminHeader()
                     }
                 }
-                .padding(.horizontal)
             }
+            .frame(maxWidth: .infinity)
+            .padding(30)
         }
+        .frame(maxWidth: .infinity)
         .background(
             VStack {
                 RadialGradient(
@@ -307,7 +252,7 @@ struct HomeView: View {
         .onAppear {
             viewModel.getUserData()
             viewModel.getNewsData()
-            viewModel.getHistoryData()
+            viewModel.adminOnApper()
         }
         .fullScreenCover(isPresented: $viewModel.isShowEditNews) {
             EditNewsView(viewModel: viewModel)
@@ -316,7 +261,131 @@ struct HomeView: View {
             AcceptRequestBottomSheet(viewModel: viewModel)
         }
     }
+}
+
+extension HomeView {
+    @ViewBuilder
+    func AdminHeader() -> some View {
+        HStack {
+            Button {
+                viewModel.currentSection = .request
+                viewModel.getHistoryData()
+            } label: {
+                Text("Request")
+                    .foregroundColor(viewModel.currentSection == .request ? .AssetIn.orange : .black)
+                    .font(viewModel.currentSection == .request ? .headline : .body)
+                    .frame(maxWidth: .infinity)
+            }
+            
+            Rectangle()
+                .foregroundColor(.AssetIn.greyText)
+                .frame(width: 1)
+            
+            Button {
+                viewModel.currentSection = .ready
+                viewModel.getReadyData()
+            } label: {
+                Text("Ready")
+                    .foregroundColor(viewModel.currentSection == .ready ? .AssetIn.orange : .black)
+                    .font(viewModel.currentSection == .ready ? .headline : .body)
+                    .frame(maxWidth: .infinity)
+            }
+            
+            Rectangle()
+                .foregroundColor(.AssetIn.greyText)
+                .frame(width: 1)
+            
+            Button {
+                viewModel.currentSection = .onGoing
+                viewModel.getOnGoingData()
+            } label: {
+                Text("On Going")
+                    .foregroundColor(viewModel.currentSection == .onGoing ? .AssetIn.orange : .black)
+                    .font(viewModel.currentSection == .onGoing ? .headline : .body)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(8)
+    }
     
+    @ViewBuilder
+    func AdminList() -> some View {
+        VStack(alignment: .leading) {
+            if viewModel.currentSectionData.isEmpty {
+                Text("It's still empty...")
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+            } else {
+                ForEach(viewModel.currentSectionData, id:\.id) { item in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(viewModel.statusText)
+                            .foregroundColor(.white)
+                            .font(.system(size: 12, weight: .medium))
+                            .padding(6)
+                            .padding(.horizontal)
+                            .background(viewModel.statusColor)
+                            .cornerRadius(15)
+                        
+                        Text(item.inventoryName ?? "–")
+                            .font(.system(size: 15, weight: .regular))
+                        
+                        Text("Category: \((item.categoryId ?? "").capitalized)")
+                            .font(.system(size: 12, weight: .semibold))
+                        
+                        if let expiredAt = item.expiredAt {
+                            Text(expiredAt.toString(format: .withSlash))
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundColor(.AssetIn.greyText)
+                                .padding(.vertical, 5)
+                        }
+                        
+                        HStack {
+                            HStack(spacing: 0) {
+                                Text("by ")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 12, weight: .semibold))
+                                
+                                Text("\(item.studentName ?? "–") (\(item.studentNIS ?? "–"))")
+                                    .foregroundColor(.AssetIn.purple)
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .lineLimit(1)
+                            }
+                            
+                            Button {
+                                viewModel.adminAcceptButtonAction(item)
+                            } label : {
+                                Text(viewModel.buttonStatusText)
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 10, weight: .bold))
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 30)
+                                    .background(Color.AssetIn.green)
+                                    .cornerRadius(10)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(15)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .animation(.spring(), value: viewModel.currentSection)
+        .alert(isPresented: $viewModel.isShowAlert, content: {
+            Alert(
+                title: Text("Are you sure?"),
+                message: Text(viewModel.alertMessage),
+                primaryButton: .default(Text("Yes"), action: viewModel.alertAction),
+                secondaryButton: .cancel(viewModel.resetCurrentRequestData)
+            )
+        })
+    }
 }
 
 #Preview {

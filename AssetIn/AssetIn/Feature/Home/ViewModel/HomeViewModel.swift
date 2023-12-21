@@ -9,10 +9,22 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+enum AdminHeaderSection {
+    case request
+    case ready
+    case onGoing
+}
+
 class HomeViewModel : ObservableObject {
     
     @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
     @AppStorage("USER_ID") private var userId: String = ""
+    
+    @Published var currentSection: AdminHeaderSection = .request
+    
+    @Published var isShowAlert = false
+    @Published var alertMessage = ""
+    @Published var alertAction: () -> Void = {}
     
     @Published var userData: User?
     
@@ -20,6 +32,52 @@ class HomeViewModel : ObservableObject {
     @Published var isShowSafari = false
     
     @Published var historyData: [History] = []
+    @Published var readyData: [History] = []
+    @Published var onGoingData: [History] = []
+    
+    var currentSectionData: [History] {
+        switch currentSection {
+        case .request:
+            historyData
+        case .ready:
+            readyData
+        case .onGoing:
+            onGoingData
+        }
+    }
+    
+    var statusText: String {
+        switch currentSection {
+        case .request:
+            "On Process"
+        case .ready:
+            "Ready"
+        case .onGoing:
+            "On Going"
+        }
+    }
+    
+    var buttonStatusText: String {
+        switch currentSection {
+        case .request:
+            "Accept"
+        case .ready:
+            "Borrowed"
+        case .onGoing:
+            "Returned"
+        }
+    }
+    
+    var statusColor: Color {
+        switch currentSection {
+        case .request:
+            return .AssetIn.orange
+        case .ready:
+            return .blue
+        case .onGoing:
+            return .AssetIn.purple
+        }
+    }
     
     @Published var currentNews: News?
     @Published var isShowEditNews = false
@@ -142,24 +200,59 @@ class HomeViewModel : ObservableObject {
     }
     
     @MainActor
-    func getHistoryData() {
+    func adminOnApper() {
         if isAdmin {
-            database.collection("Peminjaman").whereField("status", isEqualTo: "On Process")
-                .getDocuments { snapshot, error in
-                    if let error {
-                        print(error)
-                    } else if let snapshot {
-                        withAnimation {
-                            self.historyData = snapshot.documents.compactMap({
-                                try? $0.data(as: History.self)
-                            })
-                            self.historyData = self.historyData.filter({
-                                $0.place == nil
-                            })
-                        }
+            getHistoryData()
+            getReadyData()
+        }
+    }
+    
+    @MainActor
+    func getHistoryData() {
+        database.collection("Peminjaman").whereField("status", isEqualTo: "On Process")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print(error)
+                } else if let snapshot {
+                    withAnimation {
+                        self.historyData = snapshot.documents.compactMap({
+                            try? $0.data(as: History.self)
+                        })
                     }
                 }
-        }
+            }
+    }
+    
+    @MainActor
+    func getReadyData() {
+        database.collection("Peminjaman").whereField("status", isEqualTo: "Ready")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print(error)
+                } else if let snapshot {
+                    withAnimation {
+                        self.readyData = snapshot.documents.compactMap({
+                            try? $0.data(as: History.self)
+                        })
+                    }
+                }
+            }
+    }
+    
+    @MainActor
+    func getOnGoingData() {
+        database.collection("Peminjaman").whereField("status", isEqualTo: "On Going")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print(error)
+                } else if let snapshot {
+                    withAnimation {
+                        self.onGoingData = snapshot.documents.compactMap({
+                            try? $0.data(as: History.self)
+                        })
+                    }
+                }
+            }
     }
     
     @MainActor
@@ -207,11 +300,13 @@ class HomeViewModel : ObservableObject {
     
     @MainActor
     func resetCurrentRequestData() {
-        getHistoryData()
+        adminOnApper()
         currentRequest = nil
         currentInventory = nil
         takePlace = ""
         currentQuantity = ""
+        alertMessage = ""
+        alertAction = {}
         isShowAcceptBottomSheet = false
     }
     
@@ -227,6 +322,90 @@ class HomeViewModel : ObservableObject {
                         print(error)
                     } else {
                         self.isAccepted = true
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    func adminAcceptButtonAction(_ data: History) {
+        switch currentSection {
+        case .request:
+            showRequestBottomSheet(data)
+        case .ready:
+            showReadyAlert(data)
+        case .onGoing:
+            showOnGoingAlert(data)
+        }
+    }
+    
+    @MainActor
+    func showReadyAlert(_ data: History) {
+        currentRequest = data
+        alertMessage = "\(data.inventoryName ?? "") already borrowed by \(data.studentName ?? "")?"
+        alertAction = changeToOnGoing
+        isShowAlert = true
+    }
+    
+    @MainActor
+    func showOnGoingAlert(_ data: History) {
+        currentRequest = data
+        checkCurrentStock()
+        currentQuantity = "\(data.stock ?? 0)"
+        alertMessage = "\(data.inventoryName ?? "") already returned by \(data.studentName ?? "")?"
+        alertAction = changeToDone
+        isShowAlert = true
+    }
+    
+    @MainActor
+    func changeToOnGoing() {
+        if let currentRequest, let id = currentRequest.id {
+            var request = currentRequest
+            request.expiredAt = Calendar.current.date(byAdding: .day, value: 1, to: .now)
+            request.status = "On Going"
+            request.borrowedAt = .now
+            
+            database.collection("Peminjaman").document(id)
+                .updateData(request.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.resetCurrentRequestData()
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    func changeToDone() {
+        if let currentRequest, let id = currentRequest.id {
+            var request = currentRequest
+            request.status = "Done"
+            request.returnedAt = .now
+            
+            database.collection("Peminjaman").document(id)
+                .updateData(request.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.addInventoryStock()
+                    }
+                }
+        }
+    }
+    
+    @MainActor
+    private func addInventoryStock() {
+        if let currentInventory, let id = currentInventory.id {
+            var request = currentInventory
+            request.stock += (Int(currentQuantity) ?? 0)
+            
+            database.collection("Inventaris").document(id)
+                .updateData(request.toJSON()) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.resetCurrentRequestData()
                     }
                 }
         }
