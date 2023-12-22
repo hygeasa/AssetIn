@@ -30,6 +30,8 @@ class SearchDetailViewModel : ObservableObject {
     @Published var searchText: String = ""
     
     @Published var isShowAlert = false
+    
+    @Published var currentInventory: Inventaris?
     @Published var quantity = "1"
     @Published var isRequest = false
     
@@ -68,7 +70,17 @@ class SearchDetailViewModel : ObservableObject {
     
     @MainActor
     func updateInventory() {
-        self.isRequest = true
+        if let currentInventory, let id = currentInventory.id {
+            database.collection("Inventaris").document(id)
+                .updateData(["stock":Int(self.quantity) ?? currentInventory.stock]) { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        self.isRequest = true
+                        self.getInventories()
+                    }
+                }
+        }
     }
     
     @MainActor

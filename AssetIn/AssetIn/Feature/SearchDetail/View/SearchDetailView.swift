@@ -39,7 +39,7 @@ struct SearchDetailView: View {
                 TextField("Search", text: $viewModel.searchText)
                     .font(.system(size: 15, weight: .regular))
                     .foregroundColor(.AssetIn.greyText)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding()
             .background(Color.white)
@@ -57,7 +57,7 @@ struct SearchDetailView: View {
                         
                     Text(viewModel.categoryText)
                         .font(.system(size: 12, weight: .medium))
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 
                 Divider()
@@ -71,6 +71,7 @@ struct SearchDetailView: View {
                             viewModel.isShowAlert = true
                             if viewModel.isAdmin {
                                 viewModel.quantity = "\(item.stock)"
+                                viewModel.currentInventory = item
                             }
                         } label: {
                             VStack(spacing:0) {
@@ -125,7 +126,7 @@ struct SearchDetailView: View {
                             Button(role: .cancel) {
                                 
                             } label: {
-                                Text("Back")
+                                Text("Cancel")
                             }
                             
                             Button() {
