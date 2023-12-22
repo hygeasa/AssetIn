@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ExpandedSessionView: View {
     
-    @State var inventory: InventoryType
+    @ObservedObject var viewModel: EditDataViewModel
+    @State var title: String
+    @Binding var inventory: [Inventaris]
     @State private var isExpanded = false
+    let navigation: (String) -> Void
     
     var body: some View {
         HStack(spacing: 0) {
@@ -26,11 +29,11 @@ struct ExpandedSessionView: View {
                 } label: {
                     HStack {
                         VStack(alignment: .leading, spacing : 5){
-                            Text(inventory.title)
+                            Text(title)
                                 .font(.system(size: 17, weight: .bold))
                             
                             HStack(spacing: 5){
-                                Text("\(inventory.items.count)")
+                                Text("\(inventory.count)")
                                     .font(.system(size: 13, weight: .regular))
                                 Text("item")
                                     .font(.system(size: 13, weight: .regular))
@@ -50,12 +53,14 @@ struct ExpandedSessionView: View {
                 
                 if isExpanded {
                     VStack {
-                        ForEach(inventory.items, id: \.id) { item in
+                        ForEach(inventory, id: \.id) { item in
                             Button {
-                                
+                                if let id = item.id {
+                                    navigation(id)
+                                }
                             } label: {
                                 HStack(spacing: 12) {
-                                    Text(item.name)
+                                    Text(item.namaInventaris)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     
                                     Image(systemName: "chevron.right")
@@ -69,7 +74,8 @@ struct ExpandedSessionView: View {
                         }
                         
                         Button {
-                            
+                            viewModel.currentCategory = title
+                            viewModel.isShowAddData = true
                         } label: {
                             Text("Add Item")
                                 .font(.system(size: 13, weight: .semibold))

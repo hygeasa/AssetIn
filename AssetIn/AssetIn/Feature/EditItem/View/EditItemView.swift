@@ -112,25 +112,6 @@ struct EditItemView: View {
                             .shadow(color: .black.opacity(0.1), radius: 5)
                     }
                     .padding(.horizontal)
-                    
-                    Button {
-                        
-                    }label: {
-                        Text("Cancel")
-                            .foregroundColor(.AssetIn.yellow)
-                            .font(.system(size: 13, weight: .semibold))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .inset(by: 0.5)
-                                    .stroke(Color.AssetIn.yellow, lineWidth: 0.9)
-                            }
-                            .cornerRadius(10)
-                            .shadow(color: .black.opacity(0.1), radius: 5)
-                    }
-                    .padding(.horizontal)
                 }
             }
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
