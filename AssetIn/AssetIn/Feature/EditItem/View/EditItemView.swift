@@ -10,137 +10,176 @@ import SwiftUI
 struct EditItemView: View {
     @ObservedObject var viewModel : EditItemViewModel
     @ObservedObject var navigator : AppNavigator
+    @FocusState var focused: Int?
     
     var body: some View {
-        VStack(spacing: 10) {
-            
-            HStack {
-                Button {
-                    navigator.back()
-                } label: {
+        VStack(spacing: 0) {
+            Button {
+                navigator.back()
+            } label: {
+                HStack(spacing: 12) {
                     Image(systemName: "chevron.left")
-                        .font(.headline)
-                        .foregroundColor(.white)
+                    
+                    Text("Edit Data")
                 }
-                Text("Edit item")
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(.white)
-                Spacer()
-                Image.logoAssetin
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundColor(.white)
             }
-            .padding(.horizontal)
-            VStack{
-                HStack {
-                    ForEach(0...2, id :\.self)  {index in
-                        AsyncImage(url: URL(string:"https://cdn.antaranews.com/cache/1200x800/2023/06/18/IMG-20230618-WA0002_2.jpg"))
-                            .frame(width: 100, height: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                    }
-                }
-                .padding(.vertical)
-                
-                VStack(spacing: 10) {
-                    Text("Type")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.AssetIn.greyText)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding(.horizontal)
-                    
-                    TextField("Item Type..", text: $viewModel.category)
-                        .font(.system(size: 15, weight: .regular))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                    
-                    Rectangle()
-                        .frame(height: 0.5)
-                        .foregroundColor(.AssetIn.greyText)
-                        .padding(.horizontal)
-                    
-                    
-                }
-                
-                VStack(spacing: 10) {
-                    Text("Stock")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.AssetIn.greyText)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding(.horizontal)
-                    
-                    TextField("0", text: $viewModel.stock)
-                        .font(.system(size: 15, weight: .regular))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding(.horizontal)
-                    
-                    Rectangle()
-                        .frame(height: 0.5)
-                        .foregroundColor(.AssetIn.greyText)
-                        .padding(.horizontal)
-                }
-                .padding(.vertical)
-                Spacer()
-                
-                VStack(spacing: 10){
-                    Button {
-                        
-                    }label: {
-                        Text("Update product")
-                            .foregroundColor(.white)
-                            .font(.system(size: 13, weight: .semibold))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.AssetIn.yellow)
-                            .cornerRadius(10)
-                            .shadow(color: .black.opacity(0.1), radius: 5)
-                    }
-                    .padding(.horizontal)
-                    
-                    Button {
-                        
-                    }label: {
-                        Text("Remove product")
-                            .foregroundColor(.white)
-                            .font(.system(size: 13, weight: .semibold))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.pink)
-                            .cornerRadius(10)
-                            .shadow(color: .black.opacity(0.1), radius: 5)
-                    }
-                    .padding(.horizontal)
-                }
-            }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-            .background(Color.white)
-            .cornerRadius(20)
-            .padding(30)
-            .shadow(color: .black.opacity(0.08), radius: 10).background(Color.white)
-        }
-        .background(
-            VStack {
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(
                 RadialGradient(
                     gradient: Gradient(colors: [Color.orange, Color.yellow]),
                     center: .center,
                     startRadius: 0,
                     endRadius: 200
                 )
-                .frame(height: 130)
-                .edgesIgnoringSafeArea(.all)
-                .cornerRadius(15)
-                Spacer()
-            }
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 .ignoresSafeArea()
+            )
+            
+            ScrollView {
+                VStack(spacing: 18) {
+                    Text(viewModel.inventoryData?.category ?? "–")
+                        .font(.system(size: 22,  weight: .semibold ))
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.AssetIn.purple)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom)
+                    
+                    Button {
+                        viewModel.isShowImagePicker = true
+                    } label: {
+                        Group {
+                            if viewModel.imagePlaceholder == UIImage() {
+                                AsyncImage(url: URL(string: (viewModel.inventoryData?.gambar) ?? "")) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    }
+                                }
+
+                            } else {
+                                Image(uiImage: viewModel.imagePlaceholder)
+                                    .resizable()
+                                    .scaledToFill()
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .overlay(alignment: .bottomTrailing) {
+                            Text("Change Photo")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(.black)
+                                .padding(8)
+                                .padding(.horizontal, 8)
+                                .background(Capsule().foregroundColor(.white))
+                                .padding()
+                        }
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text("Inventory Name")
+                            .font(.system(size: 14, weight: .semibold))
+                        
+                        TextField("Projector..", text: $viewModel.inventoryName)
+                            .font(.system(size: 12,  weight: .regular ))
+                            .tint(.AssetIn.orange)
+                            .padding()
+                            .background(focused == 2 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.AssetIn.orange, lineWidth: focused == 2 ? 1 : 0)
+                                    .foregroundColor(.AssetIn.orange)
+                            }
+                            .cornerRadius(10)
+                            .tag(2)
+                            .focused($focused, equals: 2)
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text("Stock")
+                            .font(.system(size: 14, weight: .semibold))
+                        
+                        TextField("0", text: $viewModel.inventoryStock)
+                            .font(.system(size: 12,  weight: .regular ))
+                            .tint(.AssetIn.orange)
+                            .keyboardType(.numberPad)
+                            .padding()
+                            .background(focused == 1 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.AssetIn.orange, lineWidth: focused == 1 ? 1 : 0)
+                                    .foregroundColor(.AssetIn.orange)
+                            }
+                            .cornerRadius(10)
+                            .tag(1)
+                            .focused($focused, equals: 1)
+                    }
+                }
+                .foregroundColor(.black)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+            
+            Button {
+                viewModel.updateInventoryData()
+            } label: {
+                Text("Save")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .foregroundColor(viewModel.acceptButtonDisabled ? .AssetIn.greyChecklist : .AssetIn.orange)
+                    )
+                    .padding()
+            }
+            .disabled(viewModel.acceptButtonDisabled)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .photosPicker(
+            isPresented: $viewModel.isShowImagePicker,
+            selection: $viewModel.selectedImage,
+            matching: .images
         )
-        .background(Color.AssetIn.grey.ignoresSafeArea())
+        .onChange(of: viewModel.selectedImage) { _ in
+            Task {
+                await viewModel.changeImagePlaceholder()
+            }
+        }
+        .overlay {
+            if viewModel.isLoading {
+                ZStack {
+                    Color.black.opacity(0.3)
+                    
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(Color.white)
+                }
+                .ignoresSafeArea()
+            }
+        }
+        .onAppear {
+            viewModel.getInventory()
+        }
+        .alert(isPresented: $viewModel.isShowAlert) {
+            Alert(
+                title: Text(viewModel.isError ? "Oops.." : "Yeay!"),
+                message: Text(viewModel.isError ? viewModel.errorText : "You successfully change the item"),
+                dismissButton: .default(Text("Okay"), action: {
+                    viewModel.getInventory()
+                })
+            )
+        }
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    EditItemView(viewModel: .init(), navigator: .init())
+    EditItemView(viewModel: .init(inventoryID: "054135DC-BF3D-42B6-AC32-4C1FE0F61428"), navigator: .init())
 }

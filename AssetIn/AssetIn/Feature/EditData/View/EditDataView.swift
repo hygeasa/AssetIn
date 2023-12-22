@@ -45,22 +45,22 @@ struct EditDataView: View {
                 ScrollView {
                     VStack(spacing: 5) {
                         ExpandedSessionView(viewModel: viewModel, title: "Furniture", inventory: $viewModel.furnitureData) { id in
-                            
+                            navigator.navigate(to: .editItem(.init(inventoryID: id), navigator))
                         }
                         ExpandedSessionView(viewModel: viewModel, title: "Music", inventory: $viewModel.musicData) { id in
-                            
+                            navigator.navigate(to: .editItem(.init(inventoryID: id), navigator))
                         }
                         ExpandedSessionView(viewModel: viewModel, title: "Classroom", inventory: $viewModel.classroomData) { id in
-                            
+                            navigator.navigate(to: .editItem(.init(inventoryID: id), navigator))
                         }
                         ExpandedSessionView(viewModel: viewModel, title: "Laboratory", inventory: $viewModel.labData) { id in
-                            
+                            navigator.navigate(to: .editItem(.init(inventoryID: id), navigator))
                         }
                         ExpandedSessionView(viewModel: viewModel, title: "Sports", inventory: $viewModel.sportsData) { id in
-                            
+                            navigator.navigate(to: .editItem(.init(inventoryID: id), navigator))
                         }
                         ExpandedSessionView(viewModel: viewModel, title: "Library", inventory: $viewModel.libraryData) { id in
-                            
+                            navigator.navigate(to: .editItem(.init(inventoryID: id), navigator))
                         }
                     }
                     .padding()
@@ -262,6 +262,7 @@ extension EditDataView {
                 dismissButton: .default(Text("Okay"), action: {
                     viewModel.getInventories()
                     viewModel.isShowAddData = false
+                    viewModel.imagePlaceholder = UIImage()
                 })
             )
         }
