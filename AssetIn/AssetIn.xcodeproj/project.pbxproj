@@ -73,6 +73,7 @@
 		48FC24D72B1DA9F1006CA1F3 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FC24D62B1DA9F1006CA1F3 /* NotificationViewModel.swift */; };
 		4B7C65A12B3361BE002F144A /* EditNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7C65A02B3361BE002F144A /* EditNewsView.swift */; };
 		4B7C65A32B34786E002F144A /* AcceptRequestBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7C65A22B34786E002F144A /* AcceptRequestBottomSheet.swift */; };
+		4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		48FC24D62B1DA9F1006CA1F3 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		4B7C65A02B3361BE002F144A /* EditNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNewsView.swift; sourceTree = "<group>"; };
 		4B7C65A22B34786E002F144A /* AcceptRequestBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptRequestBottomSheet.swift; sourceTree = "<group>"; };
+		4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+unique.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +321,7 @@
 			children = (
 				484A09462B31E274006E1D66 /* Encodable+toJSON.swift */,
 				484A09522B324B5A006E1D66 /* Date+toString.swift */,
+				4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				48FC24D52B1DA9E3006CA1F3 /* NotificationView.swift in Sources */,
 				48FC24D72B1DA9F1006CA1F3 /* NotificationViewModel.swift in Sources */,
 				4B7C65A32B34786E002F144A /* AcceptRequestBottomSheet.swift in Sources */,
+				4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */,
 				489C02562B2E1DFB002D4DFB /* AddItemViewModel.swift in Sources */,
 				48E752A82B28296B0099F0DF /* TakeViewModel.swift in Sources */,
 				484A09512B3241FB006E1D66 /* SafariWebView.swift in Sources */,

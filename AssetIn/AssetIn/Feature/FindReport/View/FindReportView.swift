@@ -22,7 +22,7 @@ struct FindReportView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                 }
-                Text("Find Report")
+                Text(viewModel.date, style: .date)
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
                 Spacer()
@@ -35,142 +35,62 @@ struct FindReportView: View {
             .padding(.vertical)
             
             ScrollView{
-                Text(viewModel.date)
-                    .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                    .padding(.horizontal, 30)
-                
                 VStack {
-                    ForEach(0...1, id:\.self) { index in
+                    ForEach(viewModel.historyData, id:\.id) { item in
                         VStack(alignment: .leading, spacing: 5){
-                            Text("On process")
+                            Text(item.status ?? "–")
                                 .foregroundColor(.white)
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(6)
                                 .padding(.horizontal)
-                                .background(Color.AssetIn.orange)
-                                .cornerRadius(15)
+                                .background(
+                                    Capsule()
+                                        .foregroundColor(viewModel.statusColor(item.status ?? ""))
+                                )
                             
-                            Text(viewModel.inventory)
+                            Text(item.inventoryName ?? "–")
                                 .font(.system(size: 15, weight: .regular))
                             
-                            Text("Category: \(viewModel.category)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                                .padding(.vertical, 5)
-                            
-                            HStack {
-                                Button {
-                                    
-                                }label : {
-                                    Text("Accept")
-                                        .foregroundColor(.white)
-                                        .font(.system(size :10, weight: .bold))
-                                        .padding(.vertical, 5)
-                                        .padding(.horizontal, 50)
-                                        .background(Color.AssetIn.green)
-                                        .cornerRadius(10)
+                            Group {
+                                Text("from \(item.studentName ?? "") (\(item.studentNIS ?? ""))")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.AssetIn.purple)
+                                    .padding(.top, 5)
+                                
+                                HStack(spacing: 0) {
+                                    Text("Requested: ")
+                                    Text((item.requestedAt?.toString(format: .withSlash)) ?? "–")
                                 }
                                 
-                                Text("Deadline: \(viewModel.deadline)")
-                                    .font(.system(size: 10,weight: .bold))
-                                    .foregroundColor(.AssetIn.orange)
-                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
-                            }
-                        }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                    }
-                }
-                
-                VStack {
-                    ForEach(0...1, id:\.self) { index in
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("On going")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(6)
-                                .padding(.horizontal)
-                                .background(Color.AssetIn.purple)
-                                .cornerRadius(15)
-                            
-                            Text(viewModel.inventory)
-                                .font(.system(size: 15, weight: .regular))
-                            
-                            Text("Category: \(viewModel.category)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                            
-                            Text("Deadline: \(viewModel.deadline)")
-                                .font(.system(size: 10,weight: .bold))
-                                .foregroundColor(.AssetIn.orange)
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
-                        }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                    }
-                }
-                
-                VStack {
-                    ForEach(0...1, id:\.self) { index in
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("Done")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(6)
-                                .padding(.horizontal)
-                                .background(Color.AssetIn.green)
-                                .cornerRadius(15)
-                            
-                            Text(viewModel.inventory)
-                                .font(.system(size: 15, weight: .regular))
-                            
-                            Text("Category: \(viewModel.category)")
-                                .font(.system(size: 12, weight: .semibold))
-                            
-                            Text(viewModel.lending)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.AssetIn.greyText)
-                            
-                            Button {
-                                navigator .navigate(to: .search(.init(), navigator))
-                            }label: {
-                                Text("Lend again")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding(6)
-                                    .background(Color.AssetIn.orange)
-                                    .cornerRadius(15)
-                                    .shadow(color: .black.opacity(0.1), radius: 5)
+                                HStack(spacing: 0) {
+                                    Text("Borrowed: ")
+                                    Text((item.borrowedAt?.toString(format: .withSlash)) ?? "–")
+                                }
                                 
+                                HStack(spacing: 0) {
+                                    Text("Returned: ")
+                                    Text((item.returnedAt?.toString(format: .withSlash)) ?? "–")
+                                }
+                                
+                                HStack(spacing: 0) {
+                                    Text("Expired: ")
+                                    Text((item.expiredAt?.toString(format: .withSlash)) ?? "–")
+                                }
+                                .font(.system(size: 10, weight: .semibold))
+                                .foregroundColor(.AssetIn.orange)
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.horizontal)
-                            
-                            
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.AssetIn.greyText)
                         }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(15)
-                        .padding(.horizontal)
                     }
                 }
+                .padding()
             }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .frame(maxWidth: .infinity, alignment: .center)
         }
         .background(
             VStack {
@@ -187,6 +107,9 @@ struct FindReportView: View {
             }
                 .ignoresSafeArea()
         )
+        .onAppear {
+            viewModel.getHistoryData()
+        }
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
@@ -195,5 +118,5 @@ struct FindReportView: View {
 }
 
 #Preview {
-    FindReportView(viewModel: .init(), navigator: .init())
+    FindReportView(viewModel: .init(date: .now), navigator: .init())
 }

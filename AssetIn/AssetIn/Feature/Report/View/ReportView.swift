@@ -134,7 +134,7 @@ struct ReportView: View {
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
             Button {
-                navigator.navigate(to: .findReport(.init(), navigator))
+                navigator.navigate(to: .findReport(.init(date: viewModel.date), navigator))
             }label: {
                 Text("Find Report")
                     .foregroundColor(.white)

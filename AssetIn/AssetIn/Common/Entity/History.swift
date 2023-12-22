@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct History: Codable, Identifiable {
+struct History: Codable, Identifiable, Hashable {
     var id: String? = UUID().uuidString
     var inventoryId: String?
     var studentId: String?

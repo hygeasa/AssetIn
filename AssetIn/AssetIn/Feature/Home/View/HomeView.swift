@@ -335,8 +335,8 @@ extension HomeView {
                         Text("Category: \((item.categoryId ?? "").capitalized)")
                             .font(.system(size: 12, weight: .semibold))
                         
-                        if let expiredAt = item.expiredAt {
-                            Text(expiredAt.toString(format: .withSlash))
+                        if let requestedDate = item.requestedAt {
+                            Text(requestedDate.toString(format: .withSlash))
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundColor(.AssetIn.greyText)
                                 .padding(.vertical, 5)
