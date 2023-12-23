@@ -22,6 +22,8 @@ class HomeViewModel : ObservableObject {
     
     @Published var currentSection: AdminHeaderSection = .request
     
+    @Published var newsSelection = 0
+    
     @Published var isShowAlert = false
     @Published var alertMessage = ""
     @Published var alertAction: () -> Void = {}

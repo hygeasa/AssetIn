@@ -11,11 +11,21 @@ struct HomeView: View {
     @ObservedObject var viewModel : HomeViewModel
     @ObservedObject var navigator : AppNavigator
     
+    @Namespace var namespace
+    
     var body: some View {
-        ScrollView {
-            VStack(spacing: 18) {
-                
-                HStack{
+        VStack(spacing: 0) {
+            RadialGradient(
+                gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                center: .center,
+                startRadius: 0,
+                endRadius: 200
+            )
+            .frame(height: 112)
+            .cornerRadius(15)
+            .ignoresSafeArea()
+            .overlay {
+                HStack {
                     VStack(alignment : .leading, spacing : 2){
                         Text("Hi, \(viewModel.userData?.nama ?? "–")")
                             .font(.system(size: 17, weight: .semibold))
@@ -54,25 +64,39 @@ struct HomeView: View {
                     .font(.system(size: 12, weight: .medium))
                 }
                 .padding()
-                .background(
-                    Color.white
-                        .cornerRadius(15)
-                )
-                
-                TabView{
-                    ForEach(viewModel.news, id: \.id) { news in
-                        Button {
-                            viewModel.isShowSafari = true
-                        } label: {
-                            AsyncImage(url: URL(string: news.thumbnail ?? ""))
-                                .frame(width: 320, height: 202)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .background(Color.white.cornerRadius(15))
+                .padding(.horizontal)
+                .offset(y: 14)
+            }
+            
+            ScrollView {
+                LazyVStack(spacing: 18, pinnedViews: .sectionHeaders) {
+                    VStack {
+                        TabView(selection: $viewModel.newsSelection) {
+                            ForEach(viewModel.news.indices, id: \.self) { index in
+                                let news = viewModel.news[index]
+                                Button {
+                                    viewModel.isShowSafari = true
+                                } label: {
+                                    AsyncImage(url: URL(string: news.thumbnail ?? "")) { phase in
+                                        if let image = phase.image {
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(maxWidth: .infinity)
+                                                .frame(height: 200)
+                                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                                .padding(.horizontal)
+                                        }
+                                    }
+                                }
+                                .tag(index)
                                 .overlay(alignment : .bottomTrailing) {
                                     if viewModel.isAdmin {
                                         Button {
                                             viewModel.showEditNews(news)
                                         } label: {
-                                            Text("Edit news")
+                                            Text("Edit News")
                                                 .font(.system(size: 13, weight: .regular))
                                                 .foregroundColor(.black)
                                                 .padding()
@@ -80,174 +104,176 @@ struct HomeView: View {
                                                 .cornerRadius(20)
                                         }
                                         .padding()
+                                        .padding(.horizontal)
                                     }
                                 }
-                        }
-                        .fullScreenCover(isPresented: $viewModel.isShowSafari) {
-                            SafariWebView(url: URL(string: news.url ?? "")!)
-                                .ignoresSafeArea()
-                        }
-                    }
-                }
-                .tint(.AssetIn.orange)
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .frame(height: 200)
-                
-                HStack{
-                    Button {
-                        navigator.navigate(to: .search(.init(), navigator))
-                    } label: {
-                        VStack {
-                            Image.searchIcon
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width : 65, height : 65)
-                                .offset()
-                            Text("Search")
-                                .font(.system(size: 13, weight: .regular))
-                                .foregroundColor(.black)
-                        }
-                        .padding(15)
-                    }
-                    
-                    if !viewModel.isAdmin {
-                        Button {
-                            navigator.navigate(to: .history(.init(),navigator))
-                        } label: {
-                            VStack {
-                                Image.historyIcon
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width : 60, height : 60)
-                                    .offset()
-                                Text("History")
-                                    .font(.system(size: 13, weight: .regular))
-                                    .foregroundColor(.black)
+                                .padding(.horizontal)
+                                .padding(.horizontal)
+                                .fullScreenCover(isPresented: $viewModel.isShowSafari) {
+                                    SafariWebView(url: URL(string: news.url ?? "")!)
+                                        .ignoresSafeArea()
+                                }
                             }
-                            .padding(15)
                         }
-                    } else {
-                        Button {
-                            navigator.navigate(to: .report(.init(),navigator))
-                        } label: {
-                            VStack {
-                                Image.historyIcon
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width : 60, height : 60)
-                                    .offset()
-                                Text("Report")
-                                    .font(.system(size: 13, weight: .regular))
-                                    .foregroundColor(.black)
+                        .tint(.AssetIn.orange)
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        .frame(height: 200)
+                        
+                        HStack(spacing: 8) {
+                            ForEach(viewModel.news.indices, id:\.self) { index in
+                                Capsule()
+                                    .foregroundColor(index == viewModel.newsSelection ? .AssetIn.orange : .AssetIn.greyChecklist)
+                                    .frame(width: index == viewModel.newsSelection ? 36 : 8, height: 8)
+                                    .animation(.spring(), value: viewModel.newsSelection)
                             }
-                            .padding(15)
                         }
                     }
                     
-                    if !viewModel.isAdmin {
+                    HStack {
                         Button {
-                            navigator.navigate(to: .ongoing(.init(), navigator))
+                            navigator.navigate(to: .search(.init(), navigator))
                         } label: {
                             VStack {
-                                Image.ongoingIcon
+                                Image.searchIcon
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width : 60, height : 60)
+                                    .frame(width : 65, height : 65)
                                     .offset()
-                                Text("On Going")
+                                Text("Search")
                                     .font(.system(size: 13, weight: .regular))
                                     .foregroundColor(.black)
                             }
                             .padding(15)
                         }
-                    } else {
-                        Button {
-                            navigator.navigate(to: .editdata(.init(), navigator))
-                        } label: {
-                            VStack {
-                                Image.ongoingIcon
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width : 60, height : 60)
-                                    .offset()
-                                Text("Edit data")
-                                    .font(.system(size: 13, weight: .regular))
-                                    .foregroundColor(.black)
+                        
+                        if !viewModel.isAdmin {
+                            Button {
+                                navigator.navigate(to: .history(.init(),navigator))
+                            } label: {
+                                VStack {
+                                    Image.historyIcon
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width : 60, height : 60)
+                                        .offset()
+                                    Text("History")
+                                        .font(.system(size: 13, weight: .regular))
+                                        .foregroundColor(.black)
+                                }
+                                .padding(15)
                             }
-                            .padding(15)
+                        } else {
+                            Button {
+                                navigator.navigate(to: .report(.init(),navigator))
+                            } label: {
+                                VStack {
+                                    Image.historyIcon
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width : 60, height : 60)
+                                        .offset()
+                                    Text("Report")
+                                        .font(.system(size: 13, weight: .regular))
+                                        .foregroundColor(.black)
+                                }
+                                .padding(15)
+                            }
+                        }
+                        
+                        if !viewModel.isAdmin {
+                            Button {
+                                navigator.navigate(to: .ongoing(.init(), navigator))
+                            } label: {
+                                VStack {
+                                    Image.ongoingIcon
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width : 60, height : 60)
+                                        .offset()
+                                    Text("On Going")
+                                        .font(.system(size: 13, weight: .regular))
+                                        .foregroundColor(.black)
+                                }
+                                .padding(15)
+                            }
+                        } else {
+                            Button {
+                                navigator.navigate(to: .editdata(.init(), navigator))
+                            } label: {
+                                VStack {
+                                    Image.ongoingIcon
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width : 60, height : 60)
+                                        .offset()
+                                    Text("Edit data")
+                                        .font(.system(size: 13, weight: .regular))
+                                        .foregroundColor(.black)
+                                }
+                                .padding(15)
+                            }
                         }
                     }
-                }
-                .padding(.vertical)
-                .padding(.horizontal, 30)
-                .background(
-                    Color.white
-                        .cornerRadius(15)
-                )
-                
-                if !viewModel.isAdmin {
-                    HStack(content: {
-                        Text("My Stuff")
-                            .font(.system(size: 23, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding()
-                        Button {
-                            navigator.navigate(to: .take(.init(), navigator))
-                        } label: {
-                            Text("Take")
-                                .font(.system(size: 13, weight: .bold))
-                                .foregroundColor(.AssetIn.orange)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 30)
-                                .background(
-                                    Color.white
-                                        .cornerRadius(10)
-                                        .shadow(color: .black.opacity(0.1), radius: 5)
-                                )
-                            
-                        }
-                        .padding()
-                    })
-                    
-                    .padding(5)
-                    .padding(.horizontal,40)
+                    .padding(.vertical)
+                    .padding(.horizontal, 30)
+                    .frame(maxWidth: .infinity)
                     .background(
-                        RadialGradient(
-                            gradient: Gradient(colors: [Color.orange, Color.yellow]),
-                            center: .center,
-                            startRadius: 0,
-                            endRadius: 200
-                        )
-                        .edgesIgnoringSafeArea(.all)
-                        .cornerRadius(15)
+                        Color.white
+                            .cornerRadius(15)
                     )
-                } else {
-                    Section {
-                        AdminList()
-                    } header: {
-                        AdminHeader()
+                    .padding(.horizontal)
+                    
+                    if !viewModel.isAdmin {
+                        HStack(content: {
+                            Text("My Stuff")
+                                .font(.system(size: 23, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding()
+                            Button {
+                                navigator.navigate(to: .take(.init(), navigator))
+                            } label: {
+                                Text("Take")
+                                    .font(.system(size: 13, weight: .bold))
+                                    .foregroundColor(.AssetIn.orange)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 30)
+                                    .background(
+                                        Color.white
+                                            .cornerRadius(10)
+                                            .shadow(color: .black.opacity(0.1), radius: 5)
+                                    )
+                                
+                            }
+                            .padding()
+                        })
+                        
+                        .padding(5)
+                        .padding(.horizontal,40)
+                        .background(
+                            RadialGradient(
+                                gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                                center: .center,
+                                startRadius: 0,
+                                endRadius: 200
+                            )
+                            .edgesIgnoringSafeArea(.all)
+                            .cornerRadius(15)
+                        )
+                        .padding(.horizontal)
+                    } else {
+                        Section {
+                            AdminList()
+                        } header: {
+                            AdminHeader()
+                        }
+                        .padding(.horizontal)
                     }
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 30)
             }
-            .frame(maxWidth: .infinity)
-            .padding(30)
         }
         .frame(maxWidth: .infinity)
-        .background(
-            VStack {
-                RadialGradient(
-                    gradient: Gradient(colors: [Color.orange, Color.yellow]),
-                    center: .center,
-                    startRadius: 0,
-                    endRadius: 200
-                )
-                .frame(height: 112)
-                .edgesIgnoringSafeArea(.all)
-                .cornerRadius(15)
-                Spacer()
-            }
-                .ignoresSafeArea()
-        )
         .background(Color.AssetIn.grey.ignoresSafeArea())
         .onAppear {
             viewModel.getUserData()
@@ -272,42 +298,77 @@ extension HomeView {
                 viewModel.getHistoryData()
             } label: {
                 Text("Request")
-                    .foregroundColor(viewModel.currentSection == .request ? .AssetIn.orange : .black)
-                    .font(viewModel.currentSection == .request ? .headline : .body)
+                    .foregroundColor(viewModel.currentSection == .request ? .white : .AssetIn.greyText)
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
+                    .padding(8)
+                    .background {
+                        if viewModel.currentSection == .request {
+                            LinearGradient(
+                                colors: [.AssetIn.orange, .AssetIn.yellow],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            .clipShape(Capsule())
+                            .id("BG")
+                            .matchedGeometryEffect(id: "BG", in: namespace)
+                        }
+                    }
             }
-            
-            Rectangle()
-                .foregroundColor(.AssetIn.greyText)
-                .frame(width: 1)
             
             Button {
                 viewModel.currentSection = .ready
                 viewModel.getReadyData()
             } label: {
                 Text("Ready")
-                    .foregroundColor(viewModel.currentSection == .ready ? .AssetIn.orange : .black)
-                    .font(viewModel.currentSection == .ready ? .headline : .body)
+                    .foregroundColor(viewModel.currentSection == .ready ? .white : .AssetIn.greyText)
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
+                    .padding(8)
+                    .background {
+                        if viewModel.currentSection == .ready {
+                            LinearGradient(
+                                colors: [.AssetIn.orange, .AssetIn.yellow],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            .clipShape(Capsule())
+                            .id("BG")
+                            .matchedGeometryEffect(id: "BG", in: namespace)
+                        }
+                    }
             }
-            
-            Rectangle()
-                .foregroundColor(.AssetIn.greyText)
-                .frame(width: 1)
             
             Button {
                 viewModel.currentSection = .onGoing
                 viewModel.getOnGoingData()
             } label: {
                 Text("On Going")
-                    .foregroundColor(viewModel.currentSection == .onGoing ? .AssetIn.orange : .black)
-                    .font(viewModel.currentSection == .onGoing ? .headline : .body)
+                    .foregroundColor(viewModel.currentSection == .onGoing ? .white : .AssetIn.greyText)
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
+                    .padding(8)
+                    .background {
+                        if viewModel.currentSection == .onGoing {
+                            LinearGradient(
+                                colors: [.AssetIn.orange, .AssetIn.yellow],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            .clipShape(Capsule())
+                            .id("BG")
+                            .matchedGeometryEffect(id: "BG", in: namespace)
+                        }
+                    }
             }
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(8)
+        .animation(.spring(), value: viewModel.currentSection)
+        .padding(6)
+        .background(
+            Capsule()
+                .foregroundColor(.white)
+                .ignoresSafeArea()
+        )
     }
     
     @ViewBuilder

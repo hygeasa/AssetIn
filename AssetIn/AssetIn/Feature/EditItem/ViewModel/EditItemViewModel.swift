@@ -134,5 +134,19 @@ class EditItemViewModel: ObservableObject {
             }
         }
     }
+    
+    @MainActor
+    func deleteItem(perform: @escaping () -> Void) {
+        if let inventoryData {
+            database.collection("Inventaris").document(inventoryID)
+                .delete { error in
+                    if let error {
+                        print(error)
+                    } else {
+                        perform()
+                    }
+                }
+        }
+    }
 }
     

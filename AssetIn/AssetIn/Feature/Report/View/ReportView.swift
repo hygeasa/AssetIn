@@ -79,44 +79,8 @@ struct ReportView: View {
                         .foregroundColor(.AssetIn.greyText)
                         .padding(.horizontal)
                     
-                    Text("Jenis Barang :")
-                        .font(.system(size: 17, weight: .semibold))
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 10)
-                    
-                    ForEach(viewModel.checkList.indices, id:\.self)  { index in
-                        let item = viewModel.checkList[index]
-                        HStack(spacing : 5) {
-                            Button {
-                                withAnimation {
-                                    viewModel.checkList[index].isSelected.toggle()
-                                }
-                            }label: {
-                                Image(systemName: item.isSelected ? "checkmark.square.fill" : "square.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor( item.isSelected ?  .AssetIn.orange : .AssetIn.greyChecklist)
-                                    .frame(width: 20, height: 20)
-                            }
-                            
-                            Text(item.name)
-                                .font(.system(size: 13, weight: .medium))
-                                .foregroundColor(item.isSelected ? .AssetIn.orange : .black)
-                                .padding(.horizontal)
-                        }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding(.horizontal, 30)
-                    }
-            
-                    Rectangle()
-                        .frame(height: 0.5)
-                        .foregroundColor(.AssetIn.greyText)
-                        .padding(.horizontal)
-                        .padding(.vertical)
-                    
                     DatePicker(
-                        "Ni apasi",
+                        "",
                         selection: $viewModel.date,
                         in: ...Date(),
                         displayedComponents: [.date]
@@ -131,10 +95,10 @@ struct ReportView: View {
                     .padding(.bottom, 30)
                     
                 }
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(maxWidth: .infinity, alignment: .center)
             }
             Button {
-                navigator.navigate(to: .findReport(.init(date: viewModel.date), navigator))
+                navigator.navigate(to: .findReport(.init(date: viewModel.date, filter: viewModel.filter), navigator))
             }label: {
                 Text("Find Report")
                     .foregroundColor(.white)

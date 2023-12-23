@@ -52,6 +52,10 @@ struct FindReportView: View {
                                 .font(.system(size: 15, weight: .regular))
                             
                             Group {
+                                Text("Category: \((item.categoryId ?? "").capitalized)")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.AssetIn.greyText)
+                                
                                 Text("from \(item.studentName ?? "") (\(item.studentNIS ?? ""))")
                                     .font(.system(size: 13, weight: .semibold))
                                     .foregroundColor(.AssetIn.purple)
@@ -118,5 +122,5 @@ struct FindReportView: View {
 }
 
 #Preview {
-    FindReportView(viewModel: .init(date: .now), navigator: .init())
+    FindReportView(viewModel: .init(date: .now, filter: []), navigator: .init())
 }

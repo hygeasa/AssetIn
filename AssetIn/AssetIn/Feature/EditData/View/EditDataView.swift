@@ -219,7 +219,7 @@ extension EditDataView {
             Button {
                 viewModel.uploadImage()
             } label: {
-                Text("Accept")
+                Text("Save")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()

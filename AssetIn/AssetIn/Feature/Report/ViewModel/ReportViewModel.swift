@@ -16,15 +16,15 @@ class ReportViewModel: ObservableObject {
     
     @Published var date = Date()
     
-    @Published var checkList: [ChecklistInventory] = [
-        .init(name: "Piano"),
-        .init(name: "Gitar"),
-        .init(name: "Projector"),
-        .init(name: "Table"),
-        .init(name: "Chair"),
-    ]
-    
     @Published var categories: [ChecklistInventory] = [
         .init(name: "Music"), .init(name: "Sports"), .init(name: "Library"), .init(name: "Laboratory"), .init(name: "Classroom"), .init(name: "Furniture"),
     ]
+    
+    var filter: [String] {
+        return categories.filter({
+            $0.isSelected
+        }).compactMap({
+            $0.name.uppercased()
+        })
+    }
 }

@@ -124,21 +124,44 @@ struct EditItemView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
             
-            Button {
-                viewModel.updateInventoryData()
-            } label: {
-                Text("Save")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .foregroundColor(viewModel.acceptButtonDisabled ? .AssetIn.greyChecklist : .AssetIn.orange)
-                    )
-                    .padding()
+            HStack {
+                Button {
+                    viewModel.deleteItem {
+                        navigator.back()
+                    }
+                } label: {
+                    Text("Delete")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .foregroundColor(.red.opacity(0.1))
+                        )
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 12)
+                                .inset(by: 0.5)
+                                .stroke(Color.red, lineWidth: 1)
+                        }
+                }
+                
+                Button {
+                    viewModel.updateInventoryData()
+                } label: {
+                    Text("Save")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .foregroundColor(viewModel.acceptButtonDisabled ? .AssetIn.greyChecklist : .AssetIn.orange)
+                        )
+                }
+                .disabled(viewModel.acceptButtonDisabled)
             }
-            .disabled(viewModel.acceptButtonDisabled)
+            .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .photosPicker(
