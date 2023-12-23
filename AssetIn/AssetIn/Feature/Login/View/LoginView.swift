@@ -131,7 +131,7 @@ struct LoginView: View {
                 VStack(spacing: 8) {
                     Button {
                         viewModel.loginOrRegister {
-                            navigator.backHome()
+                            navigator.navigate(to: .main(navigator))
                         }
                     } label: {
                         Text(viewModel.isRegister ? "Register" : "Login")

@@ -38,11 +38,12 @@ class ProfileViewModel: ObservableObject {
             }
     }
     
-    func logout() {
+    func logout(perform: @escaping () -> Void) {
         try? Auth.auth().signOut()
         withAnimation {
             loginStatus = 0
             userId = ""
         }
+        perform()
     }
 }

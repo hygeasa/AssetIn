@@ -125,7 +125,9 @@ struct ProfileView: View {
             Spacer()
             
             Button {
-                viewModel.logout()
+                viewModel.logout() {
+                    navigator.backHome()
+                }
             } label: {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")

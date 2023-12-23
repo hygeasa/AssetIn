@@ -103,6 +103,11 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
         )
         .navigationTitle("")
+        .onAppear {
+            if loginStatus != 0 {
+                navigator.navigate(to: .main(navigator))
+            }
+        }
     }
 }
 

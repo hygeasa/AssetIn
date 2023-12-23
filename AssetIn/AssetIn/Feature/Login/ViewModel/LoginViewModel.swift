@@ -52,10 +52,18 @@ class LoginViewModel: ObservableObject {
             if let error {
                 self.isError = true
                 self.errorText = error.localizedDescription
-            } else {
-                self.loginStatus = self.isAdmin ? 2 : 1
-                completion()
-                self.userId = result?.user.uid ?? "DEFAULT"
+            } else if let result {
+                if self.isAdmin {
+                    self.checkAdmin(userId: result.user.uid) {
+                        self.loginStatus = 2
+                        completion()
+                        self.userId = result.user.uid
+                    }
+                } else {
+                    self.loginStatus = 1
+                    completion()
+                    self.userId = result.user.uid
+                }
             }
         }
     }
@@ -68,7 +76,7 @@ class LoginViewModel: ObservableObject {
                 self.errorText = error.localizedDescription
             }
             
-            if let result {
+            else if let result {
                 self.storeUserData(id: result.user.uid, completion: completion)
                 self.userId = result.user.uid
             }
@@ -87,6 +95,24 @@ class LoginViewModel: ObservableObject {
                 } else {
                     self.loginStatus = 1
                     completion()
+                }
+            }
+    }
+    
+    @MainActor
+    private func checkAdmin(userId: String, completion: @escaping () -> Void) {
+        database.collection("Pengguna").document(userId)
+            .getDocument { result, error in
+                if let error {
+                    print("error")
+                } else if let result {
+                    if let user = try? result.data(as: User.self),
+                       user.isAdmin {
+                        completion()
+                    } else {
+                        self.errorText = "You don't have access to be an admin"
+                        self.isError = true
+                    }
                 }
             }
     }
