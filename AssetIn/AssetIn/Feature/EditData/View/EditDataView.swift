@@ -150,14 +150,14 @@ extension EditDataView {
                                     }
                                     .foregroundColor(.AssetIn.greyText)
                                 }
+                                .frame(height: 200)
                             } else {
                                 Image(uiImage: viewModel.imagePlaceholder)
                                     .resizable()
-                                    .scaledToFill()
+                                    .scaledToFit()
                             }
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 200)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .overlay(alignment: .bottomTrailing) {
                             if viewModel.imagePlaceholder != UIImage() {

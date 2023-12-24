@@ -56,25 +56,23 @@ struct EditItemView: View {
                                     if let image = phase.image {
                                         image
                                             .resizable()
-                                            .scaledToFill()
+                                            .scaledToFit()
                                     }
                                 }
 
                             } else {
                                 Image(uiImage: viewModel.imagePlaceholder)
                                     .resizable()
-                                    .scaledToFill()
+                                    .scaledToFit()
                             }
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 200)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .overlay(alignment: .bottomTrailing) {
                             Text("Change Photo")
                                 .font(.system(size: 12, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(8)
-                                .padding(.horizontal, 8)
                                 .background(Capsule().foregroundColor(.white))
                                 .padding()
                         }

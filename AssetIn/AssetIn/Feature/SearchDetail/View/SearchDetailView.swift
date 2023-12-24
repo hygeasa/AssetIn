@@ -75,8 +75,15 @@ struct SearchDetailView: View {
                             }
                         } label: {
                             VStack(spacing:0) {
-                                AsyncImage(url: URL(string: item.gambar))
-                                    .frame(maxWidth: 360, maxHeight: 220)
+                                AsyncImage(url: URL(string: item.gambar)) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
+                                    
+                                }
+                                    
                                 
                                 VStack(alignment: .leading,spacing:3) {
                                     Text(item.namaInventaris)
@@ -173,5 +180,5 @@ struct SearchDetailView: View {
 }
 
 #Preview {
-    SearchDetailView(viewModel: .init(category: .init(name: "", image: .furniture)), navigator: .init())
+    SearchDetailView(viewModel: .init(category: .init(name: "FURNITURE", image: .furniture)), navigator: .init())
 }
