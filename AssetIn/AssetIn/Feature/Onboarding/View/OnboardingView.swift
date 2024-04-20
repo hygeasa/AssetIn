@@ -9,8 +9,8 @@ import SwiftUI
 
 struct OnboardingView: View {
     
-    @ObservedObject var navigator: AppNavigator
-    @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
+    @StateObject var navigator: AppNavigator
+    @StateObject var settings = SystemSettings.shared
     
     var body: some View {
         VStack(spacing: 40) {
@@ -104,7 +104,7 @@ struct OnboardingView: View {
         )
         .navigationTitle("")
         .onAppear {
-            if loginStatus != 0 {
+            if settings.isActive {
                 navigator.navigate(to: .main(navigator))
             }
         }

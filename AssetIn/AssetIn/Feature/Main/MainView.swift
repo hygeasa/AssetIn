@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct MainView: View {
-    @ObservedObject var navigator: AppNavigator
+    @StateObject var navigator: AppNavigator
     var body: some View {
         TabView {
-            HomeView(viewModel: .init(), navigator: navigator)
+            Text("Home")
                 .tabItem {
                     Image(systemName: "house")
                     Text("home")
                 }
-//            NotificationView(viewModel: .init(), navigator: navigator)
-//                .tabItem {
-//                    Image(systemName: "bell")
-//                    Text("notification")
-//                }
-            ProfileView(viewModel: .init(), navigator: navigator)
+
+            Text("Profile")
                 .tabItem {
                     Image(systemName: "person.crop.circle")
                     Text("Profile")

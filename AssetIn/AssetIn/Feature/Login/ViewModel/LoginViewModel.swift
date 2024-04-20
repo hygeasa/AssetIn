@@ -9,27 +9,30 @@ import SwiftUI
 
 class LoginViewModel: ObservableObject {
     
-    @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
-    @AppStorage("USER_ID") private var userId: String = ""
+    private let authRepository: AuthRepository
+    private let settings = SystemSettings.shared
     
-    @Published var emailText: String = ""
-    @Published var usernameText: String = ""
-    @Published var NISText: String = ""
-    @Published var passwordText: String = ""
-    @Published var isRegister: Bool = false
+    @Published var emailText = ""
+    @Published var usernameText = ""
+    @Published var NISText = ""
+    @Published var passwordText = ""
+    @Published var confirmPasswordText = ""
+    @Published var isRegister = false
     
     @Published var isAdmin: Bool
     
-    @Published var isError = false
-    @Published var errorText = ""
+    @Published var isShowAlert = false
+    @Published var alertTitle = ""
+    @Published var alertMessage = ""
     
-    init(isAdmin: Bool) {
+    init(isAdmin: Bool, authRepository: AuthRepository = AuthDefaultRepository()) {
         self.isAdmin = isAdmin
+        self.authRepository = authRepository
     }
     
     func disableButton() -> Bool {
         if isRegister {
-            return emailText.isEmpty || passwordText.isEmpty || NISText.isEmpty || usernameText.isEmpty
+            return emailText.isEmpty || passwordText.isEmpty || confirmPasswordText.isEmpty || NISText.isEmpty || usernameText.isEmpty
         } else {
             return emailText.isEmpty || passwordText.isEmpty
         }
@@ -37,26 +40,59 @@ class LoginViewModel: ObservableObject {
     
     @MainActor
     func loginOrRegister(completion: @escaping () -> Void) {
-        isRegister ? registerUser(completion: completion) : login(completion: completion)
+        Task {
+            isRegister ? await register() : await login(completion: completion)
+        }
     }
     
     @MainActor
-    func login(completion: @escaping () -> Void) {
+    func login(completion: @escaping () -> Void) async {
+        let role = emailText == "superadmin@mail.com" ? "superadmin" : (isAdmin ? "admin" : "siswa")
         
+        let response = await authRepository.login(email: emailText, password: passwordText)
+        
+        switch response {
+        case .success(let success):
+            settings.role = role
+            completion()
+        case .failure(let failure):
+            handleDefaultError(failure)
+        }
     }
     
     @MainActor
-    func registerUser(completion: @escaping () -> Void) {
+    func register() async {
+        let body = RegisterBody(
+            name: usernameText,
+            email: emailText,
+            password: passwordText,
+            passwordConfirmation: confirmPasswordText,
+            role: isAdmin ? "admin" : "siswa",
+            nip: isAdmin ? NISText : nil,
+            nis: isAdmin ? nil : NISText
+        )
         
-    }
-    
-    private func storeUserData(id: String, completion: @escaping () -> Void) {
-        let userData = User(id: id, nama: usernameText, nis: NISText, isAdmin: false, email: emailText).toJSON()
+        let response = await authRepository.register(with: body)
         
+        switch response {
+        case .success:
+            alertTitle = "Registration Successful"
+            alertMessage = "Please wait for approval from the admin before you can Sign In."
+            isShowAlert = true
+            
+        case .failure(let failure):
+            handleDefaultError(failure)
+        }
     }
     
     @MainActor
-    private func checkAdmin(userId: String, completion: @escaping () -> Void) {
-        
+    func handleDefaultError(_ error: Error) {
+        alertTitle = "Oopss.."
+        if let error = error as? ServerError {
+            alertMessage = error.message.orEmpty()
+        } else {
+            alertMessage = error.localizedDescription
+        }
+        isShowAlert = true
     }
 }

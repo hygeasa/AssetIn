@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var navigator: AppNavigator = .init()
-    @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
+    @StateObject var navigator: AppNavigator = .init()
     
     var body: some View {
         NavigationStack(path: $navigator.routes) {

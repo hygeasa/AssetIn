@@ -9,8 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @ObservedObject var viewModel: LoginViewModel
-    @ObservedObject var navigator: AppNavigator
+    @StateObject var viewModel: LoginViewModel
+    @StateObject var navigator: AppNavigator
     
     @FocusState var focused: Int?
     
@@ -41,13 +41,13 @@ struct LoginView: View {
                 .padding(.horizontal, 40)
                 
                 VStack(alignment: .leading, spacing: 20, content:{
-                    if viewModel.isRegister && !viewModel.isAdmin {
+                    if viewModel.isRegister {
                         VStack(alignment: .leading, spacing: 5, content:{
-                            Text("Username")
+                            Text("Name")
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundColor(.black)
                             
-                            TextField("Your username..", text: $viewModel.usernameText)
+                            TextField("Your name..", text: $viewModel.usernameText)
                                 .font(.system(size: 11,  weight: .regular ))
                                 .padding()
                                 .background(focused == 3 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
@@ -63,11 +63,11 @@ struct LoginView: View {
                         })
                         
                         VStack(alignment: .leading, spacing: 5, content:{
-                            Text("NIS")
+                            Text(viewModel.isAdmin ? "NIP" : "NIS")
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundColor(.black)
                             
-                            TextField("Your NIS", text: $viewModel.NISText)
+                            TextField("Your \(viewModel.isAdmin ? "NIP" : "NIS")", text: $viewModel.NISText)
                                 .font(.system(size: 11,  weight: .regular ))
                                 .padding()
                                 .background(focused == 4 ? Color.AssetIn.yellow.opacity(0.08) : Color.AssetIn.grey)
@@ -101,6 +101,7 @@ struct LoginView: View {
                             .cornerRadius(10)
                             .tag(1)
                             .focused($focused, equals: 1)
+                            .keyboardType(.emailAddress)
                         
                     })
                     
@@ -125,6 +126,27 @@ struct LoginView: View {
                         
                     })
                     
+                    if viewModel.isRegister {
+                        VStack(alignment: .leading, spacing: 10, content:{
+                            Text("Confirm Password")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(.black)
+                            
+                            SecureField("Confirm your password..", text: $viewModel.confirmPasswordText)
+                                .font(.system(size: 11,  weight: .regular ))
+                                .padding()
+                                .background(focused == 5 ? Color .AssetIn.yellow.opacity(0.08) :
+                                                Color.AssetIn.grey)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.AssetIn.orange, lineWidth: focused == 5 ? 1 : 0)
+                                        .foregroundColor(.AssetIn.orange)
+                                }
+                                .cornerRadius(10)
+                                .tag(5)
+                                .focused($focused, equals: 5)
+                        })
+                    }
                 })
                 .padding(.horizontal, 40)
                 
@@ -145,27 +167,27 @@ struct LoginView: View {
                     }
                     .disabled(viewModel.disableButton())
                     
-                    if !viewModel.isAdmin {
-                        HStack{
-                            Text(viewModel.isRegister ? "Already have an account?" : "Don't have any account?" )
+                    HStack{
+                        Text(viewModel.isRegister ? "Already have an account?" : "Don't have any account?" )
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.black)
+                        
+                        Button {
+                            viewModel.isRegister.toggle()
+                            viewModel.passwordText = ""
+                        } label: {
+                            Text(viewModel.isRegister ? "Login" : "Register")
                                 .font(.system(size: 10, weight: .medium))
-                                .foregroundColor(.black)
-                            
-                            Button {
-                                viewModel.isRegister.toggle()
-                                viewModel.passwordText = ""
-                            } label: {
-                                Text(viewModel.isRegister ? "Login" : "Register")
-                                    .font(.system(size: 10, weight: .medium))
-                                    .foregroundColor(.AssetIn.orange)
-                                    .underline()
-                            }
+                                .foregroundColor(.AssetIn.orange)
+                                .underline()
                         }
                     }
                 }
                 .padding(.horizontal, 40)
             }
         }
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
         .frame(maxHeight: .infinity)
         .background(
             ZStack {
@@ -222,16 +244,14 @@ struct LoginView: View {
             }
             
         }
-        .alert(isPresented: $viewModel.isError) {
-            Alert(
-                title: Text("Oopss.."),
-                message: Text(viewModel.errorText),
-                dismissButton: .default(Text("Okay"))
-            )
-        }
+        .alert(viewModel.alertTitle, isPresented: $viewModel.isShowAlert, actions: {
+            Button("Okay") {}
+        }, message: {
+            Text(viewModel.alertMessage)
+        })
     }
 }
 
 #Preview {
-    LoginView(viewModel: .init(isAdmin: false), navigator: .init())
+    LoginView(viewModel: .init(isAdmin: true), navigator: .init())
 }
