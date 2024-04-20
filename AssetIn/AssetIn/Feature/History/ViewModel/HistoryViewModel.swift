@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class HistoryViewModel: ObservableObject {
     
@@ -22,21 +20,9 @@ class HistoryViewModel: ObservableObject {
     @Published var isShowAlert = false
     @Published var isRequest = false
     
-    private var database = Firestore.firestore()
-    
     @MainActor
     func getHistoryData() {
-        database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
-            .whereField("status", isEqualTo: "Done")
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else {
-                    self.historyData = snapshot?.documents.compactMap{
-                        try? $0.data(as: History.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
@@ -53,31 +39,12 @@ class HistoryViewModel: ObservableObject {
                 stock: Int(quantity),
                 requestedAt: .now
             )
-            
-            database.collection("Peminjaman").document(request.id ?? "")
-                .setData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.isRequest = true
-                    }
-                }
         }
     }
     
     @MainActor
     func getUserData() {
         guard userData == nil else { return }
-        database.collection("Pengguna").document(userId)
-            .getDocument { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot,
-                          let data = try? snapshot.data(as: User.self)
-                {
-                    self.userData = data
-                }
-            }
     }
 }
 

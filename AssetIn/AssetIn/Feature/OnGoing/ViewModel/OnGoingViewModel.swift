@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class OnGoingViewModel: ObservableObject {
     
@@ -20,21 +18,9 @@ class OnGoingViewModel: ObservableObject {
         loginStatus == 2
     }
     
-    private var database = Firestore.firestore()
-    
     @MainActor
     func getHistoryData() {
-        database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
-            .whereField("status", notIn: ["Done", "Ready"])
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else {
-                    self.historyData = snapshot?.documents.compactMap{
-                        try? $0.data(as: History.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     func statusColor(_ status: String) -> Color {

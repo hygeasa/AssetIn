@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SDWebImageSwiftUI
 
 struct SearchDetailView: View {
     @ObservedObject var viewModel : SearchDetailViewModel

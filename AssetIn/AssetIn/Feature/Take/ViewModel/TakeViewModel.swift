@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class TakeViewModel : ObservableObject {
     @AppStorage("LOGIN_STATUS") private var loginStatus: Int = 0
@@ -19,20 +17,8 @@ class TakeViewModel : ObservableObject {
     @Published var isShowAlert = false
     @Published var isRequest = false
     
-    private var database = Firestore.firestore()
-    
     @MainActor
     func getHistoryData() {
-        database.collection("Peminjaman").whereField("studentId", isEqualTo: userId)
-            .whereField("status", isEqualTo: "Ready")
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else {
-                    self.historyData = snapshot?.documents.compactMap{
-                        try? $0.data(as: History.self)
-                    } ?? []
-                }
-            }
+        
     }
 }

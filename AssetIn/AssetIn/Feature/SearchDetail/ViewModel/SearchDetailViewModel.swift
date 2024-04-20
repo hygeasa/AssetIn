@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class SearchDetailViewModel : ObservableObject {
     
@@ -44,23 +42,12 @@ class SearchDetailViewModel : ObservableObject {
         category.name
     }
     
-    private let database = Firestore.firestore()
-    
     init(category: Category) {
         self.category = category
     }
     
     func getInventories() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: category.id)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.inventarisList = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
@@ -70,17 +57,7 @@ class SearchDetailViewModel : ObservableObject {
     
     @MainActor
     func updateInventory() {
-        if let currentInventory, let id = currentInventory.id {
-            database.collection("Inventaris").document(id)
-                .updateData(["stock":Int(self.quantity) ?? currentInventory.stock]) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.isRequest = true
-                        self.getInventories()
-                    }
-                }
-        }
+        
     }
     
     @MainActor
@@ -97,30 +74,11 @@ class SearchDetailViewModel : ObservableObject {
                 stock: Int(quantity),
                 requestedAt: .now
             )
-            
-            database.collection("Peminjaman").document(request.id ?? "")
-                .setData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.isRequest = true
-                    }
-                }
         }
     }
     
     @MainActor
     func getUserData() {
         guard userData == nil else { return }
-        database.collection("Pengguna").document(userId)
-            .getDocument { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot,
-                          let data = try? snapshot.data(as: User.self)
-                {
-                    self.userData = data
-                }
-            }
     }
 }

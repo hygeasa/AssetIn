@@ -7,9 +7,6 @@
 
 import SwiftUI
 import PhotosUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import FirebaseStorage
 
 class ChangeProfileViewModel : ObservableObject {
     
@@ -31,21 +28,10 @@ class ChangeProfileViewModel : ObservableObject {
         imagePlaceholder == UIImage()
     }
     
-    private var database = Firestore.firestore()
-    
     @MainActor
     func getUserData() {
         guard userData == nil else { return }
-        database.collection("Pengguna").document(userId)
-            .getDocument { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot,
-                          let data = try? snapshot.data(as: User.self)
-                {
-                    self.userData = data
-                }
-            }
+        
     }
     
     @MainActor
@@ -66,37 +52,6 @@ class ChangeProfileViewModel : ObservableObject {
         }
         guard let imageData = imagePlaceholder.jpegData(compressionQuality: 0.5) else { return }
         
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
-        
-        let imageName = UUID().uuidString
-        let imageRef = storageRef.child("profile/\(userId)/\(imageName).jpg")
-        
-        _ = imageRef.putData(imageData, metadata: nil) { metadata, error in
-            guard let _ = metadata else {
-                self.isError = true
-                self.errorText = error?.localizedDescription ?? "An error occured when uploading photo"
-                self.isShowAlert = true
-                withAnimation {
-                    self.isLoading = false
-                }
-                return
-            }
-            
-            imageRef.downloadURL { url, error in
-                guard let downloadURL = url else {
-                    self.isError = true
-                    self.errorText = error?.localizedDescription ?? "An error occured when uploading photo"
-                    withAnimation {
-                        self.isLoading = false
-                    }
-                    self.isShowAlert = true
-                    return
-                }
-                
-                self.storeProfilePhoto(downloadURL)
-            }
-        }
     }
     
     @MainActor
@@ -111,20 +66,6 @@ class ChangeProfileViewModel : ObservableObject {
                 imageURL: url.absoluteString
             )
             
-            database.collection("Pengguna").document(userId)
-                .updateData(request.toJSON()) { error in
-                    if let error {
-                        self.isError = true
-                        self.errorText = error.localizedDescription
-                    } else {
-                        self.isError = false
-                    }
-                    
-                    withAnimation {
-                        self.isLoading = false
-                    }
-                    self.isShowAlert = true
-                }
         }
     }
 }

@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 enum AdminHeaderSection {
     case request
@@ -116,8 +114,6 @@ class HomeViewModel : ObservableObject {
         isOutOfStock || takePlace.isEmpty || isQuantityZero
     }
     
-    private var database = Firestore.firestore()
-    
     func statusColor(_ status: String) -> Color {
         switch status {
         case HistoryStatus.done.rawValue:
@@ -132,33 +128,11 @@ class HomeViewModel : ObservableObject {
     @MainActor
     func getUserData() {
         guard userData == nil else { return }
-        database.collection("Pengguna").document(userId)
-            .getDocument { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot,
-                          let data = try? snapshot.data(as: User.self)
-                {
-                    self.userData = data
-                }
-            }
     }
     
     @MainActor
     func getNewsData() {
         guard news.isEmpty else { return }
-        database.collection("Berita")
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot {
-                    withAnimation {
-                        self.news = snapshot.documents.compactMap({ data in
-                            try? data.data(as: News.self)
-                        })
-                    }
-                }
-            }
     }
     
     @MainActor
@@ -181,15 +155,6 @@ class HomeViewModel : ObservableObject {
                 title: self.newsTitle,
                 url: self.newsURL
             )
-            
-            database.collection("Berita").document(id)
-                .updateData(newData.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.resetNewsData()
-                    }
-                }
         }
     }
     
@@ -211,50 +176,17 @@ class HomeViewModel : ObservableObject {
     
     @MainActor
     func getHistoryData() {
-        database.collection("Peminjaman").whereField("status", isEqualTo: "On Process")
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot {
-                    withAnimation {
-                        self.historyData = snapshot.documents.compactMap({
-                            try? $0.data(as: History.self)
-                        })
-                    }
-                }
-            }
+        
     }
     
     @MainActor
     func getReadyData() {
-        database.collection("Peminjaman").whereField("status", isEqualTo: "Ready")
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot {
-                    withAnimation {
-                        self.readyData = snapshot.documents.compactMap({
-                            try? $0.data(as: History.self)
-                        })
-                    }
-                }
-            }
+        
     }
     
     @MainActor
     func getOnGoingData() {
-        database.collection("Peminjaman").whereField("status", isEqualTo: "On Going")
-            .getDocuments { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot {
-                    withAnimation {
-                        self.onGoingData = snapshot.documents.compactMap({
-                            try? $0.data(as: History.self)
-                        })
-                    }
-                }
-            }
+        
     }
     
     @MainActor
@@ -269,14 +201,7 @@ class HomeViewModel : ObservableObject {
     @MainActor
     func checkCurrentStock() {
         if let currentRequest, let id = currentRequest.inventoryId {
-            database.collection("Inventaris").document(id)
-                .getDocument { snapshot, error in
-                    if let error {
-                        print(error)
-                    } else if let snapshot {
-                        self.currentInventory = try? snapshot.data(as: Inventaris.self)
-                    }
-                }
+            
         }
     }
     
@@ -289,14 +214,6 @@ class HomeViewModel : ObservableObject {
             request.status = "Ready"
             request.place = takePlace
             
-            database.collection("Peminjaman").document(id)
-                .updateData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.updateInventory()
-                    }
-                }
         }
     }
     
@@ -318,14 +235,6 @@ class HomeViewModel : ObservableObject {
             var request = currentInventory
             request.stock -= (Int(currentQuantity) ?? 0)
             
-            database.collection("Inventaris").document(id)
-                .updateData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.isAccepted = true
-                    }
-                }
         }
     }
     
@@ -366,15 +275,6 @@ class HomeViewModel : ObservableObject {
             request.expiredAt = Calendar.current.date(byAdding: .day, value: 1, to: .now)
             request.status = "On Going"
             request.borrowedAt = .now
-            
-            database.collection("Peminjaman").document(id)
-                .updateData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.resetCurrentRequestData()
-                    }
-                }
         }
     }
     
@@ -384,15 +284,6 @@ class HomeViewModel : ObservableObject {
             var request = currentRequest
             request.status = "Done"
             request.returnedAt = .now
-            
-            database.collection("Peminjaman").document(id)
-                .updateData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.addInventoryStock()
-                    }
-                }
         }
     }
     
@@ -401,15 +292,6 @@ class HomeViewModel : ObservableObject {
         if let currentInventory, let id = currentInventory.id {
             var request = currentInventory
             request.stock += (Int(currentQuantity) ?? 0)
-            
-            database.collection("Inventaris").document(id)
-                .updateData(request.toJSON()) { error in
-                    if let error {
-                        print(error)
-                    } else {
-                        self.resetCurrentRequestData()
-                    }
-                }
         }
     }
 }

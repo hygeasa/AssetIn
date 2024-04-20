@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 class ChangePasswordViewModel: ObservableObject {
     @Published var passwordText: String = ""
@@ -28,15 +27,6 @@ class ChangePasswordViewModel: ObservableObject {
     
     @MainActor
     func changePassword() {
-        Auth.auth().currentUser?.updatePassword(to: passwordText, completion: { error in
-            if let error {
-                self.errorText = error.localizedDescription
-                self.isError = true
-            } else {
-                self.isChangeSuccess = true
-                self.isError = false
-            }
-            self.isShowAlert = true
-        })
+        
     }
 }

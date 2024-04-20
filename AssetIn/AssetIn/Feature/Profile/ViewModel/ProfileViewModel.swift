@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseAuth
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class ProfileViewModel: ObservableObject {
     
@@ -21,25 +18,12 @@ class ProfileViewModel: ObservableObject {
         loginStatus == 2
     }
     
-    private var database = Firestore.firestore()
-    
     @MainActor
     func getUserData() {
         guard userData == nil else { return }
-        database.collection("Pengguna").document(userId)
-            .getDocument { snapshot, error in
-                if let error {
-                    print(error)
-                } else if let snapshot,
-                          let data = try? snapshot.data(as: User.self)
-                {
-                    self.userData = data
-                }
-            }
     }
     
     func logout(perform: @escaping () -> Void) {
-        try? Auth.auth().signOut()
         withAnimation {
             loginStatus = 0
             userId = ""

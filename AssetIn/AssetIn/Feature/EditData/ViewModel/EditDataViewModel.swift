@@ -7,13 +7,8 @@
 
 import SwiftUI
 import PhotosUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import FirebaseStorage
 
 class EditDataViewModel : ObservableObject {
-    
-    private var database = Firestore.firestore()
     
     @Published var isLoading = false
     @Published var isError = false
@@ -51,86 +46,32 @@ class EditDataViewModel : ObservableObject {
     
     @MainActor
     private func getFurnitureData() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: "FURNITURE")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.furnitureData = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
     private func getMusicData() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: "MUSIC")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.musicData = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
     private func getClassroomData() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: "CLASSROOM")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.classroomData = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
     private func getLabData() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: "LABORATORY")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.labData = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
     private func getSportsData() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: "SPORTS")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.sportsData = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
     private func getLibraryData() {
-        database.collection("Inventaris").whereField("category_id", isEqualTo: "LIBRARY")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    self.libraryData = snapshot?.documents.compactMap {
-                        try? $0.data(as: Inventaris.self)
-                    } ?? []
-                }
-            }
+        
     }
     
     @MainActor
@@ -139,38 +80,6 @@ class EditDataViewModel : ObservableObject {
             isLoading = true
         }
         guard let imageData = imagePlaceholder.jpegData(compressionQuality: 0.5) else { return }
-        
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
-        
-        let imageName = UUID().uuidString
-        let imageRef = storageRef.child("inventory/\(imageName).jpg")
-        
-        _ = imageRef.putData(imageData, metadata: nil) { metadata, error in
-            guard let _ = metadata else {
-                self.isError = true
-                self.errorText = error?.localizedDescription ?? "An error occured when uploading photo"
-                self.isShowAlert = true
-                withAnimation {
-                    self.isLoading = false
-                }
-                return
-            }
-            
-            imageRef.downloadURL { url, error in
-                guard let downloadURL = url else {
-                    self.isError = true
-                    self.errorText = error?.localizedDescription ?? "An error occured when uploading photo"
-                    withAnimation {
-                        self.isLoading = false
-                    }
-                    self.isShowAlert = true
-                    return
-                }
-                
-                self.addData(downloadURL.absoluteString)
-            }
-        }
     }
     
     @MainActor
@@ -183,19 +92,6 @@ class EditDataViewModel : ObservableObject {
             gambar: imageURL
         )
         
-        database.collection("Inventaris").document(request.id ?? UUID().uuidString)
-            .setData(request.toJSON()) { error in
-                if let error {
-                    self.isError = true
-                    self.errorText = error.localizedDescription
-                } else {
-                    self.isError = false
-                    withAnimation {
-                        self.isLoading = false
-                    }
-                    self.isShowAlert = true
-                }
-            }
     }
     
     @MainActor
