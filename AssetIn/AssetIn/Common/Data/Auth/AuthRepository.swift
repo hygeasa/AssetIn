@@ -11,6 +11,7 @@ protocol AuthRepository {
     func register(with body: RegisterBody) async -> Result<User, Error>
     func login(email: String, password: String) async -> Result<LoginResponse, Error>
     func logout() async -> Result<SuccessResponse, Error>
+    func getUserData() async -> Result<User, Error>
 }
 
 final class AuthDefaultRepository: AuthRepository {
@@ -46,6 +47,15 @@ final class AuthDefaultRepository: AuthRepository {
     func logout() async -> Result<SuccessResponse, any Error> {
         do {
             let response = try await remote.logout()
+            return .success(response)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func getUserData() async -> Result<User, any Error> {
+        do {
+            let response = try await remote.getUserData()
             return .success(response)
         } catch {
             return .failure(error)

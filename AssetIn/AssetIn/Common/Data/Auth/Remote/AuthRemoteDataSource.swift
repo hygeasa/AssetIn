@@ -12,6 +12,7 @@ protocol AuthRemoteDataSource {
     func register(with body: RegisterBody) async throws -> User
     func login(email: String, password: String) async throws -> LoginResponse
     func logout() async throws -> SuccessResponse
+    func getUserData() async throws -> User
 }
 
 final class AuthDefaultRemoteDataSource: AuthRemoteDataSource {
@@ -32,5 +33,9 @@ final class AuthDefaultRemoteDataSource: AuthRemoteDataSource {
     
     func logout() async throws -> SuccessResponse {
         try await provider.requestAsync(.logout, model: SuccessResponse.self)
+    }
+    
+    func getUserData() async throws -> User {
+        try await provider.requestAsync(.getUserData, model: User.self)
     }
 }

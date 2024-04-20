@@ -11,7 +11,7 @@ struct MainView: View {
     @StateObject var navigator: AppNavigator
     var body: some View {
         TabView {
-            Text("Home")
+            HomeView()
                 .tabItem {
                     Image(systemName: "house")
                     Text("home")

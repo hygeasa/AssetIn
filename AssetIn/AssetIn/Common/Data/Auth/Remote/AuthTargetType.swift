@@ -12,15 +12,16 @@ enum AuthTargetType {
     case register(RegisterBody)
     case login(email: String, password: String)
     case logout
+    case getUserData
 }
 
 extension AuthTargetType: DefaultTargetType, AccessTokenAuthorizable {
     var authorizationType: Moya.AuthorizationType? {
         switch self {
-        case .logout:
-            return .bearer
-        default:
+        case .login, .register:
             return .none
+        default:
+            return .bearer
         }
     }
     
@@ -33,7 +34,7 @@ extension AuthTargetType: DefaultTargetType, AccessTokenAuthorizable {
                 "email": email,
                 "password": password
             ]
-        case .logout:
+        default:
             return [:]
         }
     }
@@ -46,16 +47,23 @@ extension AuthTargetType: DefaultTargetType, AccessTokenAuthorizable {
             return "/login"
         case .logout:
             return "/logout"
+        case .getUserData:
+            return "/users/me"
         }
     }
     
     var method: Moya.Method {
-        return .post
+        switch self {
+        case .getUserData:
+            return .get
+        default:
+            return .post
+        }
     }
     
     var parameterEncoding: Moya.ParameterEncoding {
         switch self {
-        case .logout:
+        case .logout, .getUserData:
             return URLEncoding.default
         default:
             return JSONEncoding.default
