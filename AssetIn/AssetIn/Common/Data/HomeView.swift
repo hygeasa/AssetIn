@@ -19,7 +19,7 @@ struct HomeView: View {
                 ScrollView {
                     LazyVStack(spacing: 18, pinnedViews: .sectionHeaders) {
                         slidingBanner(geo)
-                        requestSection
+                        requestSection(geo)
                     }
                     .padding(.vertical, 30)
                     .padding(.top, 24)
@@ -128,7 +128,7 @@ extension HomeView {
     }
     
     @ViewBuilder
-    var requestSection: some View {
+    func requestSection(_ geo: GeometryProxy) -> some View {
         VStack(alignment: .leading) {
             HStack(alignment: .bottom) {
                 Text("Your Requests")
@@ -148,54 +148,60 @@ extension HomeView {
                 }
             }
             .padding(.bottom, 6)
+            .padding(.horizontal)
             
-            ForEach(viewModel.loans.prefix(3)) { loan in
-                HStack(alignment: .top, spacing: 8) {
-                    AsyncImage(url: URL.imagePath((loan.inventory?.photo).orEmpty())) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.loans.prefix(3)) { loan in
+                        HStack(alignment: .top, spacing: 8) {
+                            AsyncImage(url: URL.imagePath((loan.inventory?.photo).orEmpty())) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 80)
+                                }
+                            }
+                            
+                            VStack(alignment: .leading) {
+                                Text((loan.status?.rawValue).orEmpty())
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 12)
+                                    .background(Capsule().fill(loan.status?.rawValue == "REQUEST" ? Color.AssetIn.orange : Color.AssetIn.green))
+                                
+                                Text((loan.inventory?.name).orEmpty())
+                                    .font(.headline)
+                                
+                                Text(loan.status?.rawValue == "REQUEST" ? "Still processing.." : "Take it at \(loan.pickupLocation.orEmpty())"
+                                )
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundStyle(Color.AssetIn.greyText)
+                                
+                                Text("Deadline: \((loan.dueDate?.dateDisplay(.slash)).orEmpty())")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Color.AssetIn.orange)
+                                    .padding(.top, 1)
+                            }
+                        }
+                        
+                        .frame(width: geo.size.width-100, alignment: .leading)
+                        .padding()
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 12)
+                                .inset(by: 0.5)
+                                .strokeBorder(Color.AssetIn.greyChecklist)
                         }
                     }
-                    
-                    VStack(alignment: .leading) {
-                        Text((loan.status?.rawValue).orEmpty())
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 12)
-                            .background(Capsule().fill(loan.status?.rawValue == "REQUEST" ? Color.AssetIn.orange : Color.AssetIn.green))
-                        
-                        Text((loan.inventory?.name).orEmpty())
-                            .font(.headline)
-                        
-                        Text(loan.status?.rawValue == "REQUEST" ? "Still processing.." : "Take it at \(loan.pickupLocation.orEmpty())"
-                        )
-                        .font(.caption)
-                        .fontWeight(.medium)
-                        .foregroundStyle(Color.AssetIn.greyText)
-                        
-                        Text("Deadline: \((loan.dueDate?.dateDisplay(.slash)).orEmpty())")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(Color.AssetIn.orange)
-                            .padding(.top, 1)
-                    }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12)
-                        .inset(by: 0.5)
-                        .strokeBorder(Color.AssetIn.greyChecklist)
-                }
+                .padding(.horizontal)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal)
     }
 }
 
