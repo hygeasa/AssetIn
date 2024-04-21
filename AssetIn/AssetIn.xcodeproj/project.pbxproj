@@ -53,6 +53,10 @@
 		4BC22BA42BD41F2B00F03C4A /* AnnouncementRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BA32BD41F2B00F03C4A /* AnnouncementRepository.swift */; };
 		4BC22BA62BD4209400F03C4A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BA52BD4209400F03C4A /* HomeViewModel.swift */; };
 		4BC22BA82BD421B100F03C4A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BA72BD421B100F03C4A /* HomeView.swift */; };
+		4BC22BAC2BD570D200F03C4A /* LoanTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BAB2BD570D200F03C4A /* LoanTargetType.swift */; };
+		4BC22BAE2BD5756300F03C4A /* LoanRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BAD2BD5756300F03C4A /* LoanRemoteDataSource.swift */; };
+		4BC22BB02BD5765E00F03C4A /* LoanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BAF2BD5765E00F03C4A /* LoanRepository.swift */; };
+		4BC22BB22BD57DFB00F03C4A /* String+dateDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BB12BD57DFB00F03C4A /* String+dateDisplay.swift */; };
 		4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +124,10 @@
 		4BC22BA32BD41F2B00F03C4A /* AnnouncementRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementRepository.swift; sourceTree = "<group>"; };
 		4BC22BA52BD4209400F03C4A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewModel.swift; path = AssetIn/Common/Data/HomeViewModel.swift; sourceTree = SOURCE_ROOT; };
 		4BC22BA72BD421B100F03C4A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = AssetIn/Common/Data/HomeView.swift; sourceTree = SOURCE_ROOT; };
+		4BC22BAB2BD570D200F03C4A /* LoanTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanTargetType.swift; sourceTree = "<group>"; };
+		4BC22BAD2BD5756300F03C4A /* LoanRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanRemoteDataSource.swift; sourceTree = "<group>"; };
+		4BC22BAF2BD5765E00F03C4A /* LoanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanRepository.swift; sourceTree = "<group>"; };
+		4BC22BB12BD57DFB00F03C4A /* String+dateDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+dateDisplay.swift"; sourceTree = "<group>"; };
 		4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+unique.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,6 +215,7 @@
 				4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */,
 				4BC22B942BD4169A00F03C4A /* URL+imagePath.swift */,
 				4BC22B9B2BD4185E00F03C4A /* View+cornerRadius.swift */,
+				4BC22BB12BD57DFB00F03C4A /* String+dateDisplay.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -336,6 +345,7 @@
 		4BC22B652BD3DB8D00F03C4A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				4BC22BA92BD570BE00F03C4A /* Loan */,
 				4BC22B9D2BD41AB500F03C4A /* Announcement */,
 				4BC22B842BD3E06800F03C4A /* Auth */,
 				4BC22B7E2BD3DF8A00F03C4A /* Reusable */,
@@ -417,6 +427,24 @@
 			children = (
 				4BC22B9F2BD41AFC00F03C4A /* AnnouncementTargetType.swift */,
 				4BC22BA12BD41D4E00F03C4A /* AnnouncementRemoteDataSource.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		4BC22BA92BD570BE00F03C4A /* Loan */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BAA2BD570C400F03C4A /* Remote */,
+				4BC22BAF2BD5765E00F03C4A /* LoanRepository.swift */,
+			);
+			path = Loan;
+			sourceTree = "<group>";
+		};
+		4BC22BAA2BD570C400F03C4A /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BAB2BD570D200F03C4A /* LoanTargetType.swift */,
+				4BC22BAD2BD5756300F03C4A /* LoanRemoteDataSource.swift */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
@@ -565,15 +593,18 @@
 				484D30342B2A1B5C002B3880 /* Inventory.swift in Sources */,
 				4BC22B892BD3E3D100F03C4A /* DefaultResponse.swift in Sources */,
 				4BC22B9C2BD4185E00F03C4A /* View+cornerRadius.swift in Sources */,
+				4BC22BAC2BD570D200F03C4A /* LoanTargetType.swift in Sources */,
 				4BC22B872BD3E1C900F03C4A /* AuthRemoteDataSource.swift in Sources */,
 				4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */,
 				484A09532B324B5A006E1D66 /* Date+toString.swift in Sources */,
 				4BC22B712BD3DC3400F03C4A /* MoyaProvider+DefaultProvider.swift in Sources */,
 				4BC22B8B2BD3E8DC00F03C4A /* AuthTargetType.swift in Sources */,
+				4BC22BB22BD57DFB00F03C4A /* String+dateDisplay.swift in Sources */,
 				4BC22BA62BD4209400F03C4A /* HomeViewModel.swift in Sources */,
 				48BAE2CF2AED390400AB3D8F /* ContentView.swift in Sources */,
 				4BC22B722BD3DC3400F03C4A /* MoyaProvider+RequestAsync.swift in Sources */,
 				483817872AED41F100A1EADB /* Image+Default.swift in Sources */,
+				4BC22BB02BD5765E00F03C4A /* LoanRepository.swift in Sources */,
 				484A09492B31E29F006E1D66 /* User.swift in Sources */,
 				483817852AED3F6500A1EADB /* Color+Default.swift in Sources */,
 				4BC22B7C2BD3DEC800F03C4A /* OptionalString+orEmpty.swift in Sources */,
@@ -589,6 +620,7 @@
 				4BC22B8F2BD3F6F900F03C4A /* AuthRepository.swift in Sources */,
 				483817912AED555800A1EADB /* OnboardingView.swift in Sources */,
 				48BAE2CD2AED390400AB3D8F /* AssetInApp.swift in Sources */,
+				4BC22BAE2BD5756300F03C4A /* LoanRemoteDataSource.swift in Sources */,
 				4BC22BA22BD41D4E00F03C4A /* AnnouncementRemoteDataSource.swift in Sources */,
 				483817982AED5D2E00A1EADB /* LoginViewModel.swift in Sources */,
 				484A094B2B31EFF8006E1D66 /* Category.swift in Sources */,

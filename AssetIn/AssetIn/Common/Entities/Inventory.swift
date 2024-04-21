@@ -14,8 +14,8 @@ struct Inventory: Codable, Identifiable {
     var category: Category?
     var photo: String?
     var quantity: Int?
-    var createdAt: Date?
-    var updatedAt: Date?
+    var createdAt: String?
+    var updatedAt: String?
     
     enum CodingKeys: String, CodingKey {
         case id, name, category, photo

@@ -52,7 +52,7 @@ class LoginViewModel: ObservableObject {
         let response = await authRepository.login(email: emailText, password: passwordText)
         
         switch response {
-        case .success(let success):
+        case .success:
             settings.role = role
             completion()
         case .failure(let failure):

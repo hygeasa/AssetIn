@@ -31,7 +31,7 @@ extension MoyaProvider {
                             print("SUCCESS RESPONSE:", response)
                         } catch {
                             continuation.resume(throwing: error)
-                            print("ERROR DECODING", error)
+                            print("ERROR DECODING", error, response)
                         }
                     }
                 }

@@ -11,11 +11,14 @@ final class HomeViewModel: ObservableObject {
     
     private let announcementRepository: AnnouncementRepository
     private let authRepository: AuthRepository
+    private let loanRepository: LoanRepository
     
     @Published var announcements = [Announcement]()
     @Published var currentBanner = 0
     
     @Published var user: User?
+    
+    @Published var loans = [Loan]()
     
     @Published var alertTitle = ""
     @Published var alertMessage = ""
@@ -26,10 +29,19 @@ final class HomeViewModel: ObservableObject {
     
     init(
         announcementRepository: AnnouncementRepository = AnnouncementDefaultRepository(),
-        authRepository: AuthRepository = AuthDefaultRepository()
+        authRepository: AuthRepository = AuthDefaultRepository(),
+        loanRepository: LoanRepository = LoanDefaultRepository()
     ) {
         self.announcementRepository = announcementRepository
         self.authRepository = authRepository
+        self.loanRepository = loanRepository
+    }
+    
+    @MainActor
+    func onAppear() {
+        getAnnonucementList()
+        getUserData()
+        getLoanList()
     }
     
     @MainActor
@@ -57,6 +69,22 @@ final class HomeViewModel: ObservableObject {
             case .success(let success):
                 withAnimation {
                     user = success
+                }
+            case .failure(let failure):
+                handleDefaultError(failure)
+            }
+        }
+    }
+    
+    @MainActor
+    func getLoanList() {
+        Task {
+            let response = await loanRepository.homeGetUseLoanList()
+            
+            switch response {
+            case .success(let success):
+                withAnimation {
+                    loans = success
                 }
             case .failure(let failure):
                 handleDefaultError(failure)

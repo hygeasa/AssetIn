@@ -15,10 +15,20 @@ struct Loan: Codable, Identifiable {
     var user: User?
     var quantity: Int?
     var status: LoanStatus?
-    var dueDate: Date?
-    var createdAt: Date?
-    var updatedAt: Date?
+    var dueDate: String?
+    var createdAt: String?
+    var updatedAt: String?
     var pickupLocation: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, inventory, user, quantity, status
+        case inventoryId = "inventory_id"
+        case userId = "user_id"
+        case dueDate = "due_date"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case pickupLocation = "pickup_location"
+    }
 }
 
 enum LoanStatus: String, Codable, CaseIterable {
@@ -26,4 +36,19 @@ enum LoanStatus: String, Codable, CaseIterable {
     case ready = "READY"
     case onGoing = "ON-GOING"
     case done = "DONE"
+}
+
+struct LoanRequest: Codable {
+    var inventoryId: Int
+    var userId: Int
+    var quantity: Int
+    var status = "REQUEST"
+    var dueDate: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case quantity, status
+        case inventoryId = "inventory_id"
+        case userId = "user_id"
+        case dueDate = "due_date"
+    }
 }
