@@ -10,6 +10,7 @@ import SwiftUI
 struct HistoryView: View {
     
     @StateObject var viewModel = HistoryViewModel()
+    @Environment(\.dismiss) var back
     
     var body: some View {
         VStack(spacing: 0) {
@@ -41,9 +42,11 @@ extension HistoryView {
     @ViewBuilder
     var header: some View {
         HeaderView {
-            Text("History")
-                .font(.headline)
-                .foregroundStyle(.white)
+            Button("History", systemImage: "chevron.left") {
+                back()
+            }
+            .font(.headline)
+            .foregroundStyle(.white)
         }
     }
     

@@ -12,15 +12,17 @@ final class HistoryViewModel: ObservableObject {
     private let loanRepository: LoanRepository
     
     @Published var loans = [Loan]()
-    @Published var status =  LoanStatus.request
+    @Published var status:  LoanStatus
     
     @Published var alertTitle = ""
     @Published var alertMessage = ""
     @Published var isShowAlert = false
     
     init(
+        status: LoanStatus? = .request,
         loanRepository: LoanRepository = LoanDefaultRepository()
     ) {
+        self.status = status ?? .request
         self.loanRepository = loanRepository
     }
     

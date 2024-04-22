@@ -13,19 +13,12 @@ struct MainView: View {
     
     var body: some View {
         TabView(selection: $settings.mainTabSelection) {
-            HomeView()
+            HomeView(navigator: navigator)
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
                 }
                 .tag(MainTabSelection.home)
-            
-            HistoryView()
-                .tabItem {
-                    Image(systemName: settings.isStudent ? "clock.arrow.circlepath" : "list.bullet.clipboard")
-                    Text(settings.isStudent ? "History" : "Loans")
-                }
-                .tag(MainTabSelection.history)
             
             Text("Profile")
                 .tabItem {

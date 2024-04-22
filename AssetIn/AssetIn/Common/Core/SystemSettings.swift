@@ -57,6 +57,5 @@ extension SystemSettings {
 
 enum MainTabSelection {
     case home
-    case history
     case profile
 }

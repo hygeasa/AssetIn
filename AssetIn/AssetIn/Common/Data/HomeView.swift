@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @StateObject var navigator: AppNavigator
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
@@ -61,23 +62,27 @@ extension HomeView {
                     }
                     Spacer()
                     
-                    Group {
-                        if let imageURL = viewModel.user?.avatar {
-                            AsyncImage(url: .imagePath(imageURL)) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
+                    Button {
+                        SystemSettings.shared.mainTabSelection = .profile
+                    } label: {
+                        Group {
+                            if let imageURL = viewModel.user?.avatar {
+                                AsyncImage(url: .imagePath(imageURL)) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    }
                                 }
+                            } else {
+                                Image.imageProfile
+                                    .resizable()
+                                    .scaledToFit()
                             }
-                        } else {
-                            Image.imageProfile
-                                .resizable()
-                                .scaledToFit()
                         }
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
                     }
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
                 }
                 .padding()
                 .background(.white)
@@ -140,7 +145,7 @@ extension HomeView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Button {
-                    SystemSettings.shared.mainTabSelection = .history
+                    navigator.navigate(to: .history(.init()))
                 } label: {
                     HStack(spacing: 4) {
                         Text("See All")
@@ -156,48 +161,52 @@ extension HomeView {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.loans.prefix(3)) { loan in
-                        HStack(alignment: .top, spacing: 8) {
-                            AsyncImage(url: URL.imagePath((loan.inventory?.photo).orEmpty())) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 80, height: 80)
+                        Button {
+                            navigator.navigate(to: .history(.init(status: loan.status)))
+                        } label: {
+                            HStack(alignment: .top, spacing: 8) {
+                                AsyncImage(url: URL.imagePath((loan.inventory?.photo).orEmpty())) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 80, height: 80)
+                                    }
+                                }
+                                
+                                VStack(alignment: .leading) {
+                                    Text((loan.status?.rawValue).orEmpty())
+                                        .font(.caption)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                        .padding(.vertical, 4)
+                                        .padding(.horizontal, 12)
+                                        .background(Capsule().fill(loan.status?.rawValue == "REQUEST" ? Color.AssetIn.orange : Color.AssetIn.green))
+                                    
+                                    Text((loan.inventory?.name).orEmpty())
+                                        .font(.headline)
+                                        .foregroundStyle(.black)
+                                    
+                                    Text(loan.status?.rawValue == "REQUEST" ? "Still processing.." : "Take it at \(loan.pickupLocation.orEmpty())"
+                                    )
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(Color.AssetIn.greyText)
+                                    
+                                    Text("Deadline: \((loan.dueDate?.dateDisplay(.slash)).orEmpty())")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(Color.AssetIn.orange)
+                                        .padding(.top, 1)
                                 }
                             }
-                            
-                            VStack(alignment: .leading) {
-                                Text((loan.status?.rawValue).orEmpty())
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                    .padding(.vertical, 4)
-                                    .padding(.horizontal, 12)
-                                    .background(Capsule().fill(loan.status?.rawValue == "REQUEST" ? Color.AssetIn.orange : Color.AssetIn.green))
-                                
-                                Text((loan.inventory?.name).orEmpty())
-                                    .font(.headline)
-                                
-                                Text(loan.status?.rawValue == "REQUEST" ? "Still processing.." : "Take it at \(loan.pickupLocation.orEmpty())"
-                                )
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundStyle(Color.AssetIn.greyText)
-                                
-                                Text("Deadline: \((loan.dueDate?.dateDisplay(.slash)).orEmpty())")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(Color.AssetIn.orange)
-                                    .padding(.top, 1)
+                            .frame(width: geo.size.width-100, alignment: .leading)
+                            .padding()
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .inset(by: 0.5)
+                                    .strokeBorder(Color.AssetIn.greyChecklist, lineWidth: 0.5)
                             }
-                        }
-                        
-                        .frame(width: geo.size.width-100, alignment: .leading)
-                        .padding()
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 12)
-                                .inset(by: 0.5)
-                                .strokeBorder(Color.AssetIn.greyChecklist, lineWidth: 0.5)
                         }
                     }
                 }
