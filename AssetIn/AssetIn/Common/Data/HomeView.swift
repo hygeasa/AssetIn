@@ -19,7 +19,10 @@ struct HomeView: View {
                 ScrollView {
                     LazyVStack(spacing: 18, pinnedViews: .sectionHeaders) {
                         slidingBanner(geo)
-                        requestSection(geo)
+                        if !viewModel.loans.isEmpty {
+                            requestSection(geo)
+                        }
+                        borrowSection
                     }
                     .padding(.vertical, 30)
                     .padding(.top, 24)
@@ -100,8 +103,8 @@ extension HomeView {
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(maxWidth: geo.size.width-30, maxHeight: (geo.size.width-30)*9/16)
-                                    .cornerRadius(30, corners: [.topRight, .bottomLeft])
+                                    .frame(maxWidth: geo.size.width-30, maxHeight: (geo.size.width-30)*2/5)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
                             }
                         }
                     }
@@ -114,7 +117,7 @@ extension HomeView {
             }
             .tint(.AssetIn.orange)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: (geo.size.width-30)*9/16)
+            .frame(height: (geo.size.width-30)*2/5)
             
             HStack(spacing: 8) {
                 ForEach(viewModel.announcements.indices, id: \.self) { index in
@@ -203,8 +206,40 @@ extension HomeView {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+    
+    @ViewBuilder
+    var borrowSection: some View {
+        VStack(alignment: .leading) {
+            Text("Need Something?")
+                .font(.title2)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 6)
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 6)], spacing: 6) {
+                ForEach(CategoryType.allCases) { category in
+                    Button {
+                        
+                    } label: {
+                        category.image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: 70)
+                            .overlay {
+                                Color.black.opacity(0.4)
+                                Text(category.name)
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundStyle(.white)
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
 }
 
 #Preview {
-    HomeView()
+    MainView(navigator: .init())
 }

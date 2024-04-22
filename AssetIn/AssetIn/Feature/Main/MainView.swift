@@ -9,14 +9,15 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject var navigator: AppNavigator
+    
     var body: some View {
         TabView {
             HomeView()
                 .tabItem {
                     Image(systemName: "house")
-                    Text("home")
+                    Text("Home")
                 }
-
+            
             Text("Profile")
                 .tabItem {
                     Image(systemName: "person.crop.circle")
@@ -28,8 +29,12 @@ struct MainView: View {
         .tint(.AssetIn.orange)
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            UITabBar.appearance().backgroundColor = .white
+            UITabBar.appearance().isTranslucent = false
         }
     }
+}
 
 
 #Preview {
