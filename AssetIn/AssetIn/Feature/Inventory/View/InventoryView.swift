@@ -11,6 +11,7 @@ struct InventoryView: View {
     
     @StateObject var viewModel: InventoryViewModel
     @Environment(\.dismiss) var back
+    @Namespace var namespace
     
     var body: some View {
         VStack(spacing: 0) {
@@ -27,6 +28,7 @@ struct InventoryView: View {
         }
         .navigationTitle("")
         .navigationBarBackButtonHidden()
+        .overlay { detailView }
         .onAppear {
             viewModel.onAppear()
         }
@@ -59,7 +61,7 @@ extension InventoryView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 8) {
                     ForEach(viewModel.inventories) { inventory in
                         Button {
-                            
+                            viewModel.openDetail(inventory)
                         } label: {
                             VStack(alignment: .leading, spacing: 0) {
                                 AsyncImage(url: URL.imagePath((inventory.photo).orEmpty())) { phase in
@@ -71,6 +73,7 @@ extension InventoryView {
                                             .clipped()
                                     }
                                 }
+                                .matchedGeometryEffect(id: "IMAGE\(inventory.id.orZero())", in: namespace)
                                 
                                 Divider()
                                 
@@ -78,11 +81,13 @@ extension InventoryView {
                                     Text(inventory.name.orEmpty())
                                         .font(.headline)
                                         .foregroundStyle(.black)
+                                        .matchedGeometryEffect(id: "TITLE\(inventory.id.orZero())", in: namespace)
                                     
                                     Text("Stock: \(inventory.quantity.orZero())")
                                         .font(.caption)
                                         .fontWeight(.semibold)
                                         .foregroundStyle(Color.AssetIn.orange)
+                                        .matchedGeometryEffect(id: "STOCK\(inventory.id.orZero())", in: namespace)
                                 }
                                 .multilineTextAlignment(.leading)
                                 .padding()
@@ -94,6 +99,7 @@ extension InventoryView {
                                     .inset(by: 0.5)
                                     .strokeBorder(Color.AssetIn.greyChecklist, lineWidth: 0.5)
                             }
+                            .matchedGeometryEffect(id: "CARD\(inventory.id.orZero())", in: namespace)
                         }
                     }
                 }
@@ -142,6 +148,95 @@ extension InventoryView {
         .padding(.leading)
         .padding(.vertical, 8)
         .background(.white)
+    }
+    
+    @ViewBuilder
+    var detailView: some View {
+        if let inventory = viewModel.currentInventory {
+            GeometryReader { geo in
+                VStack(alignment: .leading) {
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            AsyncImage(url: URL.imagePath((inventory.photo).orEmpty())) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(maxWidth: .infinity, maxHeight: geo.size.width)
+                                        .clipped()
+                                }
+                            }
+                            .ignoresSafeArea()
+                            .matchedGeometryEffect(id: "IMAGE\(inventory.id.orZero())", in: namespace)
+                            
+                            VStack(alignment: .leading) {
+                                Text(inventory.name.orEmpty())
+                                    .font(.headline)
+                                    .foregroundStyle(.black)
+                                    .matchedGeometryEffect(id: "TITLE\(inventory.id.orZero())", in: namespace)
+                                
+                                Text("Stock: \(inventory.quantity.orZero())")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Color.AssetIn.orange)
+                                    .matchedGeometryEffect(id: "STOCK\(inventory.id.orZero())", in: namespace)
+                            }
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                            
+                            PrimaryTextField(label: "Quantity", text: $viewModel.quantityTextField, placeholder: "5")
+                                .keyboardType(.numberPad)
+                                .padding(.horizontal)
+                                .padding(.bottom, 4)
+                            
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Date")
+                                    .font(.headline)
+                                DatePicker(
+                                    "",
+                                    selection: $viewModel.loanDate,
+                                    in: Date.now...,
+                                    displayedComponents: [.date, .hourAndMinute]
+                                )
+                                .tint(Color.AssetIn.orange)
+                                .labelsHidden()
+                            }
+                            .padding(.horizontal)
+                        }
+                        .padding(.bottom, 40)
+                    }
+                    
+                    Button {
+                        viewModel.createLoan()
+                    } label: {
+                        Text("Borrow")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(viewModel.disableBorrow ? Color.AssetIn.greyChecklist : Color.AssetIn.orange)
+                            )
+                    }
+                    .disabled(viewModel.disableBorrow)
+                    .padding()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .background(.white)
+                .overlay(alignment: .topTrailing) {
+                    Button {
+                        viewModel.closeDetail()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundStyle(Color.AssetIn.greyChecklist)
+                    }
+                    .padding()
+                }
+                .matchedGeometryEffect(id: "CARD\(inventory.id.orZero())", in: namespace)
+            }
+        }
     }
 }
 

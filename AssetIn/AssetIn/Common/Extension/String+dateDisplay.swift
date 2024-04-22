@@ -16,11 +16,20 @@ extension String {
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = style.rawValue
         
+        
         if let date = inputFormatter.date(from: self) {
             return outputFormatter.string(from: date)
         } else {
             return "Invalid date"
         }
+    }
+}
+
+extension Date {
+    var toServerFormat: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter.string(from: self)
     }
 }
 

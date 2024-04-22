@@ -44,7 +44,7 @@ struct LoanRequest: Codable {
     var userId: Int
     var quantity: Int
     var status = "REQUEST"
-    var dueDate: Date
+    var dueDate: String
     
     enum CodingKeys: String, CodingKey {
         case quantity, status

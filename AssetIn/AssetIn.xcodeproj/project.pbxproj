@@ -65,6 +65,8 @@
 		4BC22BC32BD6A51100F03C4A /* InventoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC22BD6A51100F03C4A /* InventoryRepository.swift */; };
 		4BC22BC72BD6A65E00F03C4A /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC62BD6A65E00F03C4A /* InventoryViewModel.swift */; };
 		4BC22BCA2BD6A86700F03C4A /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC92BD6A86700F03C4A /* InventoryView.swift */; };
+		4BC22BCC2BD6C36F00F03C4A /* PrimaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BCB2BD6C36E00F03C4A /* PrimaryTextField.swift */; };
+		4BC22BCF2BD6C71C00F03C4A /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC22BCE2BD6C71C00F03C4A /* IQKeyboardManagerSwift */; };
 		4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */; };
 /* End PBXBuildFile section */
 
@@ -144,6 +146,7 @@
 		4BC22BC22BD6A51100F03C4A /* InventoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryRepository.swift; sourceTree = "<group>"; };
 		4BC22BC62BD6A65E00F03C4A /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
 		4BC22BC92BD6A86700F03C4A /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
+		4BC22BCB2BD6C36E00F03C4A /* PrimaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextField.swift; sourceTree = "<group>"; };
 		4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+unique.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BC22BCF2BD6C71C00F03C4A /* IQKeyboardManagerSwift in Frameworks */,
 				4BC22B6A2BD3DC1800F03C4A /* Moya in Frameworks */,
 				4BC22B682BD3DC1800F03C4A /* CombineMoya in Frameworks */,
 				4BC22B6E2BD3DC1800F03C4A /* RxMoya in Frameworks */,
@@ -357,6 +361,7 @@
 				484A09502B3241FB006E1D66 /* SafariWebView.swift */,
 				4BC22B992BD4180500F03C4A /* HeaderView.swift */,
 				4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */,
+				4BC22BCB2BD6C36E00F03C4A /* PrimaryTextField.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -558,6 +563,7 @@
 				4BC22B692BD3DC1800F03C4A /* Moya */,
 				4BC22B6B2BD3DC1800F03C4A /* ReactiveMoya */,
 				4BC22B6D2BD3DC1800F03C4A /* RxMoya */,
+				4BC22BCE2BD6C71C00F03C4A /* IQKeyboardManagerSwift */,
 			);
 			productName = AssetIn;
 			productReference = 48BAE2C92AED390400AB3D8F /* AssetIn.app */;
@@ -633,6 +639,7 @@
 			mainGroup = 48BAE2C02AED390400AB3D8F;
 			packageReferences = (
 				4BC22B662BD3DC1800F03C4A /* XCRemoteSwiftPackageReference "Moya" */,
+				4BC22BCD2BD6C71C00F03C4A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 48BAE2CA2AED390400AB3D8F /* Products */;
 			projectDirPath = "";
@@ -703,6 +710,7 @@
 				483817852AED3F6500A1EADB /* Color+Default.swift in Sources */,
 				4BC22B7C2BD3DEC800F03C4A /* OptionalString+orEmpty.swift in Sources */,
 				4BC22B9A2BD4180500F03C4A /* HeaderView.swift in Sources */,
+				4BC22BCC2BD6C36F00F03C4A /* PrimaryTextField.swift in Sources */,
 				4BC22BA02BD41AFC00F03C4A /* AnnouncementTargetType.swift in Sources */,
 				484A09472B31E274006E1D66 /* Encodable+toJSON.swift in Sources */,
 				4BC22B912BD3FDE500F03C4A /* Announcement.swift in Sources */,
@@ -1073,6 +1081,14 @@
 				minimumVersion = 15.0.3;
 			};
 		};
+		4BC22BCD2BD6C71C00F03C4A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1095,6 +1111,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BC22B662BD3DC1800F03C4A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
+		};
+		4BC22BCE2BD6C71C00F03C4A /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BC22BCD2BD6C71C00F03C4A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
