@@ -24,7 +24,9 @@ extension LoanTargetType: DefaultTargetType, AccessTokenAuthorizable {
         case .create(let body):
             return body.toJSON()
         case .getUserLoanList(let status):
-            return status?.toJSON() ?? [:]
+            return [
+                "status" : (status?.rawValue).orEmpty()
+            ]
         case .homeGetUseLoanList:
             return [:]
         }

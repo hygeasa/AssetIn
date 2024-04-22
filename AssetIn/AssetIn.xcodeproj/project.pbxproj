@@ -57,6 +57,9 @@
 		4BC22BAE2BD5756300F03C4A /* LoanRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BAD2BD5756300F03C4A /* LoanRemoteDataSource.swift */; };
 		4BC22BB02BD5765E00F03C4A /* LoanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BAF2BD5765E00F03C4A /* LoanRepository.swift */; };
 		4BC22BB22BD57DFB00F03C4A /* String+dateDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BB12BD57DFB00F03C4A /* String+dateDisplay.swift */; };
+		4BC22BB62BD671E700F03C4A /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BB52BD671E600F03C4A /* HistoryViewModel.swift */; };
+		4BC22BB92BD6764F00F03C4A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BB82BD6764F00F03C4A /* HistoryView.swift */; };
+		4BC22BBB2BD67FDB00F03C4A /* DefaultEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */; };
 		4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +131,9 @@
 		4BC22BAD2BD5756300F03C4A /* LoanRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanRemoteDataSource.swift; sourceTree = "<group>"; };
 		4BC22BAF2BD5765E00F03C4A /* LoanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanRepository.swift; sourceTree = "<group>"; };
 		4BC22BB12BD57DFB00F03C4A /* String+dateDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+dateDisplay.swift"; sourceTree = "<group>"; };
+		4BC22BB52BD671E600F03C4A /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryViewModel.swift; path = AssetIn/Common/Extension/HistoryViewModel.swift; sourceTree = SOURCE_ROOT; };
+		4BC22BB82BD6764F00F03C4A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryView.swift; path = AssetIn/Common/Extension/HistoryView.swift; sourceTree = SOURCE_ROOT; };
+		4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEmptyView.swift; sourceTree = "<group>"; };
 		4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+unique.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -325,6 +331,7 @@
 		48BAE2F92AED399600AB3D8F /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				4BC22BB32BD671D300F03C4A /* History */,
 				4BC22B962BD4175A00F03C4A /* Home */,
 				483817922AED57C400A1EADB /* Login */,
 				4838178E2AED554100A1EADB /* Onboarding */,
@@ -338,6 +345,7 @@
 			children = (
 				484A09502B3241FB006E1D66 /* SafariWebView.swift */,
 				4BC22B992BD4180500F03C4A /* HeaderView.swift */,
+				4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -447,6 +455,31 @@
 				4BC22BAD2BD5756300F03C4A /* LoanRemoteDataSource.swift */,
 			);
 			path = Remote;
+			sourceTree = "<group>";
+		};
+		4BC22BB32BD671D300F03C4A /* History */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BB72BD6764500F03C4A /* View */,
+				4BC22BB42BD671DC00F03C4A /* ViewModel */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		4BC22BB42BD671DC00F03C4A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BB52BD671E600F03C4A /* HistoryViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4BC22BB72BD6764500F03C4A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BB82BD6764F00F03C4A /* HistoryView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,6 +626,7 @@
 				484D30342B2A1B5C002B3880 /* Inventory.swift in Sources */,
 				4BC22B892BD3E3D100F03C4A /* DefaultResponse.swift in Sources */,
 				4BC22B9C2BD4185E00F03C4A /* View+cornerRadius.swift in Sources */,
+				4BC22BB92BD6764F00F03C4A /* HistoryView.swift in Sources */,
 				4BC22BAC2BD570D200F03C4A /* LoanTargetType.swift in Sources */,
 				4BC22B872BD3E1C900F03C4A /* AuthRemoteDataSource.swift in Sources */,
 				4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */,
@@ -602,6 +636,7 @@
 				4BC22BB22BD57DFB00F03C4A /* String+dateDisplay.swift in Sources */,
 				4BC22BA62BD4209400F03C4A /* HomeViewModel.swift in Sources */,
 				48BAE2CF2AED390400AB3D8F /* ContentView.swift in Sources */,
+				4BC22BB62BD671E700F03C4A /* HistoryViewModel.swift in Sources */,
 				4BC22B722BD3DC3400F03C4A /* MoyaProvider+RequestAsync.swift in Sources */,
 				483817872AED41F100A1EADB /* Image+Default.swift in Sources */,
 				4BC22BB02BD5765E00F03C4A /* LoanRepository.swift in Sources */,
@@ -615,6 +650,7 @@
 				4BC22B7D2BD3DEC800F03C4A /* OptionalInt+orZero.swift in Sources */,
 				4BC22B7B2BD3DEC800F03C4A /* OptionalDouble+orZero.swift in Sources */,
 				4BC22BA42BD41F2B00F03C4A /* AnnouncementRepository.swift in Sources */,
+				4BC22BBB2BD67FDB00F03C4A /* DefaultEmptyView.swift in Sources */,
 				4BC22B752BD3DCFD00F03C4A /* SystemSettings.swift in Sources */,
 				4852FA962B189CE100FAAD3B /* MainView.swift in Sources */,
 				4BC22B8F2BD3F6F900F03C4A /* AuthRepository.swift in Sources */,

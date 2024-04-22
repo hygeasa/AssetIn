@@ -140,7 +140,7 @@ extension HomeView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Button {
-                    
+                    SystemSettings.shared.mainTabSelection = .history
                 } label: {
                     HStack(spacing: 4) {
                         Text("See All")
@@ -197,7 +197,7 @@ extension HomeView {
                         .overlay {
                             RoundedRectangle(cornerRadius: 12)
                                 .inset(by: 0.5)
-                                .strokeBorder(Color.AssetIn.greyChecklist)
+                                .strokeBorder(Color.AssetIn.greyChecklist, lineWidth: 0.5)
                         }
                     }
                 }

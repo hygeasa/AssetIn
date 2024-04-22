@@ -31,7 +31,8 @@ struct Loan: Codable, Identifiable {
     }
 }
 
-enum LoanStatus: String, Codable, CaseIterable {
+enum LoanStatus: String, Codable, Identifiable, CaseIterable {
+    var id: String { self.rawValue }
     case request = "REQUEST"
     case ready = "READY"
     case onGoing = "ON-GOING"

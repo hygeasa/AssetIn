@@ -17,6 +17,8 @@ final class SystemSettings: ObservableObject {
     
     private let defaults = UserDefaults.standard
     
+    @Published var mainTabSelection = MainTabSelection.home
+    
     @Published var accessToken: String {
         didSet {
             defaults.set(accessToken, forKey: SystemKey.accessToken)
@@ -51,4 +53,10 @@ extension SystemSettings {
     var isSuperAdmin: Bool {
         return role == "superadmin"
     }
+}
+
+enum MainTabSelection {
+    case home
+    case history
+    case profile
 }

@@ -84,7 +84,7 @@ final class HomeViewModel: ObservableObject {
             switch response {
             case .success(let success):
                 withAnimation {
-                    loans = success
+                    loans = success.sorted(by: { ($0.status?.rawValue).orEmpty() < ($1.status?.rawValue).orEmpty() })
                 }
             case .failure(let failure):
                 handleDefaultError(failure)
