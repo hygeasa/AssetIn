@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HistoryView: View {
     
-    @StateObject var viewModel = HistoryViewModel()
+    @StateObject var viewModel: HistoryViewModel
     @Environment(\.dismiss) var back
     
     var body: some View {
@@ -149,5 +149,5 @@ extension HistoryView {
 }
 
 #Preview {
-    HistoryView()
+    HistoryView(viewModel: .init())
 }

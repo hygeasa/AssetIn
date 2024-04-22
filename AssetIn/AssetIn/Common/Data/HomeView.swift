@@ -228,7 +228,7 @@ extension HomeView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 6)], spacing: 6) {
                 ForEach(CategoryType.allCases) { category in
                     Button {
-                        
+                        navigator.navigate(to: .inventory(.init(category: category)))
                     } label: {
                         category.image
                             .resizable()

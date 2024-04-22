@@ -9,9 +9,8 @@ import Foundation
 import Moya
 
 protocol DefaultTargetType: TargetType {
-    var parameters: [String: Any] {
-        get
-    }
+    var parameters: [String: Any] { get }
+    var task: Task { get }
 }
 
 extension DefaultTargetType {

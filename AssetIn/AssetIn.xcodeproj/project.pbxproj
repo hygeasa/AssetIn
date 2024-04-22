@@ -60,6 +60,11 @@
 		4BC22BB62BD671E700F03C4A /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BB52BD671E600F03C4A /* HistoryViewModel.swift */; };
 		4BC22BB92BD6764F00F03C4A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BB82BD6764F00F03C4A /* HistoryView.swift */; };
 		4BC22BBB2BD67FDB00F03C4A /* DefaultEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */; };
+		4BC22BBF2BD6A0FF00F03C4A /* InventoryTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BBE2BD6A0FF00F03C4A /* InventoryTargetType.swift */; };
+		4BC22BC12BD6A43100F03C4A /* InventoryRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC02BD6A43100F03C4A /* InventoryRemoteDataSource.swift */; };
+		4BC22BC32BD6A51100F03C4A /* InventoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC22BD6A51100F03C4A /* InventoryRepository.swift */; };
+		4BC22BC72BD6A65E00F03C4A /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC62BD6A65E00F03C4A /* InventoryViewModel.swift */; };
+		4BC22BCA2BD6A86700F03C4A /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC22BC92BD6A86700F03C4A /* InventoryView.swift */; };
 		4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */; };
 /* End PBXBuildFile section */
 
@@ -134,6 +139,11 @@
 		4BC22BB52BD671E600F03C4A /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryViewModel.swift; path = AssetIn/Common/Extension/HistoryViewModel.swift; sourceTree = SOURCE_ROOT; };
 		4BC22BB82BD6764F00F03C4A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryView.swift; path = AssetIn/Common/Extension/HistoryView.swift; sourceTree = SOURCE_ROOT; };
 		4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEmptyView.swift; sourceTree = "<group>"; };
+		4BC22BBE2BD6A0FF00F03C4A /* InventoryTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryTargetType.swift; sourceTree = "<group>"; };
+		4BC22BC02BD6A43100F03C4A /* InventoryRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryRemoteDataSource.swift; sourceTree = "<group>"; };
+		4BC22BC22BD6A51100F03C4A /* InventoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryRepository.swift; sourceTree = "<group>"; };
+		4BC22BC62BD6A65E00F03C4A /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
+		4BC22BC92BD6A86700F03C4A /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
 		4BDEA3972B35A59A00BFED9E /* Sequence+unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+unique.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -331,6 +341,7 @@
 		48BAE2F92AED399600AB3D8F /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				4BC22BC42BD6A64D00F03C4A /* Inventory */,
 				4BC22BB32BD671D300F03C4A /* History */,
 				4BC22B962BD4175A00F03C4A /* Home */,
 				483817922AED57C400A1EADB /* Login */,
@@ -353,6 +364,7 @@
 		4BC22B652BD3DB8D00F03C4A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				4BC22BBC2BD6A0E700F03C4A /* Inventory */,
 				4BC22BA92BD570BE00F03C4A /* Loan */,
 				4BC22B9D2BD41AB500F03C4A /* Announcement */,
 				4BC22B842BD3E06800F03C4A /* Auth */,
@@ -478,6 +490,49 @@
 			isa = PBXGroup;
 			children = (
 				4BC22BB82BD6764F00F03C4A /* HistoryView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4BC22BBC2BD6A0E700F03C4A /* Inventory */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BC22BD6A51100F03C4A /* InventoryRepository.swift */,
+				4BC22BBD2BD6A0EE00F03C4A /* Remote */,
+			);
+			path = Inventory;
+			sourceTree = "<group>";
+		};
+		4BC22BBD2BD6A0EE00F03C4A /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BBE2BD6A0FF00F03C4A /* InventoryTargetType.swift */,
+				4BC22BC02BD6A43100F03C4A /* InventoryRemoteDataSource.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		4BC22BC42BD6A64D00F03C4A /* Inventory */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BC82BD6A85C00F03C4A /* View */,
+				4BC22BC52BD6A65300F03C4A /* ViewModel */,
+			);
+			path = Inventory;
+			sourceTree = "<group>";
+		};
+		4BC22BC52BD6A65300F03C4A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BC62BD6A65E00F03C4A /* InventoryViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4BC22BC82BD6A85C00F03C4A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BC22BC92BD6A86700F03C4A /* InventoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -626,11 +681,13 @@
 				484D30342B2A1B5C002B3880 /* Inventory.swift in Sources */,
 				4BC22B892BD3E3D100F03C4A /* DefaultResponse.swift in Sources */,
 				4BC22B9C2BD4185E00F03C4A /* View+cornerRadius.swift in Sources */,
+				4BC22BBF2BD6A0FF00F03C4A /* InventoryTargetType.swift in Sources */,
 				4BC22BB92BD6764F00F03C4A /* HistoryView.swift in Sources */,
 				4BC22BAC2BD570D200F03C4A /* LoanTargetType.swift in Sources */,
 				4BC22B872BD3E1C900F03C4A /* AuthRemoteDataSource.swift in Sources */,
 				4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */,
 				484A09532B324B5A006E1D66 /* Date+toString.swift in Sources */,
+				4BC22BCA2BD6A86700F03C4A /* InventoryView.swift in Sources */,
 				4BC22B712BD3DC3400F03C4A /* MoyaProvider+DefaultProvider.swift in Sources */,
 				4BC22B8B2BD3E8DC00F03C4A /* AuthTargetType.swift in Sources */,
 				4BC22BB22BD57DFB00F03C4A /* String+dateDisplay.swift in Sources */,
@@ -638,7 +695,9 @@
 				48BAE2CF2AED390400AB3D8F /* ContentView.swift in Sources */,
 				4BC22BB62BD671E700F03C4A /* HistoryViewModel.swift in Sources */,
 				4BC22B722BD3DC3400F03C4A /* MoyaProvider+RequestAsync.swift in Sources */,
+				4BC22BC32BD6A51100F03C4A /* InventoryRepository.swift in Sources */,
 				483817872AED41F100A1EADB /* Image+Default.swift in Sources */,
+				4BC22BC72BD6A65E00F03C4A /* InventoryViewModel.swift in Sources */,
 				4BC22BB02BD5765E00F03C4A /* LoanRepository.swift in Sources */,
 				484A09492B31E29F006E1D66 /* User.swift in Sources */,
 				483817852AED3F6500A1EADB /* Color+Default.swift in Sources */,
@@ -666,6 +725,7 @@
 				4BDEA3982B35A59A00BFED9E /* Sequence+unique.swift in Sources */,
 				484A09512B3241FB006E1D66 /* SafariWebView.swift in Sources */,
 				4BC22BA82BD421B100F03C4A /* HomeView.swift in Sources */,
+				4BC22BC12BD6A43100F03C4A /* InventoryRemoteDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

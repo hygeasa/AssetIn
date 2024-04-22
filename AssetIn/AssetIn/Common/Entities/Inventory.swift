@@ -25,3 +25,16 @@ struct Inventory: Codable, Identifiable {
         case updatedAt = "updated_at"
     }
 }
+
+struct InventoryRequest: Codable {
+    var name: String?
+    var categoryId: CategoryType?
+    var photo: String?
+    var quantityAvailable: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case name, photo
+        case categoryId = "category_id"
+        case quantityAvailable = "quantity_available"
+    }
+}

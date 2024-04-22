@@ -28,6 +28,7 @@ enum Route {
     case login(LoginViewModel, AppNavigator)
     case main(AppNavigator)
     case history(HistoryViewModel)
+    case inventory(InventoryViewModel)
 }
 
 extension Route: View {
@@ -39,6 +40,8 @@ extension Route: View {
             MainView(navigator: navigator)
         case .history(let viewModel):
             HistoryView(viewModel: viewModel)
+        case .inventory(let viewModel):
+            InventoryView(viewModel: viewModel)
         }
     }
 }
