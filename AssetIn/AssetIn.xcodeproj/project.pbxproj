@@ -27,6 +27,9 @@
 		48BAE2DE2AED390500AB3D8F /* AssetInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE2DD2AED390500AB3D8F /* AssetInTests.swift */; };
 		48BAE2E82AED390500AB3D8F /* AssetInUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE2E72AED390500AB3D8F /* AssetInUITests.swift */; };
 		48BAE2EA2AED390500AB3D8F /* AssetInUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE2E92AED390500AB3D8F /* AssetInUITestsLaunchTests.swift */; };
+		4B857A8F2C141661009332C9 /* AvatarPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B857A8E2C141661009332C9 /* AvatarPlaceholder.swift */; };
+		4B857A942C141824009332C9 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B857A932C141824009332C9 /* ProfileViewModel.swift */; };
+		4B857A962C141AC2009332C9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B857A952C141AC2009332C9 /* ProfileView.swift */; };
 		4BC22B682BD3DC1800F03C4A /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC22B672BD3DC1800F03C4A /* CombineMoya */; };
 		4BC22B6A2BD3DC1800F03C4A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC22B692BD3DC1800F03C4A /* Moya */; };
 		4BC22B6C2BD3DC1800F03C4A /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC22B6B2BD3DC1800F03C4A /* ReactiveMoya */; };
@@ -112,6 +115,9 @@
 		48BAE2E32AED390500AB3D8F /* AssetInUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AssetInUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48BAE2E72AED390500AB3D8F /* AssetInUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetInUITests.swift; sourceTree = "<group>"; };
 		48BAE2E92AED390500AB3D8F /* AssetInUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetInUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4B857A8E2C141661009332C9 /* AvatarPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarPlaceholder.swift; sourceTree = "<group>"; };
+		4B857A932C141824009332C9 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		4B857A952C141AC2009332C9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4BC22B6F2BD3DC3400F03C4A /* MoyaProvider+DefaultProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MoyaProvider+DefaultProvider.swift"; sourceTree = "<group>"; };
 		4BC22B702BD3DC3400F03C4A /* MoyaProvider+RequestAsync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MoyaProvider+RequestAsync.swift"; sourceTree = "<group>"; };
 		4BC22B742BD3DCFD00F03C4A /* SystemSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettings.swift; sourceTree = "<group>"; };
@@ -345,6 +351,7 @@
 		48BAE2F92AED399600AB3D8F /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				4B857A902C1417FA009332C9 /* Profile */,
 				4BC22BC42BD6A64D00F03C4A /* Inventory */,
 				4BC22BB32BD671D300F03C4A /* History */,
 				4BC22B962BD4175A00F03C4A /* Home */,
@@ -362,8 +369,34 @@
 				4BC22B992BD4180500F03C4A /* HeaderView.swift */,
 				4BC22BBA2BD67FDB00F03C4A /* DefaultEmptyView.swift */,
 				4BC22BCB2BD6C36E00F03C4A /* PrimaryTextField.swift */,
+				4B857A8E2C141661009332C9 /* AvatarPlaceholder.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		4B857A902C1417FA009332C9 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4B857A922C141809009332C9 /* View */,
+				4B857A912C141802009332C9 /* ViewModel */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		4B857A912C141802009332C9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4B857A932C141824009332C9 /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4B857A922C141809009332C9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4B857A952C141AC2009332C9 /* ProfileView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		4BC22B652BD3DB8D00F03C4A /* Data */ = {
@@ -683,6 +716,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B857A8F2C141661009332C9 /* AvatarPlaceholder.swift in Sources */,
 				483817952AED580B00A1EADB /* LoginView.swift in Sources */,
 				4BC22B932BD3FF3F00F03C4A /* Loan.swift in Sources */,
 				484D30342B2A1B5C002B3880 /* Inventory.swift in Sources */,
@@ -695,6 +729,7 @@
 				4838179B2AED690C00A1EADB /* AppNavigator.swift in Sources */,
 				484A09532B324B5A006E1D66 /* Date+toString.swift in Sources */,
 				4BC22BCA2BD6A86700F03C4A /* InventoryView.swift in Sources */,
+				4B857A942C141824009332C9 /* ProfileViewModel.swift in Sources */,
 				4BC22B712BD3DC3400F03C4A /* MoyaProvider+DefaultProvider.swift in Sources */,
 				4BC22B8B2BD3E8DC00F03C4A /* AuthTargetType.swift in Sources */,
 				4BC22BB22BD57DFB00F03C4A /* String+dateDisplay.swift in Sources */,
@@ -709,6 +744,7 @@
 				484A09492B31E29F006E1D66 /* User.swift in Sources */,
 				483817852AED3F6500A1EADB /* Color+Default.swift in Sources */,
 				4BC22B7C2BD3DEC800F03C4A /* OptionalString+orEmpty.swift in Sources */,
+				4B857A962C141AC2009332C9 /* ProfileView.swift in Sources */,
 				4BC22B9A2BD4180500F03C4A /* HeaderView.swift in Sources */,
 				4BC22BCC2BD6C36F00F03C4A /* PrimaryTextField.swift in Sources */,
 				4BC22BA02BD41AFC00F03C4A /* AnnouncementTargetType.swift in Sources */,
@@ -902,11 +938,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AssetIn/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AssetIn;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -916,9 +954,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hygeasa.AssetInDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -935,11 +977,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AssetIn/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AssetIn;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -949,9 +993,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hygeasa.AssetInDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

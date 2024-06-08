@@ -20,7 +20,7 @@ struct MainView: View {
                 }
                 .tag(MainTabSelection.home)
             
-            Text("Profile")
+            ProfileView(navigator: navigator)
                 .tabItem {
                     Image(systemName: "person.crop.circle")
                     Text("Profile")

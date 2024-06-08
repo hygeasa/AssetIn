@@ -52,39 +52,26 @@ extension HomeView {
         HeaderView()
             .overlay {
                 HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text((viewModel.user?.name) ?? "–")
-                            .font(.system(size: 17, weight: .semibold))
-                        
-                        Text("NIS: \((viewModel.user?.nis) ?? "–")")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.AssetIn.orange)
-                    }
-                    Spacer()
-                    
                     Button {
                         SystemSettings.shared.mainTabSelection = .profile
                     } label: {
-                        Group {
-                            if let imageURL = viewModel.user?.avatar {
-                                AsyncImage(url: .imagePath(imageURL)) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    }
-                                }
-                            } else {
-                                Image.imageProfile
-                                    .resizable()
-                                    .scaledToFit()
+                        HStack {
+                            AvatarPlaceholder(url: viewModel.user?.avatar)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text((viewModel.user?.name) ?? "–")
+                                    .font(.system(size: 17, weight: .semibold))
+                                    .foregroundStyle(.black)
+                                
+                                Text("NIS: \((viewModel.user?.nis) ?? "–")")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(.AssetIn.orange)
                             }
                         }
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
                     }
                 }
                 .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .shadow(color: .black.opacity(0.1), radius: 10)
